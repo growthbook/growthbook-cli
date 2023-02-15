@@ -1,0 +1,21 @@
+import {Command} from '@oclif/core'
+
+export default class {{pascalCase command}}  extends Command {
+  static description = '{{description}}'
+
+  static examples = [
+    `$ growthbook {{kebabCase namespace}} {{kebabCase command}}
+hello from command {{kebabCase command}}
+`,
+  ]
+
+  static flags = {}
+
+  static args = {}
+
+  async run(): Promise<void> {
+    this.log('hello from command {{kebabCase command}}')
+
+    this.log(`Run the following command for details: \n $ growthbook ${this.id} --help`)
+  }
+}
