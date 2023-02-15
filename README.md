@@ -1,2 +1,3 @@
-# growthbook-cli
-The GrowthBook command-line interface (CLI)
+# 🚧 GrowthBook CLI
+
+Built using [oclif](https://github.com/oclif/oclif). See the [oclif README](./oclif_README.md).
