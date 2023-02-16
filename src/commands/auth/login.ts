@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
-import {Environment} from '../../utils/environment'
+import {getGrowthBookConfigDirectory, getGrowthBookConfigFilePath} from '../../utils/file'
 
 export default class Login  extends Command {
   static description = 'Configure the GrowthBook SDK with your project'
@@ -46,16 +46,6 @@ export default class Login  extends Command {
     this.writeConfigFile(stringified)
   }
 
-  private static getGrowthBookConfigDirectory() {
-    const homeDirectory = Environment.getHomeDirectory()
-    return homeDirectory + '/.growthbook'
-  }
-
-  private static getGrowthBookConfigFilePath() {
-    const growthBookDirectory = Login.getGrowthBookConfigDirectory()
-    return growthBookDirectory + '/config.toml'
-  }
-
   /**
    * Finds the GrowthBook config.toml file in ~/.growthbook/config.toml
    * If the directory doesn't exist, it will be created.
@@ -63,7 +53,7 @@ export default class Login  extends Command {
    * @returns {string} Contents of the config.toml file or an empty string
    */
   private getGrowthBookConfigFileContents(): string {
-    const growthBookDirectory = Login.getGrowthBookConfigDirectory()
+    const growthBookDirectory = getGrowthBookConfigDirectory()
 
     // Create the ~/.growthbook directory if it doesn't exist
     try {
@@ -97,13 +87,13 @@ export default class Login  extends Command {
   }
 
   private writeConfigFile(fileContents: string) {
-    const configFilePath = Login.getGrowthBookConfigFilePath()
+    const configFilePath = getGrowthBookConfigFilePath()
     try {
       Fs.writeFileSync(configFilePath, fileContents)
 
       this.log('The GrowthBook config has been written at ~/.growthbook/config.toml')
     } catch (error) {
-      this.error(`Cannot read file ${configFilePath} \n` + error)
+      this.error(`Cannot write to file at ${configFilePath} \n` + error)
     }
   }
 }
