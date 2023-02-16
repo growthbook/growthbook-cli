@@ -23,7 +23,7 @@ export default class Logout  extends Command {
 
       this.log('The GrowthBook config has been removed from ~/.growthbook/config.toml')
     } catch (error) {
-      this.error(`Cannot write to file at ${configFilePath} \n` + error)
+      this.error(`💥 Cannot write to file at ${configFilePath}. It may not exist or there may be insufficient permissions. \n` + error)
     }
   }
 }

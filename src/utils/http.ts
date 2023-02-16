@@ -63,7 +63,7 @@ export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: strin
     offset = nextOffset
     shouldFetch = hasMore
 
-    console.log('✅ Fetched features at URL:', fullUrl)
+    console.log('🚛 Fetched features at URL:', fullUrl)
   }
 
   return allFeatures

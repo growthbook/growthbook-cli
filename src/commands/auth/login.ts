@@ -62,7 +62,7 @@ export default class Login  extends Command {
         return ''
       }
     } catch (error) {
-      this.error('Cannot create ~/.growthbook directory \n' + error)
+      this.error('💥 Cannot create ~/.growthbook directory \n' + error)
     }
 
     // Read the ~/.growthbook/config.toml file
@@ -76,13 +76,13 @@ export default class Login  extends Command {
         return ''
       }
     } catch (error) {
-      this.error(`Cannot create file ${configFilePath} \n` + error)
+      this.error(`💥 Cannot create file ${configFilePath} \n` + error)
     }
 
     try {
       return Fs.readFileSync(configFilePath, 'utf-8')
     } catch (error) {
-      this.error(`Cannot read file ${configFilePath} \n` + error)
+      this.error(`💥 Cannot read file ${configFilePath} \n` + error)
     }
   }
 
@@ -93,7 +93,7 @@ export default class Login  extends Command {
 
       this.log('The GrowthBook config has been written at ~/.growthbook/config.toml')
     } catch (error) {
-      this.error(`Cannot write to file at ${configFilePath} \n` + error)
+      this.error(`💥 Cannot write to file at ${configFilePath} \n` + error)
     }
   }
 }
