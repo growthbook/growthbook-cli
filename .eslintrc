@@ -4,6 +4,7 @@
     "oclif-typescript"
   ],
   "rules": {
+    "no-warning-comments": "off",
     "camelcase": "off"
   }
 }
