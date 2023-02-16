@@ -1,9 +1,18 @@
-# 🚧 GrowthBook CLI
+# GrowthBook CLI
+
+The GrowthBook CLI. See the official GrowthBook documentation for usage information.
+
+- [Contributing](#contributing)
+  - [Development](#development)
+
+
+
+## Contributing
 
 Built using [oclif](https://github.com/oclif/oclif). See the [oclif README](./oclif_README.md).
 
 
-## Development
+### Development
 
 Generate commands and command "namespaces" with Plop.js:
 
