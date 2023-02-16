@@ -1,7 +1,7 @@
 import {Args, Command, Flags} from '@oclif/core'
 
 export default class {{pascalCase command}}  extends Command {
-  static description = 'Say hello'
+  static description = '{{description}}'
 
   static examples = [
     `$ growthbook {{kebabCase command}} friend --from oclif
@@ -10,11 +10,18 @@ hello friend from oclif! (./src/commands/hello/index.ts)
   ]
 
   static flags = {
-    from: Flags.string({char: 'f', description: 'Who is saying hello', required: true}),
+    from: Flags.string({
+      char: 'f',
+      description: 'Who is saying hello',
+      required: true,
+    }),
   }
 
   static args = {
-    person: Args.string({description: 'Person to say hello to', required: true}),
+    person: Args.string({
+      description: 'Person to say hello to',
+      required: true,
+    }),
   }
 
   async run(): Promise<void> {

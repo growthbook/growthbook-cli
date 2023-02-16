@@ -37,6 +37,11 @@ module.exports = function (plop) {
         name: 'command',
         message: 'What is the namespace for this command? e.g. features',
       },
+      {
+        type: 'input',
+        name: 'description',
+        message: 'Describe this command namespace. This will be the text in the help text.',
+      },
     ],
     actions: [
       {
