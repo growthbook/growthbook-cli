@@ -8,6 +8,7 @@ import {getCompiledTypeScriptTemplateForFeatures} from '../../utils/templating'
 const DEFAULT_GROWTHBOOK_BASE_URL = 'https://api.growthbook.io'
 const DEFAULT_GROWTHBOOK_TYPES_DESTINATION = './growthbook-types'
 const GROWTHBOOK_APP_FEATURES_FILENAME = 'app-features.ts'
+const DEFAULT_GROWTHBOOK_PROFILE = 'default'
 
 export default class GenerateTypes  extends Command {
   static description = 'Generate TypeScript types for all your features'
@@ -25,6 +26,11 @@ export default class GenerateTypes  extends Command {
       description: `Output path for the ${GROWTHBOOK_APP_FEATURES_FILENAME} file. All directories in this path should exist. If not provided, the directory ${DEFAULT_GROWTHBOOK_TYPES_DESTINATION} will be created in the current working directory.`,
       required: false,
     }),
+    profile: Flags.string({
+      char: 'p',
+      description: 'Optional profile (for projects that use multiple GrowthBook instances)',
+      required: false,
+    }),
   }
 
   static args = {}
@@ -33,11 +39,18 @@ export default class GenerateTypes  extends Command {
     const {flags: {
       output,
       apiBaseUrl = DEFAULT_GROWTHBOOK_BASE_URL,
+      profile = DEFAULT_GROWTHBOOK_PROFILE,
     }} = await this.parse(GenerateTypes)
 
-    const config = getGrowthBookConfig('default')
+    const config = getGrowthBookConfig(profile)
     if (!config) {
-      this.error('💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login')
+      if (profile === DEFAULT_GROWTHBOOK_PROFILE) {
+        // Default profile
+        this.error('💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login')
+      } else {
+        // User is trying to use a custom profile
+        this.error(`💥 Cannot find config for profile '${DEFAULT_GROWTHBOOK_PROFILE}'. Configure the CLI with the following command:\n\n $ growthbook auth login`)
+      }
     }
 
     const {apiKey} = config
