@@ -7,6 +7,7 @@ import {getCompiledTypeScriptTemplateForFeatures} from '../../utils/templating'
 
 const DEFAULT_GROWTHBOOK_BASE_URL = 'https://api.growthbook.io'
 const DEFAULT_GROWTHBOOK_TYPES_DESTINATION = './growthbook-types'
+const GROWTHBOOK_APP_FEATURES_FILENAME = 'app-features.ts'
 
 export default class GenerateTypes  extends Command {
   static description = 'Generate TypeScript types for all your features'
@@ -21,7 +22,7 @@ export default class GenerateTypes  extends Command {
     }),
     output: Flags.string({
       char: 'o',
-      description: `Output path for the AppFeatures.d.ts file. All directories in this path should exist. If not provided, the directory ${DEFAULT_GROWTHBOOK_TYPES_DESTINATION} will be created in the current working directory.`,
+      description: `Output path for the ${GROWTHBOOK_APP_FEATURES_FILENAME} file. All directories in this path should exist. If not provided, the directory ${DEFAULT_GROWTHBOOK_TYPES_DESTINATION} will be created in the current working directory.`,
       required: false,
     }),
   }
@@ -69,7 +70,7 @@ export default class GenerateTypes  extends Command {
     try {
       const fullyQualifiedPath = Path.resolve(process.cwd(), outputPath)
 
-      Fs.writeFileSync(fullyQualifiedPath + '/app-features.ts', typeScriptContents)
+      Fs.writeFileSync(fullyQualifiedPath + '/' + GROWTHBOOK_APP_FEATURES_FILENAME, typeScriptContents)
       this.log(`✅ Successfully wrote TypeScript definitions to ${fullyQualifiedPath}`)
     } catch (error) {
       this.error('💥 Could not write TypeScript definition file to disk' + error)
