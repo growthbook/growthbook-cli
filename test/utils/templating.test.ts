@@ -1,6 +1,6 @@
+import {expect} from '@oclif/test'
 import {SimplifiedFeature} from '../../src/utils/feature'
 import {getCompiledTypeScriptTemplateForFeatures} from '../../src/utils/templating'
-import {expect} from '@oclif/test'
 
 describe('templating utils', () => {
   describe('getCompiledTemplateForFeatures', () => {
@@ -26,8 +26,7 @@ describe('templating utils', () => {
 
       const result = getCompiledTypeScriptTemplateForFeatures(input)
 
-      const expected = `
-type AppFeatures = {
+      const expected = `export type AppFeatures = {
   sample_json: Record<string, unknown>;
   donut_price: number;
   greeting: string;

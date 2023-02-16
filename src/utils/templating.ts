@@ -1,8 +1,7 @@
 import * as Handlebars from 'handlebars'
 import {getFeatureValueTypeToTypeScriptMapping, SimplifiedFeature} from './feature'
 
-const hbsTemplate = `
-type AppFeatures = {
+const hbsTemplate = `export type AppFeatures = {
   {{#each features}}
   {{id}}: {{{valueType}}};
   {{/each}}
