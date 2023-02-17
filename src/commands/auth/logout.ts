@@ -5,7 +5,7 @@ import {getGrowthBookConfigFilePath} from '../../utils/file'
 import {getGrowthBookConfigToml} from '../../utils/config'
 
 export default class Logout extends Command {
-  static description = 'Removes all of the GrowthBook API key configurations'
+  static description = 'Removes GrowthBook API key configurations'
 
   static examples = []
 

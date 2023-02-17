@@ -28,7 +28,7 @@ export default class GenerateTypes  extends Command {
     }),
     profile: Flags.string({
       char: 'p',
-      description: 'Optional profile (for projects that use multiple GrowthBook instances)',
+      description: `Optional profile (for projects that use multiple GrowthBook instances) default: ${DEFAULT_GROWTHBOOK_BASE_URL})`,
       required: false,
     }),
   }
