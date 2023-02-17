@@ -11,11 +11,25 @@ export type GrowthBookTomlProfile = {
 }
 
 /**
+ * Get the text content of the config file.
+ * @return {string} String contents of the config file or an empty string
+ */
+export function getGrowthBookConfigToml(): string {
+  try {
+    const filePath = getGrowthBookConfigFilePath()
+
+    return Fs.readFileSync(filePath, 'utf-8')
+  } catch {
+    return ''
+  }
+}
+
+/**
  * Gets a valid GrowthBook config or null
  * @param {string} profileKey The desired profile in the GrowthBook config
  * @return {GrowthBookCLIConfig | null} Valid GrowthBook config. If no valid config found, this will be null.
  */
-export function getGrowthBookConfig(profileKey: string): GrowthBookCLIConfig | null {
+export function getGrowthBookProfileConfig(profileKey: string): GrowthBookCLIConfig | null {
   try {
     const filePath = getGrowthBookConfigFilePath()
 

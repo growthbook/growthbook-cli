@@ -2,6 +2,7 @@ import {Command, Flags} from '@oclif/core'
 import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {getGrowthBookConfigDirectory, getGrowthBookConfigFilePath} from '../../utils/file'
+import {DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 
 export default class Login  extends Command {
   static description = 'Configure the GrowthBook SDK with your project'
@@ -14,30 +15,39 @@ export default class Login  extends Command {
       description: 'Your GrowthBook Secret API Key',
       required: true,
     }),
+    profile: Flags.string({
+      char: 'p',
+      description: `Optional profile (for projects that use multiple GrowthBook instances or organizations) (default: ${DEFAULT_GROWTHBOOK_PROFILE})`,
+      required: false,
+    }),
   }
 
   static args = {}
 
   async run(): Promise<void> {
-    const {flags: {apiKey}} = await this.parse(Login)
+    const {flags: {
+      apiKey,
+      profile = DEFAULT_GROWTHBOOK_PROFILE,
+    }} = await this.parse(Login)
 
-    this.writeApiKeyToGrowthBookConfig(apiKey)
+    this.writeApiKeyToGrowthBookConfig(apiKey, profile)
   }
 
   /**
    * Writes the API key to the config file. Will throw errors if it cannot read or write to the file
    * @param {string} apiKey The GrowthBook secret
+   * @param {string} profile The profile to write in the config
    * @return void
    */
-  private writeApiKeyToGrowthBookConfig(apiKey: string): void {
+  private writeApiKeyToGrowthBookConfig(apiKey: string, profile: string): void {
     const configText = this.getGrowthBookConfigFileContents()
     const config = toml.parse(configText)
 
-    if (config.default) {
-      this.log('Overwriting existing default configuration')
+    if (config[profile]) {
+      this.log(`Overwriting existing configuration for the '${profile}' profile`)
     }
 
-    config.default = {
+    config[profile] = {
       growthbook_secret: apiKey,
     }
 

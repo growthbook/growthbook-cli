@@ -1,14 +1,14 @@
 import * as Fs from 'node:fs'
 import * as Path from 'node:path'
 import {Command, Flags} from '@oclif/core'
-import {getGrowthBookConfig} from '../../utils/config'
+import {getGrowthBookProfileConfig} from '../../utils/config'
 import {fetchAllPaginatedFeatures, SimpleFeatureResponse} from '../../utils/http'
 import {getCompiledTypeScriptTemplateForFeatures} from '../../utils/templating'
-
-const DEFAULT_GROWTHBOOK_BASE_URL = 'https://api.growthbook.io'
-const DEFAULT_GROWTHBOOK_TYPES_DESTINATION = './growthbook-types'
-const GROWTHBOOK_APP_FEATURES_FILENAME = 'app-features.ts'
-const DEFAULT_GROWTHBOOK_PROFILE = 'default'
+import {
+  DEFAULT_GROWTHBOOK_BASE_URL,
+  DEFAULT_GROWTHBOOK_PROFILE, DEFAULT_GROWTHBOOK_TYPES_DESTINATION,
+  GROWTHBOOK_APP_FEATURES_FILENAME,
+} from '../../utils/constants'
 
 export default class GenerateTypes  extends Command {
   static description = 'Generate TypeScript types for all your features'
@@ -42,7 +42,7 @@ export default class GenerateTypes  extends Command {
       profile = DEFAULT_GROWTHBOOK_PROFILE,
     }} = await this.parse(GenerateTypes)
 
-    const config = getGrowthBookConfig(profile)
+    const config = getGrowthBookProfileConfig(profile)
     if (!config) {
       if (profile === DEFAULT_GROWTHBOOK_PROFILE) {
         // Default profile
