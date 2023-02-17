@@ -19,3 +19,7 @@ Run the CLI you just built with any of the following commands:
     ./bin/run [namespace] [command]
     ./bin/run [namespace] --help
     ./bin/run [namespace]
+
+Regenerate documentation with the following command at the root directory:
+
+    npx oclif readme --dir=docs --multi
