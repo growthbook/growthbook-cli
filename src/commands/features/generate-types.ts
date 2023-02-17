@@ -10,7 +10,7 @@ import {
   GROWTHBOOK_APP_FEATURES_FILENAME,
 } from '../../utils/constants'
 
-export default class GenerateTypes  extends Command {
+export default class GenerateTypes extends Command {
   static description = 'Generate TypeScript types for all your features'
 
   static examples = []

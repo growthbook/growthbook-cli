@@ -4,7 +4,7 @@ import * as toml from '@iarna/toml'
 import {getGrowthBookConfigDirectory, getGrowthBookConfigFilePath} from '../../utils/file'
 import {DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 
-export default class Login  extends Command {
+export default class Login extends Command {
   static description = 'Configure the GrowthBook SDK with your project'
 
   static examples = []

@@ -1,6 +1,6 @@
 import {Command} from '@oclif/core'
 
-export default class Auth  extends Command {
+export default class Auth extends Command {
   static description = ''
 
   static examples = [
