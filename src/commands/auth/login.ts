@@ -6,7 +6,7 @@ import {DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 import {checkmark} from '../../utils/cli'
 
 export default class Login extends Command {
-  static description = 'Configure the GrowthBook SDK with your project'
+  static description = 'Configure your credentials with the GrowthBook SDK with your project'
 
   static examples = []
 
