@@ -67,9 +67,10 @@
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "yarn lint",
     "docs": "echo 'Generating docs...'; npm run build; npx oclif readme; node scripts/remove-see-code-lines.js",
-    "prepack": "yarn build && oclif manifest && oclif readme",
+    "prepack": "yarn build && oclif manifest && npm run docs",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md",
+    "test:docs": "./scripts/test-docs.sh",
+    "version": "npm run docs && git add README.md",
     "prepare": "husky install"
   },
   "engines": {

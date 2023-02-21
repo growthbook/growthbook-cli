@@ -13,7 +13,7 @@ export default class Login extends Command {
   static flags = {
     apiKey: Flags.string({
       char: 'k',
-      description: 'Your GrowthBook Secret API Key',
+      description: 'Your GrowthBook secret API Key',
       required: true,
     }),
     profile: Flags.string({
