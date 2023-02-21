@@ -32,7 +32,7 @@ USAGE
   $ growthbook auth login -k <value> [-p <value>]
 
 FLAGS
-  -k, --apiKey=<value>   (required) Your GrowthBook Secret API Key
+  -k, --apiKey=<value>   (required) Your GrowthBook secret API Key
   -p, --profile=<value>  Optional profile (for projects that use multiple GrowthBook instances or organizations)
                          (default: default)
 
