@@ -15,8 +15,4 @@ Build the CLI binary:
 
 When running the CLI locally in development, use `./bin/run` instead of `growthbook`.
 
-Regenerate documentation with the following command at the root directory:
-
-```sh
-npx oclif readme && node scripts/remove-see-code-lines.js;
-```
+Docs generation occurs on-commit.

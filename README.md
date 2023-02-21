@@ -25,7 +25,7 @@ USAGE
 
 ## `growthbook auth login`
 
-Configure your credentials with the GrowthBook SDK with your project
+Configure your API key with the GrowthBook SDK with your project
 
 ```
 USAGE
@@ -37,7 +37,7 @@ FLAGS
                          (default: default)
 
 DESCRIPTION
-  Configure your credentials with the GrowthBook SDK with your project
+  Configure your API key with the GrowthBook SDK with your project
 ```
 
 ## `growthbook auth logout`
