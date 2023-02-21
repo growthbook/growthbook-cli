@@ -1,4 +1,4 @@
-import {Command, Flags, ux} from '@oclif/core'
+import {Command, Flags} from '@oclif/core'
 import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {getGrowthBookConfigDirectory, getGrowthBookConfigFilePath} from '../../utils/file'
