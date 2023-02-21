@@ -1,0 +1,25 @@
+name: tests
+on:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    # uses: oclif/github-workflows/.github/workflows/unitTest.yml@main
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest"]
+        node_version: [lts/*]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: yarn
+      - run: yarn install --network-timeout 600000
+      - run: yarn build
+      - run: yarn test
+      - run: yarn test:docs

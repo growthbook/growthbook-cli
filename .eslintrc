@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "oclif",
+    "oclif-typescript"
+  ],
+  "rules": {
+    "unicorn/import-style": "off",
+    "no-await-in-loop": "off",
+    "no-warning-comments": "off",
+    "camelcase": "off"
+  }
+}
