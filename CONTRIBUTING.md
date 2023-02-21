@@ -13,13 +13,10 @@ Build the CLI binary:
 
     yarn build
 
-Run the CLI you just built with any of the following commands:
-
-    ./bin/run [namespace] [command] --help
-    ./bin/run [namespace] [command]
-    ./bin/run [namespace] --help
-    ./bin/run [namespace]
+When running the CLI locally in development, use `./bin/run` instead of `growthbook`.
 
 Regenerate documentation with the following command at the root directory:
 
-    npx oclif readme --dir=docs --multi
+```sh
+npx oclif readme && node scripts/remove-see-code-lines.js;
+```
