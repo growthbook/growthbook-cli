@@ -1,4 +1,5 @@
 import fetch, {RequestInit} from 'node-fetch'
+import {checkmark} from './cli'
 import {SimplifiedFeature} from './feature'
 
 // region HTTP methods
@@ -63,7 +64,7 @@ export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: strin
     offset = nextOffset
     shouldFetch = hasMore
 
-    console.log('🚛 Fetched features at URL:', fullUrl)
+    console.log('Fetched features at URL:', fullUrl, checkmark)
   }
 
   return allFeatures

@@ -1,8 +1,9 @@
-import {Command, Flags} from '@oclif/core'
+import {Command, Flags, ux} from '@oclif/core'
 import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {getGrowthBookConfigDirectory, getGrowthBookConfigFilePath} from '../../utils/file'
 import {DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
+import {checkmark} from '../../utils/cli'
 
 export default class Login extends Command {
   static description = 'Configure the GrowthBook SDK with your project'
@@ -101,7 +102,7 @@ export default class Login extends Command {
     try {
       Fs.writeFileSync(configFilePath, fileContents)
 
-      this.log('The GrowthBook config has been written at ~/.growthbook/config.toml')
+      this.log(`The GrowthBook config has been written at ~/.growthbook/config.toml ${checkmark}`)
     } catch (error) {
       this.error(`💥 Cannot write to file at ${configFilePath} \n` + error)
     }

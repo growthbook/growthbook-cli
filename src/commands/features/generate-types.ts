@@ -1,6 +1,6 @@
 import * as Fs from 'node:fs'
 import * as Path from 'node:path'
-import {Command, Flags} from '@oclif/core'
+import {Command, Flags, ux} from '@oclif/core'
 import {getGrowthBookProfileConfig} from '../../utils/config'
 import {fetchAllPaginatedFeatures, SimpleFeatureResponse} from '../../utils/http'
 import {getCompiledTypeScriptTemplateForFeatures} from '../../utils/templating'
@@ -9,6 +9,7 @@ import {
   DEFAULT_GROWTHBOOK_PROFILE, DEFAULT_GROWTHBOOK_TYPES_DESTINATION,
   GROWTHBOOK_APP_FEATURES_FILENAME,
 } from '../../utils/constants'
+import {checkmark} from '../../utils/cli'
 
 export default class GenerateTypes extends Command {
   static description = 'Generate TypeScript types for all your features'
@@ -42,6 +43,8 @@ export default class GenerateTypes extends Command {
       profile = DEFAULT_GROWTHBOOK_PROFILE,
     }} = await this.parse(GenerateTypes)
 
+    ux.action.start('Getting GrowthBook config')
+
     const config = getGrowthBookProfileConfig(profile)
     if (!config) {
       if (profile === DEFAULT_GROWTHBOOK_PROFILE) {
@@ -53,23 +56,29 @@ export default class GenerateTypes extends Command {
       }
     }
 
+    ux.action.stop(checkmark)
+
     const {apiKey} = config
 
     try {
+      ux.action.start('Fetching features')
+
       const features: SimpleFeatureResponse = await fetchAllPaginatedFeatures(apiBaseUrl, apiKey)
       const typeScriptOutput = getCompiledTypeScriptTemplateForFeatures(features)
+
+      ux.action.stop(checkmark)
 
       let outputPath = output
       if (!outputPath) {
         outputPath = Path.resolve(process.cwd(), DEFAULT_GROWTHBOOK_TYPES_DESTINATION)
 
-        if (Fs.existsSync(outputPath)) {
-          this.log(`👍 Directory ${outputPath} already exists. OK.`)
-        } else {
+        if (!Fs.existsSync(outputPath)) {
+          ux.action.start('Creating output directory')
+
           Fs.mkdirSync(outputPath)
           Fs.writeFileSync(outputPath + '/.gitkeep', '')
 
-          this.log(`👍 Created directory ${outputPath}`)
+          ux.action.stop(`✔ Created directory ${outputPath}`)
         }
       }
 
@@ -80,11 +89,15 @@ export default class GenerateTypes extends Command {
   }
 
   private writeTypeScriptFile(outputPath: string, typeScriptContents: string) {
+    ux.action.start('Writing types to disk')
+
     try {
       const fullyQualifiedPath = Path.resolve(process.cwd(), outputPath)
 
       Fs.writeFileSync(fullyQualifiedPath + '/' + GROWTHBOOK_APP_FEATURES_FILENAME, typeScriptContents)
-      this.log(`✅ Successfully wrote TypeScript definitions to ${fullyQualifiedPath}`)
+
+      ux.action.stop(checkmark)
+      this.log(`${checkmark} Successfully wrote TypeScript definitions to ${fullyQualifiedPath}`)
     } catch (error) {
       this.error('💥 Could not write TypeScript definition file to disk' + error)
     }

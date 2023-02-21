@@ -1,8 +1,9 @@
-import {Command, Flags} from '@oclif/core'
+import {Command, Flags, ux} from '@oclif/core'
 import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {getGrowthBookConfigFilePath} from '../../utils/file'
 import {getGrowthBookConfigToml} from '../../utils/config'
+import {checkmark} from '../../utils/cli'
 
 export default class Logout extends Command {
   static description = 'Removes GrowthBook API key configurations'
@@ -38,12 +39,14 @@ export default class Logout extends Command {
    * @return void
    */
   private writeBlankFileToGrowthBookConfig() {
+    ux.action.start('Removing all GrowthBook profiles from ~/.growthbook/config.toml')
+
     const configFilePath = getGrowthBookConfigFilePath()
 
     try {
       Fs.writeFileSync(configFilePath, '')
 
-      this.log('The GrowthBook config has been removed from ~/.growthbook/config.toml')
+      ux.action.stop(checkmark)
     } catch (error) {
       this.error(`💥 Cannot write to file at ${configFilePath}. It may not exist or there may be insufficient permissions. \n` + error)
     }
@@ -55,6 +58,8 @@ export default class Logout extends Command {
    * @return void
    */
   private logOutOfProfile(profile: string) {
+    ux.action.start(`Removing config for profile '${profile}' from ~/.growthbook/config.toml'`)
+
     const configText = getGrowthBookConfigToml()
     const config = toml.parse(configText)
 
@@ -66,7 +71,7 @@ export default class Logout extends Command {
     try {
       Fs.writeFileSync(configFilePath, stringified)
 
-      this.log(`The GrowthBook config for the '${profile}' profile has been removed from ~/.growthbook/config.toml`)
+      ux.action.stop(checkmark)
     } catch (error) {
       this.error(`💥 Cannot write to file at ${configFilePath}. It may not exist or there may be insufficient permissions. \n` + error)
     }
