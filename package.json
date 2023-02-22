@@ -1,8 +1,7 @@
 {
-  "name": "growthbook-cli",
+  "name": "@growthbook/cli",
   "version": "0.0.0",
   "description": "The GrowthBook command-line interface (CLI) for working with the GrowthBook A/B testing, feature flagging, and experimentation platform",
-  "author": "tinahollygb @tinahollygb",
   "bin": {
     "growthbook": "./bin/run"
   },
