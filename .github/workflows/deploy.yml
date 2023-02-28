@@ -21,7 +21,4 @@ jobs:
           node-version: '16'
 
       - name: Build & Publish
-      - run: |
-        if [ ! -v NPM_TOKEN ]; then echo "NPM_TOKEN not set"; exit 1; fi;
-
-        ./scripts/publish.sh
+      - run: ./scripts/publish.sh
