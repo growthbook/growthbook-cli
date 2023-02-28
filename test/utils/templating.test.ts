@@ -22,15 +22,20 @@ describe('templating utils', () => {
           id: 'dark_mode',
           valueType: 'boolean',
         },
+        {
+          id: 'show-experiment-groups',
+          valueType: 'boolean',
+        },
       ]
 
       const result = getCompiledTypeScriptTemplateForFeatures(input)
 
       const expected = `export type AppFeatures = {
-  sample_json: Record<string, unknown>;
-  donut_price: number;
-  greeting: string;
-  dark_mode: boolean;
+  'sample_json': Record<string, unknown>;
+  'donut_price': number;
+  'greeting': string;
+  'dark_mode': boolean;
+  'show-experiment-groups': boolean;
 }
 `
 

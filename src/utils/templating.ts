@@ -3,7 +3,7 @@ import {getFeatureValueTypeToTypeScriptMapping, SimplifiedFeature} from './featu
 
 const hbsTemplate = `export type AppFeatures = {
   {{#each features}}
-  {{id}}: {{{valueType}}};
+  '{{id}}': {{{valueType}}};
   {{/each}}
 }
 `
