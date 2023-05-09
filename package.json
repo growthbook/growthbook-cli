@@ -62,6 +62,7 @@
   },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
+    "cli": "yarn build && ./bin/run",
     "lint": "eslint . --ext .ts --config .eslintrc",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "yarn lint",

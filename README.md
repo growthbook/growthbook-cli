@@ -12,6 +12,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth logout`](#growthbook-auth-logout)
 * [`growthbook features`](#growthbook-features)
 * [`growthbook features generate-types`](#growthbook-features-generate-types)
+* [`growthbook features toggle FEATUREKEY`](#growthbook-features-toggle-featurekey)
 * [`growthbook help [COMMANDS]`](#growthbook-help-commands)
 
 ## `growthbook auth`
@@ -83,6 +84,30 @@ FLAGS
 
 DESCRIPTION
   Generate TypeScript types for all your features
+```
+
+## `growthbook features toggle FEATUREKEY`
+
+Toggle a feature on or off for a specific environment
+
+```
+USAGE
+  $ growthbook features toggle FEATUREKEY -e <value> -n true|false|on|off|1|0 [-r <value>]
+
+ARGUMENTS
+  FEATUREKEY  Feature key to toggle
+
+FLAGS
+  -e, --environment=<value>  (required) Environment that you would like to toggle
+  -n, --enabled=<option>     (required) Enabled state of the feature
+                             <options: true|false|on|off|1|0>
+  -r, --reason=<value>       The reason for toggling it on
+
+DESCRIPTION
+  Toggle a feature on or off for a specific environment
+
+EXAMPLES
+  $ growthbook features toggle
 ```
 
 ## `growthbook help [COMMANDS]`
