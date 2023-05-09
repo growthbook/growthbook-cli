@@ -1,4 +1,6 @@
 import * as chalk from 'chalk'
+import {Flags} from '@oclif/core'
+import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from './constants'
 
 /**
  * Green checkmark to be used with ux.action.stop(checkmark) for nicer feedback UI
@@ -18,4 +20,22 @@ export const parseBooleanFromString = (value: string | number): boolean | null =
   if (FALSY_VALUES.includes(value.toString().toLowerCase())) return false
 
   return null
+}
+
+/**
+ * Base GrowthBook CLI flags for adding support for configurations.
+ */
+export const baseGrowthBookCliFlags = {
+  apiBaseUrl: Flags.string({
+    char: 'u',
+    description: `Your GrowthBook instance base URL (e.g. http://localhost:3100, default: ${DEFAULT_GROWTHBOOK_BASE_URL})`,
+    required: false,
+    default: DEFAULT_GROWTHBOOK_BASE_URL,
+  }),
+  profile: Flags.string({
+    char: 'p',
+    description: `Optional profile (for projects that use multiple GrowthBook instances) default: ${DEFAULT_GROWTHBOOK_PROFILE})`,
+    default: DEFAULT_GROWTHBOOK_PROFILE,
+    required: false,
+  }),
 }

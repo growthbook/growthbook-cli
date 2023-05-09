@@ -5,11 +5,11 @@ import {getGrowthBookProfileConfig} from '../../utils/config'
 import {fetchAllPaginatedFeatures, SimpleFeatureResponse} from '../../utils/http'
 import {getCompiledTypeScriptTemplateForFeatures} from '../../utils/templating'
 import {
-  DEFAULT_GROWTHBOOK_BASE_URL,
-  DEFAULT_GROWTHBOOK_PROFILE, DEFAULT_GROWTHBOOK_TYPES_DESTINATION,
+  DEFAULT_GROWTHBOOK_PROFILE,
+  DEFAULT_GROWTHBOOK_TYPES_DESTINATION,
   GROWTHBOOK_APP_FEATURES_FILENAME,
 } from '../../utils/constants'
-import {checkmark} from '../../utils/cli'
+import {baseGrowthBookCliFlags, checkmark} from '../../utils/cli'
 
 export default class GenerateTypes extends Command {
   static description = 'Generate TypeScript types for all your features'
@@ -17,19 +17,10 @@ export default class GenerateTypes extends Command {
   static examples = []
 
   static flags = {
-    apiBaseUrl: Flags.string({
-      char: 'u',
-      description: `Your GrowthBook instance base URL (e.g. http://localhost:3100, default: ${DEFAULT_GROWTHBOOK_BASE_URL})`,
-      required: false,
-    }),
+    ...baseGrowthBookCliFlags,
     output: Flags.string({
       char: 'o',
       description: `Output path for the ${GROWTHBOOK_APP_FEATURES_FILENAME} file. All directories in this path should exist. If not provided, the directory ${DEFAULT_GROWTHBOOK_TYPES_DESTINATION} will be created in the current working directory.`,
-      required: false,
-    }),
-    profile: Flags.string({
-      char: 'p',
-      description: `Optional profile (for projects that use multiple GrowthBook instances) default: ${DEFAULT_GROWTHBOOK_BASE_URL})`,
       required: false,
     }),
   }
@@ -39,8 +30,8 @@ export default class GenerateTypes extends Command {
   async run(): Promise<void> {
     const {flags: {
       output,
-      apiBaseUrl = DEFAULT_GROWTHBOOK_BASE_URL,
-      profile = DEFAULT_GROWTHBOOK_PROFILE,
+      apiBaseUrl,
+      profile,
     }} = await this.parse(GenerateTypes)
 
     ux.action.start('Getting GrowthBook config')

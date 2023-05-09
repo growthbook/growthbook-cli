@@ -72,15 +72,15 @@ Generate TypeScript types for all your features
 
 ```
 USAGE
-  $ growthbook features generate-types [-u <value>] [-o <value>] [-p <value>]
+  $ growthbook features generate-types [-u <value>] [-p <value>] [-o <value>]
 
 FLAGS
   -o, --output=<value>      Output path for the app-features.ts file. All directories in this path should exist. If not
                             provided, the directory ./growthbook-types will be created in the current working directory.
-  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default:
-                            https://api.growthbook.io)
-  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
-                            https://api.growthbook.io)
+  -p, --profile=<value>     [default: default] Optional profile (for projects that use multiple GrowthBook instances)
+                            default: default)
+  -u, --apiBaseUrl=<value>  [default: https://api.growthbook.io] Your GrowthBook instance base URL (e.g.
+                            http://localhost:3100, default: https://api.growthbook.io)
 
 DESCRIPTION
   Generate TypeScript types for all your features
@@ -92,7 +92,7 @@ Toggle a feature on or off for a specific environment
 
 ```
 USAGE
-  $ growthbook features toggle FEATUREKEY -e <value> -n true|false|on|off|1|0 [-r <value>]
+  $ growthbook features toggle FEATUREKEY -e <value> -n true|false|on|off|1|0 [-u <value>] [-p <value>] [-r <value>]
 
 ARGUMENTS
   FEATUREKEY  Feature key to toggle
@@ -101,7 +101,11 @@ FLAGS
   -e, --environment=<value>  (required) Environment that you would like to toggle
   -n, --enabled=<option>     (required) Enabled state of the feature
                              <options: true|false|on|off|1|0>
+  -p, --profile=<value>      [default: default] Optional profile (for projects that use multiple GrowthBook instances)
+                             default: default)
   -r, --reason=<value>       The reason for toggling it on
+  -u, --apiBaseUrl=<value>   [default: https://api.growthbook.io] Your GrowthBook instance base URL (e.g.
+                             http://localhost:3100, default: https://api.growthbook.io)
 
 DESCRIPTION
   Toggle a feature on or off for a specific environment
