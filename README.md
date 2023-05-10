@@ -13,6 +13,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook features`](#growthbook-features)
 * [`growthbook features generate-types`](#growthbook-features-generate-types)
 * [`growthbook features get FEATUREKEY`](#growthbook-features-get-featurekey)
+* [`growthbook features list`](#growthbook-features-list)
 * [`growthbook features toggle FEATUREKEY`](#growthbook-features-toggle-featurekey)
 * [`growthbook help [COMMANDS]`](#growthbook-help-commands)
 * [`growthbook metrics get METRICID`](#growthbook-metrics-get-metricid)
@@ -103,6 +104,28 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook features get
+```
+
+## `growthbook features list`
+
+Get all features
+
+```
+USAGE
+  $ growthbook features list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  Get all features
+
+EXAMPLES
+  $ growthbook features list
 ```
 
 ## `growthbook features toggle FEATUREKEY`
