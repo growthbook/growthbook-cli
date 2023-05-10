@@ -10,13 +10,13 @@ echo '✅ Downloaded!'
 
 echo '⏳ Generating GrowthBook API client...'
 
+# Remove existing generated API code
 rm -rf src/generated/api
 
-# This appears to generate invalid TypeScript code, possibly due to our validation errors
-# Ref: https://github.com/growthbook/growthbook/issues/1269
+# Generate code using the `typescript-axios`
+# `typescript-fetch` does not work - possibly related bug: https://github.com/growthbook/growthbook/issues/1269
 npx openapi-generator-cli generate \
   -i ./tmp/openapi.yaml \
   -o src/generated/api \
   -g typescript-axios \
   --skip-validate-spec
-
