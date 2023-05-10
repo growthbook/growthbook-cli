@@ -15,7 +15,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook features get FEATUREKEY`](#growthbook-features-get-featurekey)
 * [`growthbook features toggle FEATUREKEY`](#growthbook-features-toggle-featurekey)
 * [`growthbook help [COMMANDS]`](#growthbook-help-commands)
-* [`growthbook metrics get`](#growthbook-metrics-get)
+* [`growthbook metrics get METRICID`](#growthbook-metrics-get-metricid)
 
 ## `growthbook auth`
 
@@ -152,13 +152,16 @@ DESCRIPTION
 
 
 
-## `growthbook metrics get`
+## `growthbook metrics get METRICID`
 
 Get a single metric by ID
 
 ```
 USAGE
-  $ growthbook metrics get [-u <value>] [-p <value>]
+  $ growthbook metrics get METRICID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  METRICID  Metric ID
 
 FLAGS
   -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
