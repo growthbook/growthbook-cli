@@ -17,7 +17,17 @@ When running the CLI locally in development, use `./bin/run` instead of `growthb
 
     ./bin/run features generate-types --output ./types
 
+A script `yarn cli` has been added that does both a build and a run.
+
 Docs generation occurs on-commit.
+
+To create new commands, you can run a command like this:
+
+    ./node_modules/oclif/bin/run generate command features:toggle
+
+Or:
+
+    npx oclif generate command features:toggle
 
 
 ### Linking the development `growthbook` binary in another project

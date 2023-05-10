@@ -1,6 +1,7 @@
 import fetch, {RequestInit} from 'node-fetch'
 import {checkmark} from './cli'
 import {SimplifiedFeature} from './feature'
+import {Configuration, Feature, FeaturesApi} from '../generated/api'
 
 // region HTTP methods
 
@@ -68,6 +69,36 @@ export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: strin
   }
 
   return allFeatures
+}
+
+type ToggleFeatureOptions = {
+  id: string
+  environment: string
+  enabled: boolean
+  reason: string
+}
+
+export const toggleFeature = async (
+  apiBaseUrl: string,
+  token: string,
+  {id, enabled, environment, reason}: ToggleFeatureOptions,
+  apiVersion = '/api/v1',
+): Promise<Feature> => {
+  const apiWithVersion = apiBaseUrl + apiVersion
+  const config = new Configuration({
+    basePath: apiWithVersion,
+    accessToken: token,
+  })
+  const featuresApi = new FeaturesApi(config)
+
+  const result = await featuresApi.toggleFeature(id, {
+    reason,
+    environments: {
+      [environment]: enabled,
+    },
+  })
+
+  return result.data.feature
 }
 
 // endregion Features
