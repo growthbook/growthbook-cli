@@ -12,6 +12,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth logout`](#growthbook-auth-logout)
 * [`growthbook experiments get ID`](#growthbook-experiments-get-id)
 * [`growthbook experiments list`](#growthbook-experiments-list)
+* [`growthbook experiments results EXPERIMENTID`](#growthbook-experiments-results-experimentid)
 * [`growthbook features`](#growthbook-features)
 * [`growthbook features generate-types`](#growthbook-features-generate-types)
 * [`growthbook features get FEATUREKEY`](#growthbook-features-get-featurekey)
@@ -105,6 +106,31 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook experiments list
+```
+
+## `growthbook experiments results EXPERIMENTID`
+
+Get results for an experiment with optional phase and dimension filtering
+
+```
+USAGE
+  $ growthbook experiments results EXPERIMENTID [-u <value>] [-p <value>] [--dimension <value>] [--phase <value>]
+
+ARGUMENTS
+  EXPERIMENTID  ID of the experiment
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --dimension=<value>
+  --phase=<value>
+
+DESCRIPTION
+  Get results for an experiment with optional phase and dimension filtering
+
+EXAMPLES
+  $ growthbook experiments results
 ```
 
 ## `growthbook features`

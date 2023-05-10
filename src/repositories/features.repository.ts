@@ -3,17 +3,6 @@ import {BaseApiRepository, BaseRepository, Pagination} from './base.repository'
 import {Feature, FeaturesApi} from '../generated/api'
 import {SimplifiedFeature} from '../utils/feature'
 
-type ToggleFeatureOptions = {
-  featureKey: string
-  environment: string
-  enabled: boolean
-  reason: string
-}
-
-type ListFeaturesResponse = Pagination & {
-  features: SimplifiedFeature[]
-}
-
 export class FeaturesRepository extends BaseRepository implements BaseApiRepository<FeaturesApi> {
   public async getFeature(featureKey: string): Promise<Feature> {
     const featuresApi = this.api()
@@ -49,4 +38,15 @@ export class FeaturesRepository extends BaseRepository implements BaseApiReposit
   api(): FeaturesApi {
     return new FeaturesApi(this.apiConfig())
   }
+}
+
+type ToggleFeatureOptions = {
+  featureKey: string
+  environment: string
+  enabled: boolean
+  reason: string
+}
+
+type ListFeaturesResponse = Pagination & {
+  features: SimplifiedFeature[]
 }
