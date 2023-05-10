@@ -1,3 +1,5 @@
+import {FeaturesRepository} from '../repositories/features.repository'
+
 export type SimplifiedFeature = {
   id: string
   valueType: string
@@ -21,4 +23,35 @@ export const getFeatureValueTypeToTypeScriptMapping = (valueType: string): strin
   default:
     return 'unknown'
   }
+}
+
+/**
+ * Fetches all the features from the GrowthBook REST API for the provided API base URL.
+ * @param apiBaseUrl  The API base URL for the target GrowthBook instance
+ * @param token  Secret token
+ * @return {Promise<SimplifiedFeature[]>} A list of features
+ */
+export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: string): Promise<SimplifiedFeature[]> => {
+  const limit = 100
+  let offset = 0
+
+  let allFeatures: SimplifiedFeature[] = []
+  let shouldFetch = true
+
+  const featuresRepo = new FeaturesRepository({
+    apiKey: token,
+    apiBaseUrl,
+  })
+
+  while (shouldFetch) {
+    const response = await featuresRepo.listFeatures(limit, offset)
+    const {nextOffset, hasMore, features} = response
+
+    allFeatures = [...allFeatures, ...features]
+
+    offset = nextOffset
+    shouldFetch = hasMore
+  }
+
+  return allFeatures
 }

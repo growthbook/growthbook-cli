@@ -1,4 +1,24 @@
 module.exports = function (plop) {
+  plop.setGenerator('repository', {
+    description: 'Generates a repository for wrapping the OpenAPI implementations',
+    prompts: [
+      {
+        type: 'input',
+        name: 'resource',
+        message: 'What is the resource? e.g. for FeaturesApi use `feature` and for MetricsApi use `metric`',
+      },
+    ],
+    actions: [
+      {
+        type: 'add',
+        skipIfExists: true,
+        path:
+          './src/repositories/{{kebabCase resource}}s.repository.ts',
+        templateFile: './plop-templates/repository.hbs',
+      },
+    ],
+  })
+
   plop.setGenerator('command', {
     description: 'Generates a command. This is the final command inside of the namespace folder, e.g. for the command `growthbook features generate types`, `generate types` would be the command',
     prompts: [

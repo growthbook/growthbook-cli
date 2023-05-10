@@ -12,6 +12,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth logout`](#growthbook-auth-logout)
 * [`growthbook features`](#growthbook-features)
 * [`growthbook features generate-types`](#growthbook-features-generate-types)
+* [`growthbook features get FEATUREKEY`](#growthbook-features-get-featurekey)
 * [`growthbook features toggle FEATUREKEY`](#growthbook-features-toggle-featurekey)
 * [`growthbook help [COMMANDS]`](#growthbook-help-commands)
 
@@ -78,6 +79,29 @@ FLAGS
 
 DESCRIPTION
   Generate TypeScript types for all your features
+```
+
+## `growthbook features get FEATUREKEY`
+
+Get a feature by key
+
+```
+USAGE
+  $ growthbook features get FEATUREKEY [-u <value>] [-p <value>]
+
+ARGUMENTS
+  FEATUREKEY  Feature key
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a feature by key
+
+EXAMPLES
+  $ growthbook features get
 ```
 
 ## `growthbook features toggle FEATUREKEY`
