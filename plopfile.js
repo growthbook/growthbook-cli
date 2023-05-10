@@ -24,13 +24,13 @@ module.exports = function (plop) {
     prompts: [
       {
         type: 'input',
-        name: 'command',
-        message: 'What is the name of the command? e.g. generate-types',
+        name: 'namespace',
+        message: 'What is the root command (or namespace) for this command? e.g. features',
       },
       {
         type: 'input',
-        name: 'namespace',
-        message: 'What is the namespace for this command? e.g. features',
+        name: 'command',
+        message: 'What is the name of the command (i.e. name of the sub-command)? e.g. generate-types',
       },
       {
         type: 'input',

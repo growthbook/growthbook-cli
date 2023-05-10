@@ -21,13 +21,9 @@ A script `yarn cli` has been added that does both a build and a run.
 
 Docs generation occurs on-commit.
 
-To create new commands, you can run a command like this:
+To create new commands, you can run:
 
-    ./node_modules/oclif/bin/run generate command features:toggle
-
-Or:
-
-    npx oclif generate command features:toggle
+    yarn plop command
 
 
 ### Linking the development `growthbook` binary in another project
