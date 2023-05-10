@@ -1,15 +1,17 @@
 import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
-import {getGrowthBookConfigFilePath} from './file'
-import {DEFAULT_GROWTHBOOK_PROFILE} from './constants'
 import {Command} from '@oclif/core'
+import {getGrowthBookConfigFilePath} from './file'
+import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from './constants'
 
 export type GrowthBookCLIConfig = {
   apiKey: string
+  apiBaseUrl: string
 }
 
 export type GrowthBookTomlProfile = {
   growthbook_secret: string
+  api_base_url: string
 }
 
 /**
@@ -48,8 +50,14 @@ export function getGrowthBookProfileConfig(profileKey: string): GrowthBookCLICon
       return null
     }
 
+    let apiBaseUrl = profile.api_base_url
+    if (!apiBaseUrl) {
+      apiBaseUrl = DEFAULT_GROWTHBOOK_BASE_URL
+    }
+
     return {
       apiKey,
+      apiBaseUrl,
     }
   } catch {
     return null
@@ -70,7 +78,7 @@ export function getGrowthBookProfileConfigAndThrowForCommand(profileKey: string,
       command.error('💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login')
     } else {
       // User is trying to use a custom profile
-      command.error(`💥 Cannot find config for profile '${DEFAULT_GROWTHBOOK_PROFILE}'. Configure the CLI with the following command:`)
+      command.error(`💥 Cannot find config for profile '${DEFAULT_GROWTHBOOK_PROFILE}'. Configure the CLI with the following command:\n\n $ growthbook auth login`)
     }
   }
 

@@ -6,6 +6,7 @@ import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from './constan
  * Green checkmark to be used with ux.action.stop(checkmark) for nicer feedback UI
  */
 export const checkmark = chalk.green('✔')
+export const xSymbol = chalk.red('𝒙')
 
 export const TRUTHY_VALUES = [1, '1', 'true', 'on']
 export const FALSY_VALUES = [0, '0', 'false', 'off']
@@ -30,12 +31,10 @@ export const baseGrowthBookCliFlags = {
     char: 'u',
     description: `Your GrowthBook instance base URL (e.g. http://localhost:3100, default: ${DEFAULT_GROWTHBOOK_BASE_URL})`,
     required: false,
-    default: DEFAULT_GROWTHBOOK_BASE_URL,
   }),
   profile: Flags.string({
     char: 'p',
     description: `Optional profile (for projects that use multiple GrowthBook instances) default: ${DEFAULT_GROWTHBOOK_PROFILE})`,
-    default: DEFAULT_GROWTHBOOK_PROFILE,
     required: false,
   }),
 }
