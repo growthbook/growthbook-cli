@@ -30,12 +30,7 @@ Configure your API key with the GrowthBook SDK with your project
 
 ```
 USAGE
-  $ growthbook auth login -k <value> [-p <value>]
-
-FLAGS
-  -k, --apiKey=<value>   (required) Your GrowthBook secret API Key
-  -p, --profile=<value>  Optional profile (for projects that use multiple GrowthBook instances or organizations)
-                         (default: default)
+  $ growthbook auth login
 
 DESCRIPTION
   Configure your API key with the GrowthBook SDK with your project
@@ -77,10 +72,9 @@ USAGE
 FLAGS
   -o, --output=<value>      Output path for the app-features.ts file. All directories in this path should exist. If not
                             provided, the directory ./growthbook-types will be created in the current working directory.
-  -p, --profile=<value>     [default: default] Optional profile (for projects that use multiple GrowthBook instances)
-                            default: default)
-  -u, --apiBaseUrl=<value>  [default: https://api.growthbook.io] Your GrowthBook instance base URL (e.g.
-                            http://localhost:3100, default: https://api.growthbook.io)
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
 
 DESCRIPTION
   Generate TypeScript types for all your features
@@ -101,11 +95,10 @@ FLAGS
   -e, --environment=<value>  (required) Environment that you would like to toggle
   -n, --enabled=<option>     (required) Enabled state of the feature
                              <options: true|false|on|off|1|0>
-  -p, --profile=<value>      [default: default] Optional profile (for projects that use multiple GrowthBook instances)
-                             default: default)
+  -p, --profile=<value>      Optional profile (for projects that use multiple GrowthBook instances) default: default)
   -r, --reason=<value>       The reason for toggling it on
-  -u, --apiBaseUrl=<value>   [default: https://api.growthbook.io] Your GrowthBook instance base URL (e.g.
-                             http://localhost:3100, default: https://api.growthbook.io)
+  -u, --apiBaseUrl=<value>   Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                             https://api.growthbook.io)
 
 DESCRIPTION
   Toggle a feature on or off for a specific environment

@@ -1,15 +1,16 @@
 import * as Fs from 'node:fs'
 import * as Path from 'node:path'
 import {Command, Flags, ux} from '@oclif/core'
-import {getGrowthBookProfileConfig} from '../../utils/config'
+import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
 import {fetchAllPaginatedFeatures, SimpleFeatureResponse} from '../../utils/http'
 import {getCompiledTypeScriptTemplateForFeatures} from '../../utils/templating'
 import {
+  DEFAULT_GROWTHBOOK_BASE_URL,
   DEFAULT_GROWTHBOOK_PROFILE,
   DEFAULT_GROWTHBOOK_TYPES_DESTINATION,
   GROWTHBOOK_APP_FEATURES_FILENAME,
 } from '../../utils/constants'
-import {baseGrowthBookCliFlags, checkmark} from '../../utils/cli'
+import {baseGrowthBookCliFlags, Icons} from '../../utils/cli'
 
 export default class GenerateTypes extends Command {
   static description = 'Generate TypeScript types for all your features'
@@ -36,28 +37,21 @@ export default class GenerateTypes extends Command {
 
     ux.action.start('Getting GrowthBook config')
 
-    const config = getGrowthBookProfileConfig(profile)
-    if (!config) {
-      if (profile === DEFAULT_GROWTHBOOK_PROFILE) {
-        // Default profile
-        this.error('💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login')
-      } else {
-        // User is trying to use a custom profile
-        this.error(`💥 Cannot find config for profile '${DEFAULT_GROWTHBOOK_PROFILE}'. Configure the CLI with the following command:\n\n $ growthbook auth login`)
-      }
-    }
+    const profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
+    const config = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
+    const baseUrlUsed = apiBaseUrl || config.apiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
 
-    ux.action.stop(checkmark)
+    ux.action.stop(Icons.checkmark)
 
     const {apiKey} = config
 
     try {
       ux.action.start('Fetching features')
 
-      const features: SimpleFeatureResponse = await fetchAllPaginatedFeatures(apiBaseUrl, apiKey)
+      const features: SimpleFeatureResponse = await fetchAllPaginatedFeatures(baseUrlUsed, apiKey)
       const typeScriptOutput = getCompiledTypeScriptTemplateForFeatures(features)
 
-      ux.action.stop(checkmark)
+      ux.action.stop(Icons.checkmark)
 
       let outputPath = output
       if (!outputPath) {
@@ -87,8 +81,8 @@ export default class GenerateTypes extends Command {
 
       Fs.writeFileSync(fullyQualifiedPath + '/' + GROWTHBOOK_APP_FEATURES_FILENAME, typeScriptContents)
 
-      ux.action.stop(checkmark)
-      this.log(`${checkmark} Successfully wrote TypeScript definitions to ${fullyQualifiedPath}`)
+      ux.action.stop(Icons.checkmark)
+      this.log(`${Icons.checkmark} Successfully wrote TypeScript definitions to ${fullyQualifiedPath}`)
     } catch (error) {
       this.error('💥 Could not write TypeScript definition file to disk' + error)
     }

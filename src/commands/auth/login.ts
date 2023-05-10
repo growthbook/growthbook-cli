@@ -1,46 +1,53 @@
-import {Command, Flags} from '@oclif/core'
+import {Command, ux} from '@oclif/core'
 import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {getGrowthBookConfigDirectory, getGrowthBookConfigFilePath} from '../../utils/file'
-import {DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
-import {checkmark} from '../../utils/cli'
+import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
+import {Icons} from '../../utils/cli'
 
 export default class Login extends Command {
   static description = 'Configure your API key with the GrowthBook SDK with your project'
 
   static examples = []
 
-  static flags = {
-    apiKey: Flags.string({
-      char: 'k',
-      description: 'Your GrowthBook secret API Key',
-      required: true,
-    }),
-    profile: Flags.string({
-      char: 'p',
-      description: `Optional profile (for projects that use multiple GrowthBook instances or organizations) (default: ${DEFAULT_GROWTHBOOK_PROFILE})`,
-      required: false,
-    }),
-  }
+  static flags = {}
 
   static args = {}
 
   async run(): Promise<void> {
-    const {flags: {
-      apiKey,
-      profile = DEFAULT_GROWTHBOOK_PROFILE,
-    }} = await this.parse(Login)
+    const apiKey = await ux.prompt('What is your GrowthBook secret API Key?', {
+      type: 'hide',
+      required: true,
+    })
+    if (!apiKey) {
+      this.error(`${Icons.xSymbol} You must provide a GrowthBook secret API key to continue`)
+    }
 
-    this.writeApiKeyToGrowthBookConfig(apiKey, profile)
+    let profile = await ux.prompt(`What is the name of this profile? You can leave this blank (default: ${DEFAULT_GROWTHBOOK_PROFILE})`, {
+      required: false,
+    })
+    if (!profile) {
+      profile = DEFAULT_GROWTHBOOK_PROFILE
+    }
+
+    let apiBaseUrl = await ux.prompt(`What is the API base URL of the GrowthBook instance? If using GrowthBook cloud, you can leave this blank (e.g. http://localhost:3100, default: ${DEFAULT_GROWTHBOOK_BASE_URL})`, {
+      required: false,
+    })
+    if (!apiBaseUrl) {
+      apiBaseUrl = DEFAULT_GROWTHBOOK_BASE_URL
+    }
+
+    this.writeApiKeyToGrowthBookConfig(apiKey, profile, apiBaseUrl)
   }
 
   /**
    * Writes the API key to the config file. Will throw errors if it cannot read or write to the file
    * @param {string} apiKey The GrowthBook secret
    * @param {string} profile The profile to write in the config
+   * @param {string} apiBaseUrl The base URL of the GrowthBook API
    * @return void
    */
-  private writeApiKeyToGrowthBookConfig(apiKey: string, profile: string): void {
+  private writeApiKeyToGrowthBookConfig(apiKey: string, profile: string, apiBaseUrl: string): void {
     const configText = this.getGrowthBookConfigFileContents()
     const config = toml.parse(configText)
 
@@ -50,6 +57,7 @@ export default class Login extends Command {
 
     config[profile] = {
       growthbook_secret: apiKey,
+      api_base_url: apiBaseUrl,
     }
 
     const stringified = toml.stringify(config)
@@ -102,7 +110,7 @@ export default class Login extends Command {
     try {
       Fs.writeFileSync(configFilePath, fileContents)
 
-      this.log(`The GrowthBook config has been written at ~/.growthbook/config.toml ${checkmark}`)
+      this.log(`The GrowthBook config has been written at ~/.growthbook/config.toml ${Icons.checkmark}`)
     } catch (error) {
       this.error(`💥 Cannot write to file at ${configFilePath} \n` + error)
     }

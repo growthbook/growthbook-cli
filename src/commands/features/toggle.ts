@@ -1,7 +1,8 @@
 import {Args, Command, Flags} from '@oclif/core'
-import {baseGrowthBookCliFlags, checkmark, parseBooleanFromString} from '../../utils/cli'
+import {baseGrowthBookCliFlags, Icons, parseBooleanFromString} from '../../utils/cli'
 import {toggleFeature} from '../../utils/http'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
+import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 
 export default class FeaturesToggle extends Command {
   static description = 'Toggle a feature on or off for a specific environment'
@@ -48,12 +49,13 @@ export default class FeaturesToggle extends Command {
       profile,
       apiBaseUrl,
     }} = await this.parse(FeaturesToggle)
-
-    const config = getGrowthBookProfileConfigAndThrowForCommand(profile, this)
+    const profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
+    const config = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
+    const baseUrlUsed = apiBaseUrl || config.apiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
 
     const parsedEnabled = parseBooleanFromString(enabled) || false
 
-    const updatedFeature = await toggleFeature(apiBaseUrl, config.apiKey, {
+    const updatedFeature = await toggleFeature(baseUrlUsed, config.apiKey, {
       id: featureKey,
       reason,
       enabled: parsedEnabled,
@@ -61,6 +63,6 @@ export default class FeaturesToggle extends Command {
     })
 
     this.logJson(updatedFeature)
-    this.log(`\n${checkmark} The feature was updated!`)
+    this.log(`\n${Icons.checkmark} The feature was updated!`)
   }
 }

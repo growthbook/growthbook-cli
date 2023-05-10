@@ -3,7 +3,7 @@ import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {getGrowthBookConfigFilePath} from '../../utils/file'
 import {getGrowthBookConfigToml} from '../../utils/config'
-import {checkmark} from '../../utils/cli'
+import {Icons} from '../../utils/cli'
 
 export default class Logout extends Command {
   static description = 'Removes GrowthBook API key configurations'
@@ -46,7 +46,7 @@ export default class Logout extends Command {
     try {
       Fs.writeFileSync(configFilePath, '')
 
-      ux.action.stop(checkmark)
+      ux.action.stop(Icons.checkmark)
     } catch (error) {
       this.error(`💥 Cannot write to file at ${configFilePath}. It may not exist or there may be insufficient permissions. \n` + error)
     }
@@ -71,7 +71,7 @@ export default class Logout extends Command {
     try {
       Fs.writeFileSync(configFilePath, stringified)
 
-      ux.action.stop(checkmark)
+      ux.action.stop(Icons.checkmark)
     } catch (error) {
       this.error(`💥 Cannot write to file at ${configFilePath}. It may not exist or there may be insufficient permissions. \n` + error)
     }
