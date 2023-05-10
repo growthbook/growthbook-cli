@@ -1,5 +1,7 @@
 import {Args, Command, Flags} from '@oclif/core'
-import {parseBooleanFromString} from '../../utils/cli'
+import {baseGrowthBookCliFlags, parseBooleanFromString} from '../../utils/cli'
+import {toggleFeature} from '../../utils/http'
+import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
 
 export default class FeaturesToggle extends Command {
   static description = 'Toggle a feature on or off for a specific environment'
@@ -9,6 +11,7 @@ export default class FeaturesToggle extends Command {
   ]
 
   static flags = {
+    ...baseGrowthBookCliFlags,
     environment: Flags.string({
       char: 'e',
       description: 'Environment that you would like to toggle',
@@ -35,15 +38,29 @@ export default class FeaturesToggle extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args} = await this.parse(FeaturesToggle)
+    const {args: {
+      featureKey,
+    }} = await this.parse(FeaturesToggle)
     const {flags: {
       enabled,
       reason = '',
       environment,
+      profile,
+      apiBaseUrl,
     }} = await this.parse(FeaturesToggle)
+
+    const config = getGrowthBookProfileConfigAndThrowForCommand(profile, this)
 
     const parsedEnabled = parseBooleanFromString(enabled) || false
 
-    this.log(`you input : ${args.featureKey} env= ${environment}, enabled = ${parsedEnabled}, reason = ${reason}`)
+    const updatedFeature = await toggleFeature(apiBaseUrl, config.apiKey, {
+      id: featureKey,
+      reason,
+      enabled: parsedEnabled,
+      environment,
+    })
+
+    this.log('✅ The feature was updated!')
+    this.logJson(updatedFeature)
   }
 }

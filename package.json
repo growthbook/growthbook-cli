@@ -20,12 +20,14 @@
     "@oclif/core": "^2",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.3.2",
+    "axios": "^1.4.0",
     "chalk": "^4.1.2",
     "handlebars": "^4.7.7",
     "node-fetch": "2"
   },
   "devDependencies": {
     "@oclif/test": "^2.3.7",
+    "@openapitools/openapi-generator-cli": "^2.6.0",
     "@types/chai": "^4",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.18.12",
