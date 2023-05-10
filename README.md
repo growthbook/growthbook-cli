@@ -10,6 +10,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth`](#growthbook-auth)
 * [`growthbook auth login`](#growthbook-auth-login)
 * [`growthbook auth logout`](#growthbook-auth-logout)
+* [`growthbook experiments get ID`](#growthbook-experiments-get-id)
 * [`growthbook features`](#growthbook-features)
 * [`growthbook features generate-types`](#growthbook-features-generate-types)
 * [`growthbook features get FEATUREKEY`](#growthbook-features-get-featurekey)
@@ -54,6 +55,29 @@ FLAGS
 
 DESCRIPTION
   Removes GrowthBook API key configurations
+```
+
+## `growthbook experiments get ID`
+
+Get a single experiment by ID
+
+```
+USAGE
+  $ growthbook experiments get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Experiment ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single experiment by ID
+
+EXAMPLES
+  $ growthbook experiments get
 ```
 
 ## `growthbook features`
