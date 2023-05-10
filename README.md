@@ -17,6 +17,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook features toggle FEATUREKEY`](#growthbook-features-toggle-featurekey)
 * [`growthbook help [COMMANDS]`](#growthbook-help-commands)
 * [`growthbook metrics get METRICID`](#growthbook-metrics-get-metricid)
+* [`growthbook metrics list`](#growthbook-metrics-list)
 
 ## `growthbook auth`
 
@@ -112,7 +113,7 @@ Get all features
 
 ```
 USAGE
-  $ growthbook features list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>]
+  $ growthbook features list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--project <value>]
 
 FLAGS
   -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
@@ -120,6 +121,7 @@ FLAGS
                             https://api.growthbook.io)
   --limit=<value>           [default: 100] Limit for pagination
   --offset=<value>          Offset for pagination
+  --project=<value>         Project ID filter
 
 DESCRIPTION
   Get all features
@@ -196,5 +198,28 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook metrics get
+```
+
+## `growthbook metrics list`
+
+List all metrics
+
+```
+USAGE
+  $ growthbook metrics list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--project <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+  --project=<value>         Project ID filter
+
+DESCRIPTION
+  List all metrics
+
+EXAMPLES
+  $ growthbook metrics list
 ```
 <!-- commandsstop -->

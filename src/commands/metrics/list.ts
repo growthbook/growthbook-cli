@@ -2,10 +2,10 @@ import {Command, Flags} from '@oclif/core'
 import {baseGrowthBookCliFlags} from '../../utils/cli'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
-import {FeaturesRepository} from '../../repositories/features.repository'
+import {MetricsRepository} from '../../repositories/metrics.repository'
 
-export default class FeaturesList extends Command {
-  static description = 'Get all features'
+export default class MetricsList extends Command {
+  static description = 'List all metrics'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
@@ -40,18 +40,18 @@ export default class FeaturesList extends Command {
         offset,
         project,
       },
-    } = await this.parse(FeaturesList)
+    } = await this.parse(MetricsList)
     const profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
     const {apiKey, apiBaseUrl: configApiBaseUrl} = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
     const baseUrlUsed = apiBaseUrl || configApiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
 
-    const featuresRepo = new FeaturesRepository({
+    const metricsRepo = new MetricsRepository({
       apiKey,
       apiBaseUrl: baseUrlUsed,
     })
 
-    const features = await featuresRepo.listFeatures(limit, offset, project)
+    const metrics = await metricsRepo.listMetrics(limit, offset, project)
 
-    this.logJson(features)
+    this.logJson(metrics)
   }
 }
