@@ -1,5 +1,5 @@
 import fetch, {RequestInit} from 'node-fetch'
-import {checkmark} from './cli'
+import {Icons} from './cli'
 import {SimplifiedFeature} from './feature'
 import {Configuration, Feature, FeaturesApi} from '../generated/api'
 
@@ -65,7 +65,7 @@ export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: strin
     offset = nextOffset
     shouldFetch = hasMore
 
-    console.log('Fetched features at URL:', fullUrl, checkmark)
+    console.log('Fetched features at URL:', fullUrl, Icons.checkmark)
   }
 
   return allFeatures

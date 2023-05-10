@@ -10,7 +10,7 @@ import {
   DEFAULT_GROWTHBOOK_TYPES_DESTINATION,
   GROWTHBOOK_APP_FEATURES_FILENAME,
 } from '../../utils/constants'
-import {baseGrowthBookCliFlags, checkmark} from '../../utils/cli'
+import {baseGrowthBookCliFlags, Icons} from '../../utils/cli'
 
 export default class GenerateTypes extends Command {
   static description = 'Generate TypeScript types for all your features'
@@ -41,7 +41,7 @@ export default class GenerateTypes extends Command {
     const config = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
     const baseUrlUsed = apiBaseUrl || config.apiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
 
-    ux.action.stop(checkmark)
+    ux.action.stop(Icons.checkmark)
 
     const {apiKey} = config
 
@@ -51,7 +51,7 @@ export default class GenerateTypes extends Command {
       const features: SimpleFeatureResponse = await fetchAllPaginatedFeatures(baseUrlUsed, apiKey)
       const typeScriptOutput = getCompiledTypeScriptTemplateForFeatures(features)
 
-      ux.action.stop(checkmark)
+      ux.action.stop(Icons.checkmark)
 
       let outputPath = output
       if (!outputPath) {
@@ -81,8 +81,8 @@ export default class GenerateTypes extends Command {
 
       Fs.writeFileSync(fullyQualifiedPath + '/' + GROWTHBOOK_APP_FEATURES_FILENAME, typeScriptContents)
 
-      ux.action.stop(checkmark)
-      this.log(`${checkmark} Successfully wrote TypeScript definitions to ${fullyQualifiedPath}`)
+      ux.action.stop(Icons.checkmark)
+      this.log(`${Icons.checkmark} Successfully wrote TypeScript definitions to ${fullyQualifiedPath}`)
     } catch (error) {
       this.error('💥 Could not write TypeScript definition file to disk' + error)
     }

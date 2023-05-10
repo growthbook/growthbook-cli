@@ -1,5 +1,5 @@
 import {Args, Command, Flags} from '@oclif/core'
-import {baseGrowthBookCliFlags, checkmark, parseBooleanFromString} from '../../utils/cli'
+import {baseGrowthBookCliFlags, Icons, parseBooleanFromString} from '../../utils/cli'
 import {toggleFeature} from '../../utils/http'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
@@ -63,6 +63,6 @@ export default class FeaturesToggle extends Command {
     })
 
     this.logJson(updatedFeature)
-    this.log(`\n${checkmark} The feature was updated!`)
+    this.log(`\n${Icons.checkmark} The feature was updated!`)
   }
 }

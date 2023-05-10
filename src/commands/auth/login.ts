@@ -3,7 +3,7 @@ import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {getGrowthBookConfigDirectory, getGrowthBookConfigFilePath} from '../../utils/file'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
-import {checkmark, xSymbol} from '../../utils/cli'
+import {Icons} from '../../utils/cli'
 
 export default class Login extends Command {
   static description = 'Configure your API key with the GrowthBook SDK with your project'
@@ -20,7 +20,7 @@ export default class Login extends Command {
       required: true,
     })
     if (!apiKey) {
-      this.error(`${xSymbol} You must provide a GrowthBook secret API key to continue`)
+      this.error(`${Icons.xSymbol} You must provide a GrowthBook secret API key to continue`)
     }
 
     let profile = await ux.prompt(`What is the name of this profile? You can leave this blank (default: ${DEFAULT_GROWTHBOOK_PROFILE})`, {
@@ -110,7 +110,7 @@ export default class Login extends Command {
     try {
       Fs.writeFileSync(configFilePath, fileContents)
 
-      this.log(`The GrowthBook config has been written at ~/.growthbook/config.toml ${checkmark}`)
+      this.log(`The GrowthBook config has been written at ~/.growthbook/config.toml ${Icons.checkmark}`)
     } catch (error) {
       this.error(`💥 Cannot write to file at ${configFilePath} \n` + error)
     }
