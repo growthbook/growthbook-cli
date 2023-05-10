@@ -58,8 +58,8 @@ type ListExperimentsResponse = Pagination & {
 }
 
 type GetExperimentResultsOptions = {
-  id: any
-  phase?: any
-  dimension?: any
+  id: string
+  phase?: string
+  dimension?: string
 }
 
