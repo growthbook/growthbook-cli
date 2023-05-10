@@ -1,5 +1,5 @@
 import {Command, Flags} from '@oclif/core'
-import {baseGrowthBookCliFlags} from '../../utils/cli'
+import {baseGrowthBookCliFlags, paginationCliFlags} from '../../utils/cli'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
 import {MetricsRepository} from '../../repositories/metrics.repository'
@@ -13,16 +13,7 @@ export default class MetricsList extends Command {
 
   static flags = {
     ...baseGrowthBookCliFlags,
-    limit: Flags.integer({
-      description: 'Limit for pagination',
-      required: false,
-      default: 100,
-    }),
-    offset: Flags.integer({
-      description: 'Offset for pagination',
-      required: false,
-      default: 0,
-    }),
+    ...paginationCliFlags,
     project: Flags.string({
       description: 'Project ID filter',
       required: false,
