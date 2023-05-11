@@ -1,8 +1,8 @@
 import {Args, Command, Flags} from '@oclif/core'
 import {baseGrowthBookCliFlags, Icons, parseBooleanFromString} from '../../utils/cli'
-import {toggleFeature} from '../../utils/http'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
+import {FeaturesRepository} from '../../repositories/features.repository'
 
 export default class FeaturesToggle extends Command {
   static description = 'Toggle a feature on or off for a specific environment'
@@ -39,27 +39,33 @@ export default class FeaturesToggle extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args: {
-      featureKey,
-    }} = await this.parse(FeaturesToggle)
-    const {flags: {
-      enabled,
-      reason = '',
-      environment,
-      profile,
-      apiBaseUrl,
-    }} = await this.parse(FeaturesToggle)
+    const {
+      args: {
+        featureKey,
+      },
+      flags: {
+        enabled,
+        reason = '',
+        environment,
+        profile,
+        apiBaseUrl,
+      },
+    } = await this.parse(FeaturesToggle)
     const profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
-    const config = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
-    const baseUrlUsed = apiBaseUrl || config.apiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
+    const {apiKey, apiBaseUrl: configApiBaseUrl} = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
+    const baseUrlUsed = apiBaseUrl || configApiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
 
     const parsedEnabled = parseBooleanFromString(enabled) || false
 
-    const updatedFeature = await toggleFeature(baseUrlUsed, config.apiKey, {
-      id: featureKey,
-      reason,
+    const featuresRepo = new FeaturesRepository({
+      apiKey,
+      apiBaseUrl: baseUrlUsed,
+    })
+    const updatedFeature = await featuresRepo.toggleFeature({
       enabled: parsedEnabled,
       environment,
+      featureKey,
+      reason,
     })
 
     this.logJson(updatedFeature)

@@ -1,10 +1,11 @@
-import {Command} from '@oclif/core'
+import {Args, Command} from '@oclif/core'
 import {baseGrowthBookCliFlags} from '../../utils/cli'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
+import {ExperimentsRepository} from '../../repositories/experiments.repository'
 
-export default class {{pascalCase namespace}}{{pascalCase command}} extends Command {
-  static description = '{{description}}'
+export default class ExperimentsGet extends Command {
+  static description = 'Get a single experiment by ID'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
@@ -14,22 +15,33 @@ export default class {{pascalCase namespace}}{{pascalCase command}} extends Comm
     ...baseGrowthBookCliFlags,
   }
 
-  static args = {}
+  static args = {
+    id: Args.string({
+      description: 'Experiment ID',
+      required: true,
+    }),
+  }
 
   async run(): Promise<void> {
     const {
-      args: {},
+      args: {
+        id,
+      },
       flags: {
         profile,
         apiBaseUrl,
       },
-    } = await this.parse({{pascalCase namespace}}{{pascalCase command}})
+    } = await this.parse(ExperimentsGet)
     const profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
     const {apiKey, apiBaseUrl: configApiBaseUrl} = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
     const baseUrlUsed = apiBaseUrl || configApiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
 
-    // TODO: Delete this
-    this.log(`hello from command {{kebabCase namespace}}:{{kebabCase command}} - flags: profile = ${profileUsed}, base URL = ${baseUrlUsed}, API key = ${[...apiKey].map((c, i) => i >= 10 ? '•' : c).join('')}`)
-    this.log(`Run the following command for details: \n $ growthbook ${this.id} --help`)
+    const experimentsRepo = new ExperimentsRepository({
+      apiKey,
+      apiBaseUrl: baseUrlUsed,
+    })
+    const experiment = await experimentsRepo.getExperiment(id)
+
+    this.logJson(experiment)
   }
 }

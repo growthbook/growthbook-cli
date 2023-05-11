@@ -2,7 +2,6 @@ import * as Fs from 'node:fs'
 import * as Path from 'node:path'
 import {Command, Flags, ux} from '@oclif/core'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
-import {fetchAllPaginatedFeatures, SimpleFeatureResponse} from '../../utils/http'
 import {getCompiledTypeScriptTemplateForFeatures} from '../../utils/templating'
 import {
   DEFAULT_GROWTHBOOK_BASE_URL,
@@ -11,6 +10,7 @@ import {
   GROWTHBOOK_APP_FEATURES_FILENAME,
 } from '../../utils/constants'
 import {baseGrowthBookCliFlags, Icons} from '../../utils/cli'
+import {fetchAllPaginatedFeatures} from '../../utils/feature'
 
 export default class GenerateTypes extends Command {
   static description = 'Generate TypeScript types for all your features'
@@ -48,7 +48,7 @@ export default class GenerateTypes extends Command {
     try {
       ux.action.start('Fetching features')
 
-      const features: SimpleFeatureResponse = await fetchAllPaginatedFeatures(baseUrlUsed, apiKey)
+      const features = await fetchAllPaginatedFeatures(baseUrlUsed, apiKey)
       const typeScriptOutput = getCompiledTypeScriptTemplateForFeatures(features)
 
       ux.action.stop(Icons.checkmark)
@@ -63,7 +63,7 @@ export default class GenerateTypes extends Command {
           Fs.mkdirSync(outputPath)
           Fs.writeFileSync(outputPath + '/.gitkeep', '')
 
-          ux.action.stop(`✔ Created directory ${outputPath}`)
+          ux.action.stop(`${Icons.checkmark} Created directory ${outputPath}`)
         }
       }
 

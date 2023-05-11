@@ -1,10 +1,11 @@
-import {Command} from '@oclif/core'
+import {Args, Command} from '@oclif/core'
 import {baseGrowthBookCliFlags} from '../../utils/cli'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
+import {MetricsRepository} from '../../repositories/metrics.repository'
 
-export default class {{pascalCase namespace}}{{pascalCase command}} extends Command {
-  static description = '{{description}}'
+export default class MetricsGet extends Command {
+  static description = 'Get a single metric by ID'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
@@ -14,22 +15,33 @@ export default class {{pascalCase namespace}}{{pascalCase command}} extends Comm
     ...baseGrowthBookCliFlags,
   }
 
-  static args = {}
+  static args = {
+    metricId: Args.string({
+      description: 'Metric ID',
+      required: true,
+    }),
+  }
 
   async run(): Promise<void> {
     const {
-      args: {},
+      args: {
+        metricId,
+      },
       flags: {
         profile,
         apiBaseUrl,
       },
-    } = await this.parse({{pascalCase namespace}}{{pascalCase command}})
+    } = await this.parse(MetricsGet)
     const profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
     const {apiKey, apiBaseUrl: configApiBaseUrl} = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
     const baseUrlUsed = apiBaseUrl || configApiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
 
-    // TODO: Delete this
-    this.log(`hello from command {{kebabCase namespace}}:{{kebabCase command}} - flags: profile = ${profileUsed}, base URL = ${baseUrlUsed}, API key = ${[...apiKey].map((c, i) => i >= 10 ? '•' : c).join('')}`)
-    this.log(`Run the following command for details: \n $ growthbook ${this.id} --help`)
+    const metricsRepo = new MetricsRepository({
+      apiKey,
+      apiBaseUrl: baseUrlUsed,
+    })
+    const metric = await metricsRepo.getMetric(metricId)
+
+    this.logJson(metric)
   }
 }

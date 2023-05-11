@@ -10,10 +10,17 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth`](#growthbook-auth)
 * [`growthbook auth login`](#growthbook-auth-login)
 * [`growthbook auth logout`](#growthbook-auth-logout)
+* [`growthbook experiments get ID`](#growthbook-experiments-get-id)
+* [`growthbook experiments list`](#growthbook-experiments-list)
+* [`growthbook experiments results EXPERIMENTID`](#growthbook-experiments-results-experimentid)
 * [`growthbook features`](#growthbook-features)
 * [`growthbook features generate-types`](#growthbook-features-generate-types)
+* [`growthbook features get FEATUREKEY`](#growthbook-features-get-featurekey)
+* [`growthbook features list`](#growthbook-features-list)
 * [`growthbook features toggle FEATUREKEY`](#growthbook-features-toggle-featurekey)
 * [`growthbook help [COMMANDS]`](#growthbook-help-commands)
+* [`growthbook metrics get METRICID`](#growthbook-metrics-get-metricid)
+* [`growthbook metrics list`](#growthbook-metrics-list)
 
 ## `growthbook auth`
 
@@ -52,6 +59,80 @@ DESCRIPTION
   Removes GrowthBook API key configurations
 ```
 
+## `growthbook experiments get ID`
+
+Get a single experiment by ID
+
+```
+USAGE
+  $ growthbook experiments get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Experiment ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single experiment by ID
+
+EXAMPLES
+  $ growthbook experiments get
+```
+
+## `growthbook experiments list`
+
+Get all experiments
+
+```
+USAGE
+  $ growthbook experiments list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--project <value>]
+    [--datasource <value>] [--experiment <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --datasource=<value>      Datasource ID filter
+  --experiment=<value>      Filter the returned list by the experiment tracking key (id)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+  --project=<value>         Project ID filter
+
+DESCRIPTION
+  Get all experiments
+
+EXAMPLES
+  $ growthbook experiments list
+```
+
+## `growthbook experiments results EXPERIMENTID`
+
+Get results for an experiment with optional phase and dimension filtering
+
+```
+USAGE
+  $ growthbook experiments results EXPERIMENTID [-u <value>] [-p <value>] [--dimension <value>] [--phase <value>]
+
+ARGUMENTS
+  EXPERIMENTID  ID of the experiment
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --dimension=<value>
+  --phase=<value>
+
+DESCRIPTION
+  Get results for an experiment with optional phase and dimension filtering
+
+EXAMPLES
+  $ growthbook experiments results
+```
+
 ## `growthbook features`
 
 ```
@@ -78,6 +159,52 @@ FLAGS
 
 DESCRIPTION
   Generate TypeScript types for all your features
+```
+
+## `growthbook features get FEATUREKEY`
+
+Get a feature by key
+
+```
+USAGE
+  $ growthbook features get FEATUREKEY [-u <value>] [-p <value>]
+
+ARGUMENTS
+  FEATUREKEY  Feature key
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a feature by key
+
+EXAMPLES
+  $ growthbook features get
+```
+
+## `growthbook features list`
+
+Get all features
+
+```
+USAGE
+  $ growthbook features list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--project <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+  --project=<value>         Project ID filter
+
+DESCRIPTION
+  Get all features
+
+EXAMPLES
+  $ growthbook features list
 ```
 
 ## `growthbook features toggle FEATUREKEY`
@@ -126,4 +253,50 @@ DESCRIPTION
 ```
 
 
+
+## `growthbook metrics get METRICID`
+
+Get a single metric by ID
+
+```
+USAGE
+  $ growthbook metrics get METRICID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  METRICID  Metric ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single metric by ID
+
+EXAMPLES
+  $ growthbook metrics get
+```
+
+## `growthbook metrics list`
+
+List all metrics
+
+```
+USAGE
+  $ growthbook metrics list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--project <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+  --project=<value>         Project ID filter
+
+DESCRIPTION
+  List all metrics
+
+EXAMPLES
+  $ growthbook metrics list
+```
 <!-- commandsstop -->

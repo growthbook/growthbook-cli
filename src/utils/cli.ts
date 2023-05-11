@@ -40,3 +40,16 @@ export const baseGrowthBookCliFlags = {
     required: false,
   }),
 }
+
+export const paginationCliFlags = {
+  limit: Flags.integer({
+    description: 'Limit for pagination',
+    required: false,
+    default: 100,
+  }),
+  offset: Flags.integer({
+    description: 'Offset for pagination',
+    required: false,
+    default: 0,
+  }),
+}
