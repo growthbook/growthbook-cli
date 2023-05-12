@@ -24,6 +24,11 @@ export default class GenerateTypes extends Command {
       description: `Output path for the ${GROWTHBOOK_APP_FEATURES_FILENAME} file. All directories in this path should exist. If not provided, the directory ${DEFAULT_GROWTHBOOK_TYPES_DESTINATION} will be created in the current working directory.`,
       required: false,
     }),
+    filename: Flags.string({
+      char: 'f',
+      description: `Output filename for the generated types. If not provided, the filename ${GROWTHBOOK_APP_FEATURES_FILENAME} will be used.`,
+      required: false,
+    }),
   }
 
   static args = {}
@@ -31,6 +36,7 @@ export default class GenerateTypes extends Command {
   async run(): Promise<void> {
     const {flags: {
       output,
+      filename,
       apiBaseUrl,
       profile,
     }} = await this.parse(GenerateTypes)
@@ -67,19 +73,24 @@ export default class GenerateTypes extends Command {
         }
       }
 
-      this.writeTypeScriptFile(outputPath, typeScriptOutput)
+      let outputFilename = GROWTHBOOK_APP_FEATURES_FILENAME
+      if (filename) {
+        outputFilename = filename.endsWith('.ts') ? filename : filename + '.ts'
+      }
+
+      this.writeTypeScriptFile(outputPath, outputFilename, typeScriptOutput)
     } catch (error) {
       this.error('💥 There was an error fetching the features' + error)
     }
   }
 
-  private writeTypeScriptFile(outputPath: string, typeScriptContents: string) {
+  private writeTypeScriptFile(outputPath: string, outputFilename: string, typeScriptContents: string) {
     ux.action.start('Writing types to disk')
 
     try {
       const fullyQualifiedPath = Path.resolve(process.cwd(), outputPath)
 
-      Fs.writeFileSync(fullyQualifiedPath + '/' + GROWTHBOOK_APP_FEATURES_FILENAME, typeScriptContents)
+      Fs.writeFileSync(fullyQualifiedPath + '/' + outputFilename, typeScriptContents)
 
       ux.action.stop(Icons.checkmark)
       this.log(`${Icons.checkmark} Successfully wrote TypeScript definitions to ${fullyQualifiedPath}`)

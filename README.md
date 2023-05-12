@@ -153,6 +153,7 @@ USAGE
 FLAGS
   -o, --output=<value>      Output path for the app-features.ts file. All directories in this path should exist. If not
                             provided, the directory ./growthbook-types will be created in the current working directory.
+  -f, --filename=<value>    Output filename, which defaults to app-features.ts if not provided.
   -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
   -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
                             https://api.growthbook.io)
