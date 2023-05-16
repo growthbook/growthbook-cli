@@ -1,8 +1,11 @@
 import * as Fs from 'node:fs'
 import {Args, Command, Flags, ux} from '@oclif/core'
-import {baseGrowthBookCliFlags} from '../../utils/cli'
+import {baseGrowthBookCliFlags, Icons} from '../../utils/cli'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
+import {MetricsRepository} from '../../repositories/metrics.repository'
+import {PostMetricRequest} from '../../generated/api'
+import {errorStringFromResponse} from '../../utils/http.utils'
 
 export default class MetricsCreate extends Command {
   static description = 'Create a metric from file or standard in'
@@ -17,6 +20,11 @@ export default class MetricsCreate extends Command {
     filePath: Flags.string({
       char: 'f',
       description: 'Path to file',
+      required: false,
+    }),
+    output: Flags.string({
+      char: 'o',
+      description: 'Path to output file, e.g. created-metric.json',
       required: false,
     }),
   }
@@ -37,6 +45,7 @@ export default class MetricsCreate extends Command {
         profile,
         apiBaseUrl,
         filePath,
+        output,
       },
     } = await this.parse(MetricsCreate)
     const profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
@@ -64,12 +73,35 @@ export default class MetricsCreate extends Command {
       this.error('Unable to parse payload')
     }
 
-    // this.log(`Payload: ${payload}`)
-    // this.log(`Input: ${input}`)
+    ux.action.start('Posting parsed payload')
     this.logJson(parsedPayload)
 
-    // TODO: Delete this
-    this.log(`hello from command metrics:create - flags: profile = ${profileUsed}, base URL = ${baseUrlUsed}, API key = ${[...apiKey].map((c, i) => i >= 10 ? '•' : c).join('')}`)
-    this.log(`Run the following command for details: \n $ growthbook ${this.id} --help`)
+    const metricsRepo = new MetricsRepository({
+      apiKey,
+      apiBaseUrl: baseUrlUsed,
+    })
+
+    try {
+      // Create the metric
+      const createdMetric = await metricsRepo.createMetric(parsedPayload as PostMetricRequest)
+      this.logJson(createdMetric)
+      ux.action.stop(`${Icons.checkmark} Successfully created metric ${createdMetric.id}`)
+
+      // If provided an output path, write to file
+      if (output) {
+        const outputContents = JSON.stringify(createdMetric, null, 2)
+        ux.action.start('Writing created metric to file')
+
+        try {
+          Fs.writeFileSync(output, outputContents)
+        } catch (error) {
+          this.error(`${error}`)
+          ux.action.stop(`${Icons.xSymbol} Failed to write metric output to file path ${output}`)
+        }
+      }
+    } catch (error) {
+      this.error(errorStringFromResponse(error))
+      ux.action.stop(`${Icons.xSymbol} Failed to create metric`)
+    }
   }
 }

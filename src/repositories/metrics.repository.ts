@@ -1,5 +1,5 @@
 import {BaseApiRepository, BaseRepository, Pagination} from './base.repository'
-import {Metric, MetricsApi} from '../generated/api'
+import {Metric, MetricsApi, PostMetricRequest} from '../generated/api'
 import {AxiosResponse} from 'axios'
 
 type ListMetricsResponse = Pagination & {
@@ -19,6 +19,13 @@ export class MetricsRepository extends BaseRepository implements BaseApiReposito
     const result: AxiosResponse<ListMetricsResponse> = await metricsApi.listMetrics(limit, offset, projectId)
 
     return result.data
+  }
+
+  public async createMetric(metric: PostMetricRequest): Promise<Metric> {
+    const metricsApi = this.api()
+    const result: AxiosResponse<{ metric: Metric }> = await metricsApi.postMetric(metric)
+
+    return result.data.metric
   }
 
   api(): MetricsApi  {
