@@ -9,6 +9,7 @@ export default class MetricsCreate extends Command {
 
   static examples = [
     'cat my-metric.json | <%= config.bin %> <%= command.id %>',
+    '<%= config.bin %> <%= command.id %> --filePath my-metric.json',
   ]
 
   static flags = {

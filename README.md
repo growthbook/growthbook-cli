@@ -279,6 +279,8 @@ DESCRIPTION
 
 EXAMPLES
   cat my-metric.json | growthbook metrics create
+
+  $ growthbook metrics create --filePath my-metric.json
 ```
 
 ## `growthbook metrics get METRICID`
