@@ -94,6 +94,7 @@ export default class MetricsCreate extends Command {
 
         try {
           Fs.writeFileSync(output, outputContents)
+          ux.action.stop(`${Icons.checkmark} Output created metric to ${output}`)
         } catch (error) {
           this.error(`${error}`)
           ux.action.stop(`${Icons.xSymbol} Failed to write metric output to file path ${output}`)
