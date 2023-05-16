@@ -1,5 +1,5 @@
 import * as Fs from 'node:fs'
-import {Args, Command, Flags, ux} from '@oclif/core'
+import {Args, Command, ux} from '@oclif/core'
 import {baseGrowthBookCliFlags, fileInputOutputCliFlags, Icons} from '../../utils/cli'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
