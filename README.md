@@ -19,6 +19,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook features list`](#growthbook-features-list)
 * [`growthbook features toggle FEATUREKEY`](#growthbook-features-toggle-featurekey)
 * [`growthbook help [COMMANDS]`](#growthbook-help-commands)
+* [`growthbook metrics create [INPUT]`](#growthbook-metrics-create-input)
 * [`growthbook metrics get METRICID`](#growthbook-metrics-get-metricid)
 * [`growthbook metrics list`](#growthbook-metrics-list)
 
@@ -148,12 +149,13 @@ Generate TypeScript types for all your features
 
 ```
 USAGE
-  $ growthbook features generate-types [-u <value>] [-p <value>] [-o <value>]
+  $ growthbook features generate-types [-u <value>] [-p <value>] [-o <value>] [-f <value>]
 
 FLAGS
+  -f, --filename=<value>    Output filename for the generated types. If not provided, the filename app-features.ts will
+                            be used.
   -o, --output=<value>      Output path for the app-features.ts file. All directories in this path should exist. If not
                             provided, the directory ./growthbook-types will be created in the current working directory.
-  -f, --filename=<value>    Output filename, which defaults to app-features.ts if not provided.
   -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
   -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
                             https://api.growthbook.io)
@@ -254,6 +256,30 @@ DESCRIPTION
 ```
 
 
+
+## `growthbook metrics create [INPUT]`
+
+Create a metric from file or standard in
+
+```
+USAGE
+  $ growthbook metrics create [INPUT] [-u <value>] [-p <value>] [-f <value>]
+
+ARGUMENTS
+  INPUT  JSON payload of the metric to be created
+
+FLAGS
+  -f, --filePath=<value>    Path to file
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Create a metric from file or standard in
+
+EXAMPLES
+  cat my-metric.json | growthbook metrics create
+```
 
 ## `growthbook metrics get METRICID`
 
