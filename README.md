@@ -266,11 +266,12 @@ USAGE
   $ growthbook metrics create [INPUT] [-u <value>] [-p <value>] [-f <value>] [-o <value>]
 
 ARGUMENTS
-  INPUT  JSON payload of the metric to be created
+  INPUT  JSON payload of the metric to be created. Docs:
+         https://docs.growthbook.io/api/#tag/metrics/operation/postMetric
 
 FLAGS
-  -f, --filePath=<value>    Path to file
-  -o, --output=<value>      Path to output file, e.g. created-metric.json
+  -f, --filePath=<value>    Path to input file
+  -o, --output=<value>      Path to output file, e.g. created-resource.json
   -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
   -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
                             https://api.growthbook.io)

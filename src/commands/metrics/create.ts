@@ -1,11 +1,11 @@
 import * as Fs from 'node:fs'
 import {Args, Command, Flags, ux} from '@oclif/core'
-import {baseGrowthBookCliFlags, Icons} from '../../utils/cli'
+import {baseGrowthBookCliFlags, fileInputOutputCliFlags, Icons} from '../../utils/cli'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
 import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
 import {MetricsRepository} from '../../repositories/metrics.repository'
 import {PostMetricRequest} from '../../generated/api'
-import {errorStringFromResponse} from '../../utils/http.utils'
+import {errorStringFromResponse} from '../../utils/http'
 
 export default class MetricsCreate extends Command {
   static description = 'Create a metric from file or standard in'
@@ -17,21 +17,12 @@ export default class MetricsCreate extends Command {
 
   static flags = {
     ...baseGrowthBookCliFlags,
-    filePath: Flags.string({
-      char: 'f',
-      description: 'Path to file',
-      required: false,
-    }),
-    output: Flags.string({
-      char: 'o',
-      description: 'Path to output file, e.g. created-metric.json',
-      required: false,
-    }),
+    ...fileInputOutputCliFlags,
   }
 
   static args = {
     input: Args.string({
-      description: 'JSON payload of the metric to be created',
+      description: 'JSON payload of the metric to be created. Docs: https://docs.growthbook.io/api/#tag/metrics/operation/postMetric',
       required: false,
     }),
   }

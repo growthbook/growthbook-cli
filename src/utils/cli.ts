@@ -41,6 +41,22 @@ export const baseGrowthBookCliFlags = {
   }),
 }
 
+/**
+ * Flags for supporting reading from file and outputting to file
+ */
+export const fileInputOutputCliFlags = {
+  filePath: Flags.string({
+    char: 'f',
+    description: 'Path to input file',
+    required: false,
+  }),
+  output: Flags.string({
+    char: 'o',
+    description: 'Path to output file, e.g. created-resource.json',
+    required: false,
+  }),
+}
+
 export const paginationCliFlags = {
   limit: Flags.integer({
     description: 'Limit for pagination',
