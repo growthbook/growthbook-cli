@@ -12,7 +12,7 @@ Built using [oclif](https://github.com/oclif/oclif). See the [oclif README](./oc
 
 ## 💻 Development
 
-Generate commands and command "namespaces" with Plop.js:
+Generate root commands and sub-commands with Plop.js:
 
     yarn plop
 

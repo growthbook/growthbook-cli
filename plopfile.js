@@ -20,12 +20,12 @@ module.exports = function (plop) {
   })
 
   plop.setGenerator('command', {
-    description: 'Generates a command. This is the final command inside of the namespace folder, e.g. for the command `growthbook features generate types`, `generate types` would be the command',
+    description: 'Generates a command. This is the sub-command inside of the command folder, e.g. for the command `growthbook features generate types`, `generate types` would be the command',
     prompts: [
       {
         type: 'input',
-        name: 'namespace',
-        message: 'What is the root command (or namespace) for this command? e.g. features',
+        name: 'root',
+        message: 'What is the root command for this command? e.g. features',
       },
       {
         type: 'input',
@@ -43,24 +43,24 @@ module.exports = function (plop) {
         type: 'add',
         skipIfExists: true,
         path:
-          './src/commands/{{kebabCase namespace}}/{{kebabCase command}}.ts',
+          './src/commands/{{kebabCase root}}/{{kebabCase command}}.ts',
         templateFile: './plop-templates/command.hbs',
       },
     ],
   })
 
-  plop.setGenerator('namespace', {
-    description: 'Generates a command namespace. This is the folder it lives in and the root command, e.g. for the command `growthbook features generate types`, `features` would be the namespace',
+  plop.setGenerator('root command', {
+    description: 'Generates a command. This is the folder it lives in and the root command for that group of commands, e.g. for the command `growthbook features generate types`, `features` would be the root command',
     prompts: [
       {
         type: 'input',
         name: 'command',
-        message: 'What is the namespace for this command? e.g. features',
+        message: 'What is the name of the root command? e.g. features',
       },
       {
         type: 'input',
         name: 'description',
-        message: 'Describe this command namespace. This will be the text in the help text.',
+        message: 'Describe this command. This will be the text in the help text.',
       },
     ],
     actions: [
@@ -69,7 +69,7 @@ module.exports = function (plop) {
         skipIfExists: true,
         path:
           './src/commands/{{kebabCase command}}/index.ts',
-        templateFile: './plop-templates/namespace.hbs',
+        templateFile: './plop-templates/root-command.hbs',
       },
     ],
   })
