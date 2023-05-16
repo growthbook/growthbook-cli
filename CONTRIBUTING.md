@@ -56,7 +56,7 @@ The style of this project is somewhat opinionated. Code generators have been pro
 
 ### Adding commands
 
-Generate a new command using `yarn plop command`. This will create a command with some default boilerplate including code to support standard arguments all commands take.
+Generate a new command using `yarn plop command` for a sub-command or `yarn plop root command` for a root command. This will create a command with some default boilerplate including code to support standard arguments all commands take.
 
 Commonly-used command flags and arguments are available in `./src/utils/cli.ts`:
 
