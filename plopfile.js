@@ -48,29 +48,4 @@ module.exports = function (plop) {
       },
     ],
   })
-
-  plop.setGenerator('root command', {
-    description: 'Generates a command. This is the folder it lives in and the root command for that group of commands, e.g. for the command `growthbook features generate types`, `features` would be the root command',
-    prompts: [
-      {
-        type: 'input',
-        name: 'command',
-        message: 'What is the name of the root command? e.g. features',
-      },
-      {
-        type: 'input',
-        name: 'description',
-        message: 'Describe this command. This will be the text in the help text.',
-      },
-    ],
-    actions: [
-      {
-        type: 'add',
-        skipIfExists: true,
-        path:
-          './src/commands/{{kebabCase command}}/index.ts',
-        templateFile: './plop-templates/root-command.hbs',
-      },
-    ],
-  })
 }
