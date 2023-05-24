@@ -27,6 +27,8 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook metrics list`](#growthbook-metrics-list)
 * [`growthbook projects get PROJECTID`](#growthbook-projects-get-projectid)
 * [`growthbook projects list`](#growthbook-projects-list)
+* [`growthbook segments get ID`](#growthbook-segments-get-id)
+* [`growthbook segments list`](#growthbook-segments-list)
 
 ## `growthbook auth`
 
@@ -462,5 +464,51 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook projects list
+```
+
+## `growthbook segments get ID`
+
+Get a single segment used during experiment analysis
+
+```
+USAGE
+  $ growthbook segments get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Segment ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single segment used during experiment analysis
+
+EXAMPLES
+  $ growthbook segments get
+```
+
+## `growthbook segments list`
+
+Get all segments used during experiment analysis
+
+```
+USAGE
+  $ growthbook segments list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--dataSourceId <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --dataSourceId=<value>    Data source ID to filter by
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  Get all segments used during experiment analysis
+
+EXAMPLES
+  $ growthbook segments list
 ```
 <!-- commandsstop -->
