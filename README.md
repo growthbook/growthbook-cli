@@ -31,6 +31,8 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook sdkconnections list`](#growthbook-sdkconnections-list)
 * [`growthbook segments get ID`](#growthbook-segments-get-id)
 * [`growthbook segments list`](#growthbook-segments-list)
+* [`growthbook vcs get ID`](#growthbook-vcs-get-id)
+* [`growthbook vcs list`](#growthbook-vcs-list)
 
 ## `growthbook auth`
 
@@ -558,5 +560,52 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook segments list
+```
+
+## `growthbook vcs get ID`
+
+Get a Visual Changeset created in the visual editor
+
+```
+USAGE
+  $ growthbook vcs get ID [-u <value>] [-p <value>] [-e 0|1]
+
+ARGUMENTS
+  ID  Visual Changeset ID
+
+FLAGS
+  -e, --includeExperiment=<option>  Include the associated experiment in payload
+                                    <options: 0|1>
+  -p, --profile=<value>             Optional profile (for projects that use multiple GrowthBook instances) default:
+                                    default)
+  -u, --apiBaseUrl=<value>          Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                                    https://api.growthbook.io)
+
+DESCRIPTION
+  Get a Visual Changeset created in the visual editor
+
+EXAMPLES
+  $ growthbook vcs get
+```
+
+## `growthbook vcs list`
+
+List Visual Changesets created in the visual editor
+
+```
+USAGE
+  $ growthbook vcs list -e <value> [-u <value>] [-p <value>]
+
+FLAGS
+  -e, --experiment=<value>  (required) Filter by experiment
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  List Visual Changesets created in the visual editor
+
+EXAMPLES
+  $ growthbook vcs list
 ```
 <!-- commandsstop -->
