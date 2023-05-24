@@ -12,6 +12,8 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth logout`](#growthbook-auth-logout)
 * [`growthbook datasources get ID`](#growthbook-datasources-get-id)
 * [`growthbook datasources list`](#growthbook-datasources-list)
+* [`growthbook dimensions get ID`](#growthbook-dimensions-get-id)
+* [`growthbook dimensions list`](#growthbook-dimensions-list)
 * [`growthbook experiments get ID`](#growthbook-experiments-get-id)
 * [`growthbook experiments list`](#growthbook-experiments-list)
 * [`growthbook experiments results EXPERIMENTID`](#growthbook-experiments-results-experimentid)
@@ -107,6 +109,52 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook datasources list
+```
+
+## `growthbook dimensions get ID`
+
+Get a single dimension used during experiment analysis
+
+```
+USAGE
+  $ growthbook dimensions get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Dimension ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single dimension used during experiment analysis
+
+EXAMPLES
+  $ growthbook dimensions get
+```
+
+## `growthbook dimensions list`
+
+Get all dimensions used during experiment analysis
+
+```
+USAGE
+  $ growthbook dimensions list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--dataSourceId <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --dataSourceId=<value>    Data source ID to filter by
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  Get all dimensions used during experiment analysis
+
+EXAMPLES
+  $ growthbook dimensions list
 ```
 
 ## `growthbook experiments get ID`
