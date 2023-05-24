@@ -10,10 +10,10 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth`](#growthbook-auth)
 * [`growthbook auth login`](#growthbook-auth-login)
 * [`growthbook auth logout`](#growthbook-auth-logout)
+* [`growthbook datasources get ID`](#growthbook-datasources-get-id)
 * [`growthbook experiments get ID`](#growthbook-experiments-get-id)
 * [`growthbook experiments list`](#growthbook-experiments-list)
 * [`growthbook experiments results EXPERIMENTID`](#growthbook-experiments-results-experimentid)
-* [`growthbook features`](#growthbook-features)
 * [`growthbook features generate-types`](#growthbook-features-generate-types)
 * [`growthbook features get FEATUREKEY`](#growthbook-features-get-featurekey)
 * [`growthbook features list`](#growthbook-features-list)
@@ -58,6 +58,29 @@ FLAGS
 
 DESCRIPTION
   Removes GrowthBook API key configurations
+```
+
+## `growthbook datasources get ID`
+
+Get a single datasource by ID
+
+```
+USAGE
+  $ growthbook datasources get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Datasource ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single datasource by ID
+
+EXAMPLES
+  $ growthbook datasources get
 ```
 
 ## `growthbook experiments get ID`
@@ -133,15 +156,6 @@ DESCRIPTION
 EXAMPLES
   $ growthbook experiments results
 ```
-
-## `growthbook features`
-
-```
-USAGE
-  $ growthbook features
-```
-
-
 
 ## `growthbook features generate-types`
 
