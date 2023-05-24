@@ -27,6 +27,8 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook metrics list`](#growthbook-metrics-list)
 * [`growthbook projects get PROJECTID`](#growthbook-projects-get-projectid)
 * [`growthbook projects list`](#growthbook-projects-list)
+* [`growthbook sdkconnections get ID`](#growthbook-sdkconnections-get-id)
+* [`growthbook sdkconnections list`](#growthbook-sdkconnections-list)
 * [`growthbook segments get ID`](#growthbook-segments-get-id)
 * [`growthbook segments list`](#growthbook-segments-list)
 
@@ -464,6 +466,52 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook projects list
+```
+
+## `growthbook sdkconnections get ID`
+
+Client keys and settings for connecting SDKs to a GrowthBook instance
+
+```
+USAGE
+  $ growthbook sdkconnections get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  SDK connection ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Client keys and settings for connecting SDKs to a GrowthBook instance
+
+EXAMPLES
+  $ growthbook sdkconnections get
+```
+
+## `growthbook sdkconnections list`
+
+Client keys and settings for connecting SDKs to a GrowthBook instance
+
+```
+USAGE
+  $ growthbook sdkconnections list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--projectId <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+  --projectId=<value>       Project ID to filter by
+
+DESCRIPTION
+  Client keys and settings for connecting SDKs to a GrowthBook instance
+
+EXAMPLES
+  $ growthbook sdkconnections list
 ```
 
 ## `growthbook segments get ID`
