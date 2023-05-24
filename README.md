@@ -23,6 +23,8 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook metrics create [INPUT]`](#growthbook-metrics-create-input)
 * [`growthbook metrics get METRICID`](#growthbook-metrics-get-metricid)
 * [`growthbook metrics list`](#growthbook-metrics-list)
+* [`growthbook projects get PROJECTID`](#growthbook-projects-get-projectid)
+* [`growthbook projects list`](#growthbook-projects-list)
 
 ## `growthbook auth`
 
@@ -367,5 +369,50 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook metrics list
+```
+
+## `growthbook projects get PROJECTID`
+
+Get a single project by ID
+
+```
+USAGE
+  $ growthbook projects get PROJECTID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  PROJECTID  Project ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single project by ID
+
+EXAMPLES
+  $ growthbook projects get
+```
+
+## `growthbook projects list`
+
+List all projects
+
+```
+USAGE
+  $ growthbook projects list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  List all projects
+
+EXAMPLES
+  $ growthbook projects list
 ```
 <!-- commandsstop -->
