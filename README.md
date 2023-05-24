@@ -11,6 +11,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth login`](#growthbook-auth-login)
 * [`growthbook auth logout`](#growthbook-auth-logout)
 * [`growthbook datasources get ID`](#growthbook-datasources-get-id)
+* [`growthbook datasources list`](#growthbook-datasources-list)
 * [`growthbook experiments get ID`](#growthbook-experiments-get-id)
 * [`growthbook experiments list`](#growthbook-experiments-list)
 * [`growthbook experiments results EXPERIMENTID`](#growthbook-experiments-results-experimentid)
@@ -81,6 +82,29 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook datasources get
+```
+
+## `growthbook datasources list`
+
+Get all data sources
+
+```
+USAGE
+  $ growthbook datasources list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--project <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+  --project=<value>         Project ID filter
+
+DESCRIPTION
+  Get all data sources
+
+EXAMPLES
+  $ growthbook datasources list
 ```
 
 ## `growthbook experiments get ID`
