@@ -1,6 +1,6 @@
 {
   "name": "growthbook",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The GrowthBook command-line interface (CLI) for working with the GrowthBook A/B testing, feature flagging, and experimentation platform",
   "bin": {
     "growthbook": "./bin/run"
