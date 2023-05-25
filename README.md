@@ -31,6 +31,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook savedgroups delete ID`](#growthbook-savedgroups-delete-id)
 * [`growthbook savedgroups get ID`](#growthbook-savedgroups-get-id)
 * [`growthbook savedgroups list`](#growthbook-savedgroups-list)
+* [`growthbook savedgroups update [INPUT]`](#growthbook-savedgroups-update-input)
 * [`growthbook sdkconnections get ID`](#growthbook-sdkconnections-get-id)
 * [`growthbook sdkconnections list`](#growthbook-sdkconnections-list)
 * [`growthbook segments get ID`](#growthbook-segments-get-id)
@@ -568,6 +569,35 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook savedgroups list
+```
+
+## `growthbook savedgroups update [INPUT]`
+
+Update an existing saved group.
+
+```
+USAGE
+  $ growthbook savedgroups update [INPUT] -i <value> [-u <value>] [-p <value>] [-f <value>] [-o <value>]
+
+ARGUMENTS
+  INPUT  JSON payload of the update payload. Docs:
+         https://docs.growthbook.io/api/#tag/saved-groups/operation/updateSavedGroup
+
+FLAGS
+  -f, --filePath=<value>    Path to input file
+  -i, --id=<value>          (required) Saved group ID to update
+  -o, --output=<value>      Path to output file, e.g. created-resource.json
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Update an existing saved group.
+
+EXAMPLES
+  $ growthbook savedgroups update
+
+  $ growthbook savedgroups update --filePath input.json
 ```
 
 ## `growthbook sdkconnections get ID`

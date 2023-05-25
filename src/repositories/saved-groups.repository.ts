@@ -1,5 +1,11 @@
 import {BaseApiRepository, BaseRepository, Pagination} from './base.repository'
-import {DeleteSavedGroup200Response, PostSavedGroupRequest, SavedGroup, SavedGroupsApi} from '../generated/api'
+import {
+  DeleteSavedGroup200Response,
+  PostSavedGroupRequest,
+  SavedGroup,
+  SavedGroupsApi,
+  UpdateSavedGroupRequest,
+} from '../generated/api'
 import {AxiosResponse} from 'axios'
 
 export class SavedGroupsRepository extends BaseRepository implements BaseApiRepository<SavedGroupsApi> {
@@ -27,6 +33,13 @@ export class SavedGroupsRepository extends BaseRepository implements BaseApiRepo
   public async createSavedGroup(payload: PostSavedGroupRequest): Promise<SavedGroup> {
     const api = this.api()
     const result = await api.postSavedGroup(payload)
+
+    return result.data.savedGroup
+  }
+
+  public async updateSavedGroup(id: string, payload: UpdateSavedGroupRequest): Promise<SavedGroup> {
+    const api = this.api()
+    const result = await api.updateSavedGroup(id, payload)
 
     return result.data.savedGroup
   }
