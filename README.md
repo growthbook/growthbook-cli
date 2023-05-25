@@ -10,10 +10,13 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook auth`](#growthbook-auth)
 * [`growthbook auth login`](#growthbook-auth-login)
 * [`growthbook auth logout`](#growthbook-auth-logout)
+* [`growthbook datasources get ID`](#growthbook-datasources-get-id)
+* [`growthbook datasources list`](#growthbook-datasources-list)
+* [`growthbook dimensions get ID`](#growthbook-dimensions-get-id)
+* [`growthbook dimensions list`](#growthbook-dimensions-list)
 * [`growthbook experiments get ID`](#growthbook-experiments-get-id)
 * [`growthbook experiments list`](#growthbook-experiments-list)
 * [`growthbook experiments results EXPERIMENTID`](#growthbook-experiments-results-experimentid)
-* [`growthbook features`](#growthbook-features)
 * [`growthbook features generate-types`](#growthbook-features-generate-types)
 * [`growthbook features get FEATUREKEY`](#growthbook-features-get-featurekey)
 * [`growthbook features list`](#growthbook-features-list)
@@ -22,6 +25,19 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook metrics create [INPUT]`](#growthbook-metrics-create-input)
 * [`growthbook metrics get METRICID`](#growthbook-metrics-get-metricid)
 * [`growthbook metrics list`](#growthbook-metrics-list)
+* [`growthbook projects get PROJECTID`](#growthbook-projects-get-projectid)
+* [`growthbook projects list`](#growthbook-projects-list)
+* [`growthbook savedgroups create [INPUT]`](#growthbook-savedgroups-create-input)
+* [`growthbook savedgroups delete ID`](#growthbook-savedgroups-delete-id)
+* [`growthbook savedgroups get ID`](#growthbook-savedgroups-get-id)
+* [`growthbook savedgroups list`](#growthbook-savedgroups-list)
+* [`growthbook savedgroups update [INPUT]`](#growthbook-savedgroups-update-input)
+* [`growthbook sdkconnections get ID`](#growthbook-sdkconnections-get-id)
+* [`growthbook sdkconnections list`](#growthbook-sdkconnections-list)
+* [`growthbook segments get ID`](#growthbook-segments-get-id)
+* [`growthbook segments list`](#growthbook-segments-list)
+* [`growthbook vcs get ID`](#growthbook-vcs-get-id)
+* [`growthbook vcs list`](#growthbook-vcs-list)
 
 ## `growthbook auth`
 
@@ -58,6 +74,98 @@ FLAGS
 
 DESCRIPTION
   Removes GrowthBook API key configurations
+```
+
+## `growthbook datasources get ID`
+
+Get a single datasource by ID
+
+```
+USAGE
+  $ growthbook datasources get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Datasource ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single datasource by ID
+
+EXAMPLES
+  $ growthbook datasources get
+```
+
+## `growthbook datasources list`
+
+Get all data sources
+
+```
+USAGE
+  $ growthbook datasources list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--project <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+  --project=<value>         Project ID filter
+
+DESCRIPTION
+  Get all data sources
+
+EXAMPLES
+  $ growthbook datasources list
+```
+
+## `growthbook dimensions get ID`
+
+Get a single dimension used during experiment analysis
+
+```
+USAGE
+  $ growthbook dimensions get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Dimension ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single dimension used during experiment analysis
+
+EXAMPLES
+  $ growthbook dimensions get
+```
+
+## `growthbook dimensions list`
+
+Get all dimensions used during experiment analysis
+
+```
+USAGE
+  $ growthbook dimensions list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--dataSourceId <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --dataSourceId=<value>    Data source ID to filter by
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  Get all dimensions used during experiment analysis
+
+EXAMPLES
+  $ growthbook dimensions list
 ```
 
 ## `growthbook experiments get ID`
@@ -133,15 +241,6 @@ DESCRIPTION
 EXAMPLES
   $ growthbook experiments results
 ```
-
-## `growthbook features`
-
-```
-USAGE
-  $ growthbook features
-```
-
-
 
 ## `growthbook features generate-types`
 
@@ -329,5 +428,314 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook metrics list
+```
+
+## `growthbook projects get PROJECTID`
+
+Get a single project by ID
+
+```
+USAGE
+  $ growthbook projects get PROJECTID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  PROJECTID  Project ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single project by ID
+
+EXAMPLES
+  $ growthbook projects get
+```
+
+## `growthbook projects list`
+
+List all projects
+
+```
+USAGE
+  $ growthbook projects list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  List all projects
+
+EXAMPLES
+  $ growthbook projects list
+```
+
+## `growthbook savedgroups create [INPUT]`
+
+Create a saved group
+
+```
+USAGE
+  $ growthbook savedgroups create [INPUT] [-u <value>] [-p <value>] [-f <value>] [-o <value>]
+
+ARGUMENTS
+  INPUT  JSON payload of the saved group to be created. Docs:
+         https://docs.growthbook.io/api/#tag/saved-groups/operation/postSavedGroup
+
+FLAGS
+  -f, --filePath=<value>    Path to input file
+  -o, --output=<value>      Path to output file, e.g. created-resource.json
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Create a saved group
+
+EXAMPLES
+  $ growthbook savedgroups create
+
+  $ growthbook savedgroups create --filePath input.json
+```
+
+## `growthbook savedgroups delete ID`
+
+Delete a saved group
+
+```
+USAGE
+  $ growthbook savedgroups delete ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Saved Group ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Delete a saved group
+
+EXAMPLES
+  $ growthbook savedgroups delete
+```
+
+## `growthbook savedgroups get ID`
+
+Get a single saved group by ID
+
+```
+USAGE
+  $ growthbook savedgroups get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Saved Group ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single saved group by ID
+
+EXAMPLES
+  $ growthbook savedgroups get
+```
+
+## `growthbook savedgroups list`
+
+Defined sets of attribute values which can be used with feature rules for targeting features at particular users.
+
+```
+USAGE
+  $ growthbook savedgroups list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  Defined sets of attribute values which can be used with feature rules for targeting features at particular users.
+
+EXAMPLES
+  $ growthbook savedgroups list
+```
+
+## `growthbook savedgroups update [INPUT]`
+
+Update an existing saved group.
+
+```
+USAGE
+  $ growthbook savedgroups update [INPUT] -i <value> [-u <value>] [-p <value>] [-f <value>] [-o <value>]
+
+ARGUMENTS
+  INPUT  JSON payload of the update payload. Docs:
+         https://docs.growthbook.io/api/#tag/saved-groups/operation/updateSavedGroup
+
+FLAGS
+  -f, --filePath=<value>    Path to input file
+  -i, --id=<value>          (required) Saved group ID to update
+  -o, --output=<value>      Path to output file, e.g. created-resource.json
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Update an existing saved group.
+
+EXAMPLES
+  $ growthbook savedgroups update
+
+  $ growthbook savedgroups update --filePath input.json
+```
+
+## `growthbook sdkconnections get ID`
+
+Client keys and settings for connecting SDKs to a GrowthBook instance
+
+```
+USAGE
+  $ growthbook sdkconnections get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  SDK connection ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Client keys and settings for connecting SDKs to a GrowthBook instance
+
+EXAMPLES
+  $ growthbook sdkconnections get
+```
+
+## `growthbook sdkconnections list`
+
+Client keys and settings for connecting SDKs to a GrowthBook instance
+
+```
+USAGE
+  $ growthbook sdkconnections list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--projectId <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+  --projectId=<value>       Project ID to filter by
+
+DESCRIPTION
+  Client keys and settings for connecting SDKs to a GrowthBook instance
+
+EXAMPLES
+  $ growthbook sdkconnections list
+```
+
+## `growthbook segments get ID`
+
+Get a single segment used during experiment analysis
+
+```
+USAGE
+  $ growthbook segments get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Segment ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single segment used during experiment analysis
+
+EXAMPLES
+  $ growthbook segments get
+```
+
+## `growthbook segments list`
+
+Get all segments used during experiment analysis
+
+```
+USAGE
+  $ growthbook segments list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>] [--dataSourceId <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --dataSourceId=<value>    Data source ID to filter by
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  Get all segments used during experiment analysis
+
+EXAMPLES
+  $ growthbook segments list
+```
+
+## `growthbook vcs get ID`
+
+Get a Visual Changeset created in the visual editor
+
+```
+USAGE
+  $ growthbook vcs get ID [-u <value>] [-p <value>] [-e 0|1]
+
+ARGUMENTS
+  ID  Visual Changeset ID
+
+FLAGS
+  -e, --includeExperiment=<option>  Include the associated experiment in payload
+                                    <options: 0|1>
+  -p, --profile=<value>             Optional profile (for projects that use multiple GrowthBook instances) default:
+                                    default)
+  -u, --apiBaseUrl=<value>          Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                                    https://api.growthbook.io)
+
+DESCRIPTION
+  Get a Visual Changeset created in the visual editor
+
+EXAMPLES
+  $ growthbook vcs get
+```
+
+## `growthbook vcs list`
+
+List Visual Changesets created in the visual editor
+
+```
+USAGE
+  $ growthbook vcs list -e <value> [-u <value>] [-p <value>]
+
+FLAGS
+  -e, --experiment=<value>  (required) Filter by experiment
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  List Visual Changesets created in the visual editor
+
+EXAMPLES
+  $ growthbook vcs list
 ```
 <!-- commandsstop -->
