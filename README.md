@@ -27,6 +27,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook metrics list`](#growthbook-metrics-list)
 * [`growthbook projects get PROJECTID`](#growthbook-projects-get-projectid)
 * [`growthbook projects list`](#growthbook-projects-list)
+* [`growthbook savedgroups delete ID`](#growthbook-savedgroups-delete-id)
 * [`growthbook savedgroups get ID`](#growthbook-savedgroups-get-id)
 * [`growthbook savedgroups list`](#growthbook-savedgroups-list)
 * [`growthbook sdkconnections get ID`](#growthbook-sdkconnections-get-id)
@@ -470,6 +471,29 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook projects list
+```
+
+## `growthbook savedgroups delete ID`
+
+Delete a saved group
+
+```
+USAGE
+  $ growthbook savedgroups delete ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Saved Group ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Delete a saved group
+
+EXAMPLES
+  $ growthbook savedgroups delete
 ```
 
 ## `growthbook savedgroups get ID`
