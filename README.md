@@ -27,6 +27,8 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook metrics list`](#growthbook-metrics-list)
 * [`growthbook projects get PROJECTID`](#growthbook-projects-get-projectid)
 * [`growthbook projects list`](#growthbook-projects-list)
+* [`growthbook savedgroups get ID`](#growthbook-savedgroups-get-id)
+* [`growthbook savedgroups list`](#growthbook-savedgroups-list)
 * [`growthbook sdkconnections get ID`](#growthbook-sdkconnections-get-id)
 * [`growthbook sdkconnections list`](#growthbook-sdkconnections-list)
 * [`growthbook segments get ID`](#growthbook-segments-get-id)
@@ -468,6 +470,51 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook projects list
+```
+
+## `growthbook savedgroups get ID`
+
+Get a single saved group by ID
+
+```
+USAGE
+  $ growthbook savedgroups get ID [-u <value>] [-p <value>]
+
+ARGUMENTS
+  ID  Saved Group ID
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Get a single saved group by ID
+
+EXAMPLES
+  $ growthbook savedgroups get
+```
+
+## `growthbook savedgroups list`
+
+Defined sets of attribute values which can be used with feature rules for targeting features at particular users.
+
+```
+USAGE
+  $ growthbook savedgroups list [-u <value>] [-p <value>] [--limit <value>] [--offset <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --limit=<value>           [default: 100] Limit for pagination
+  --offset=<value>          Offset for pagination
+
+DESCRIPTION
+  Defined sets of attribute values which can be used with feature rules for targeting features at particular users.
+
+EXAMPLES
+  $ growthbook savedgroups list
 ```
 
 ## `growthbook sdkconnections get ID`
