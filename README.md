@@ -27,6 +27,7 @@ See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) document
 * [`growthbook metrics list`](#growthbook-metrics-list)
 * [`growthbook projects get PROJECTID`](#growthbook-projects-get-projectid)
 * [`growthbook projects list`](#growthbook-projects-list)
+* [`growthbook savedgroups create [INPUT]`](#growthbook-savedgroups-create-input)
 * [`growthbook savedgroups delete ID`](#growthbook-savedgroups-delete-id)
 * [`growthbook savedgroups get ID`](#growthbook-savedgroups-get-id)
 * [`growthbook savedgroups list`](#growthbook-savedgroups-list)
@@ -471,6 +472,34 @@ DESCRIPTION
 
 EXAMPLES
   $ growthbook projects list
+```
+
+## `growthbook savedgroups create [INPUT]`
+
+Create a saved group
+
+```
+USAGE
+  $ growthbook savedgroups create [INPUT] [-u <value>] [-p <value>] [-f <value>] [-o <value>]
+
+ARGUMENTS
+  INPUT  JSON payload of the saved group to be created. Docs:
+         https://docs.growthbook.io/api/#tag/saved-groups/operation/postSavedGroup
+
+FLAGS
+  -f, --filePath=<value>    Path to input file
+  -o, --output=<value>      Path to output file, e.g. created-resource.json
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+
+DESCRIPTION
+  Create a saved group
+
+EXAMPLES
+  $ growthbook savedgroups create
+
+  $ growthbook savedgroups create --filePath input.json
 ```
 
 ## `growthbook savedgroups delete ID`
