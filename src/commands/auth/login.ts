@@ -1,43 +1,71 @@
-import {Command, ux} from '@oclif/core'
+import {Command, Flags, ux} from '@oclif/core'
 import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {getGrowthBookConfigDirectory, getGrowthBookConfigFilePath} from '../../utils/file'
 import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from '../../utils/constants'
-import {Icons} from '../../utils/cli'
+import {Icons, baseGrowthBookCliFlags} from '../../utils/cli'
+import {getGrowthBookProfileConfigAndThrowForCommand} from '../../utils/config'
 
 export default class Login extends Command {
   static description = 'Configure your API key with the GrowthBook SDK with your project'
 
   static examples = []
 
-  static flags = {}
+  static flags = {
+    ...baseGrowthBookCliFlags,
+    apiKey: Flags.string({
+      description: 'Your GrowthBook secret API key',
+      required: false,
+    }),
+  }
 
   static args = {}
 
   async run(): Promise<void> {
-    const apiKey = await ux.prompt('What is your GrowthBook secret API Key?', {
-      type: 'hide',
-      required: true,
-    })
-    if (!apiKey) {
-      this.error(`${Icons.xSymbol} You must provide a GrowthBook secret API key to continue`)
+    const {
+      args: {
+        apiKey,
+      },
+      flags: {
+        profile,
+        apiBaseUrl,
+      },
+    } = await this.parse(Login)
+    let profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
+    const {apiKey: configApiKey, apiBaseUrl: configApiBaseUrl} = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
+    let baseUrlUsed = apiBaseUrl || configApiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
+
+    let apiKeyUsed = apiKey || configApiKey
+
+    if (!apiKeyUsed) {
+      apiKeyUsed = await ux.prompt('What is your GrowthBook secret API Key?', {
+        type: 'hide',
+        required: true,
+      })
+      if (!apiKeyUsed) {
+        this.error(`${Icons.xSymbol} You must provide a GrowthBook secret API key to continue`)
+      }
     }
 
-    let profile = await ux.prompt(`What is the name of this profile? You can leave this blank (default: ${DEFAULT_GROWTHBOOK_PROFILE})`, {
-      required: false,
-    })
-    if (!profile) {
-      profile = DEFAULT_GROWTHBOOK_PROFILE
+    if (!profileUsed) {
+      profileUsed = await ux.prompt(`What is the name of this profile? You can leave this blank (default: ${DEFAULT_GROWTHBOOK_PROFILE})`, {
+        required: false,
+      })
+      if (!profileUsed) {
+        profileUsed = DEFAULT_GROWTHBOOK_PROFILE
+      }
     }
 
-    let apiBaseUrl = await ux.prompt(`What is the API base URL of the GrowthBook instance? If using GrowthBook cloud, you can leave this blank (e.g. http://localhost:3100, default: ${DEFAULT_GROWTHBOOK_BASE_URL})`, {
-      required: false,
-    })
-    if (!apiBaseUrl) {
-      apiBaseUrl = DEFAULT_GROWTHBOOK_BASE_URL
+    if (!baseUrlUsed) {
+      baseUrlUsed = await ux.prompt(`What is the API base URL of the GrowthBook instance? If using GrowthBook cloud, you can leave this blank (e.g. http://localhost:3100, default: ${DEFAULT_GROWTHBOOK_BASE_URL})`, {
+        required: false,
+      })
+      if (!baseUrlUsed) {
+        baseUrlUsed = DEFAULT_GROWTHBOOK_BASE_URL
+      }
     }
 
-    this.writeApiKeyToGrowthBookConfig(apiKey, profile, apiBaseUrl)
+    this.writeApiKeyToGrowthBookConfig(apiKeyUsed, profileUsed, baseUrlUsed)
   }
 
   /**
