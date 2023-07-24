@@ -31,7 +31,17 @@ export default class Login extends Command {
         apiBaseUrl,
       },
     } = await this.parse(Login)
-    let profileUsed = profile || DEFAULT_GROWTHBOOK_PROFILE
+    let profileUsed = profile
+
+    if (!profileUsed) {
+      profileUsed = await ux.prompt(`What is the name of this profile? You can leave this blank (default: ${DEFAULT_GROWTHBOOK_PROFILE})`, {
+        required: false,
+      })
+      if (!profileUsed) {
+        profileUsed = DEFAULT_GROWTHBOOK_PROFILE
+      }
+    }
+
     const {apiKey: configApiKey, apiBaseUrl: configApiBaseUrl} = getGrowthBookProfileConfigAndThrowForCommand(profileUsed, this)
     let baseUrlUsed = apiBaseUrl || configApiBaseUrl || DEFAULT_GROWTHBOOK_BASE_URL
 
@@ -44,15 +54,6 @@ export default class Login extends Command {
       })
       if (!apiKeyUsed) {
         this.error(`${Icons.xSymbol} You must provide a GrowthBook secret API key to continue`)
-      }
-    }
-
-    if (!profileUsed) {
-      profileUsed = await ux.prompt(`What is the name of this profile? You can leave this blank (default: ${DEFAULT_GROWTHBOOK_PROFILE})`, {
-        required: false,
-      })
-      if (!profileUsed) {
-        profileUsed = DEFAULT_GROWTHBOOK_PROFILE
       }
     }
 
