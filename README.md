@@ -54,7 +54,13 @@ Configure your API key with the GrowthBook SDK with your project
 
 ```
 USAGE
-  $ growthbook auth login
+  $ growthbook auth login [-u <value>] [-p <value>] [--apiKey <value>]
+
+FLAGS
+  -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
+  -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
+                            https://api.growthbook.io)
+  --apiKey=<value>          Your GrowthBook secret API key
 
 DESCRIPTION
   Configure your API key with the GrowthBook SDK with your project
