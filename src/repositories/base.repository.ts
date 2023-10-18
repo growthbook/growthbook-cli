@@ -57,5 +57,5 @@ export type Pagination = {
   count: number;
   total: number;
   hasMore: boolean;
-  nextOffset: number;
+  nextOffset: number | null;
 }

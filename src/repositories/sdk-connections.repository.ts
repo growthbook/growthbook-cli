@@ -23,5 +23,5 @@ export class SdkConnectionsRepository extends BaseRepository implements BaseApiR
 }
 
 type ListSdkConnectionsResponse = Pagination & {
-  connections: SdkConnection[]
+  connections?: SdkConnection[] | undefined
 }

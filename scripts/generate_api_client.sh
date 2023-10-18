@@ -15,7 +15,7 @@ rm -rf src/generated/api
 
 # Generate code using the `typescript-axios`
 # `typescript-fetch` does not work - possibly related bug: https://github.com/growthbook/growthbook/issues/1269
-npx openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli@2.6.0 generate \
   -i ./tmp/openapi.yaml \
   -o src/generated/api \
   -g typescript-axios \

@@ -1,6 +1,5 @@
 import {BaseApiRepository, BaseRepository, Pagination} from './base.repository'
 import {
-  DeleteSavedGroup200Response,
   PostSavedGroupRequest,
   SavedGroup,
   SavedGroupsApi,
@@ -19,13 +18,6 @@ export class SavedGroupsRepository extends BaseRepository implements BaseApiRepo
   public async listSavedGroups(limit: number, offset: number): Promise<ListSavedGroups> {
     const api = this.api()
     const result: AxiosResponse<ListSavedGroups> = await api.listSavedGroups(limit, offset)
-
-    return result.data
-  }
-
-  public async deleteSavedGroup(id: string): Promise<DeleteSavedGroup200Response> {
-    const api = this.api()
-    const result = await api.deleteSavedGroup(id)
 
     return result.data
   }

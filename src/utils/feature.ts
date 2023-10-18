@@ -49,8 +49,8 @@ export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: strin
 
     allFeatures = [...allFeatures, ...features]
 
-    offset = nextOffset
-    shouldFetch = hasMore
+    offset = nextOffset ?? 0 // Use 0 as the default value if nextOffset is null
+    shouldFetch = hasMore && nextOffset !== null // Check if nextOffset is not null before continuing
   }
 
   return allFeatures

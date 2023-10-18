@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * GrowthBook REST API
- * GrowthBook offers a full REST API for interacting with the GrowthBook application. This is currently in **beta** as we add more authenticated API routes and features.  Request data can use either JSON or Form data encoding (with proper `Content-Type` headers). All response bodies are JSON-encoded.  The API base URL for GrowthBook Cloud is `https://api.growthbook.io`. For self-hosted deployments, it is the same as your API_HOST environment variable (defaults to `http://localhost:3100`). The rest of these docs will assume you are using GrowthBook Cloud.  ## Authentication  We support both the HTTP Basic and Bearer authentication schemes for convenience.  You first need to generate a new Secret Key in GrowthBook by going to `Settings -> API Keys`.  If using HTTP Basic auth, pass the Secret Key as the username and leave the password blank:  ```bash curl https://api.growthbook.io/api/v1 \\   -u secret_abc123DEF456: # The \":\" at the end stops curl from asking for a password ```  If using Bearer auth, pass the Secret Key as the token:  ```bash curl https://api.growthbook.io/api/v1 \\ -H \"Authorization: Bearer secret_abc123DEF456\" ```  ## Errors  The API may return the following error status codes:  - **400** - Bad Request - Often due to a missing required parameter - **401** - Unauthorized - No valid API key provided - **402** - Request Failed - The parameters are valid, but the request failed - **403** - Forbidden - Provided API key does not have the required access - **404** - Not Found - Unknown API route or requested resource - **429** - Too Many Requests - You exceeded the rate limit of 60 requests per minute. Try again later. - **5XX** - Server Error - Something went wrong on GrowthBook\'s end (these are rare)  The response body will be a JSON object with the following properties:  - **message** - Information about the error 
+ * GrowthBook offers a full REST API for interacting with the GrowthBook application. This is currently in **beta** as we add more authenticated API routes and features.  Request data can use either JSON or Form data encoding (with proper `Content-Type` headers). All response bodies are JSON-encoded.  The API base URL for GrowthBook Cloud is `https://api.growthbook.io`. For self-hosted deployments, it is the same as your API_HOST environment variable (defaults to `http://localhost:3100`). The rest of these docs will assume you are using GrowthBook Cloud.  ## Authentication  We support both the HTTP Basic and Bearer authentication schemes for convenience.  You first need to generate a new API Key in GrowthBook. Different keys have different permissions:  - **Personal Access Tokens**: These are sensitive and provide the same level of access as the user has to an organization. These can be created by going to `Personal Access Tokens` under the your user menu. - **Secret Keys**: These are sensitive and provide the level of access for the role, which currently is either `admin` or `readonly`. Only Admins with the `manageApiKeys` permission can manage Secret Keys on behalf of an organization. These can be created by going to `Settings -> API Keys`  If using HTTP Basic auth, pass the Secret Key as the username and leave the password blank:  ```bash curl https://api.growthbook.io/api/v1 \\   -u secret_abc123DEF456: # The \":\" at the end stops curl from asking for a password ```  If using Bearer auth, pass the Secret Key as the token:  ```bash curl https://api.growthbook.io/api/v1 \\ -H \"Authorization: Bearer secret_abc123DEF456\" ```  ## Errors  The API may return the following error status codes:  - **400** - Bad Request - Often due to a missing required parameter - **401** - Unauthorized - No valid API key provided - **402** - Request Failed - The parameters are valid, but the request failed - **403** - Forbidden - Provided API key does not have the required access - **404** - Not Found - Unknown API route or requested resource - **429** - Too Many Requests - You exceeded the rate limit of 60 requests per minute. Try again later. - **5XX** - Server Error - Something went wrong on GrowthBook\'s end (these are rare)  The response body will be a JSON object with the following properties:  - **message** - Information about the error 
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -136,15 +136,15 @@ export interface DataSourceMixpanelSettings {
 /**
  * 
  * @export
- * @interface DeleteSavedGroup200Response
+ * @interface DeleteMetric200Response
  */
-export interface DeleteSavedGroup200Response {
+export interface DeleteMetric200Response {
     /**
      * 
-     * @type {any}
-     * @memberof DeleteSavedGroup200Response
+     * @type {string}
+     * @memberof DeleteMetric200Response
      */
-    'deletedId': any;
+    'deletedId': string;
 }
 /**
  * 
@@ -154,52 +154,52 @@ export interface DeleteSavedGroup200Response {
 export interface Dimension {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Dimension
      */
-    'id': any;
+    'id': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Dimension
      */
-    'dateCreated': any;
+    'dateCreated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Dimension
      */
-    'dateUpdated': any;
+    'dateUpdated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Dimension
      */
-    'owner': any;
+    'owner': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Dimension
      */
-    'datasourceId': any;
+    'datasourceId': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Dimension
      */
-    'identifierType': any;
+    'identifierType': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Dimension
      */
-    'name': any;
+    'name': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Dimension
      */
-    'query': any;
+    'query': string;
 }
 /**
  * 
@@ -290,6 +290,12 @@ export interface Experiment {
      * @type {any}
      * @memberof Experiment
      */
+    'hashVersion': ExperimentHashVersionEnum;
+    /**
+     * 
+     * @type {any}
+     * @memberof Experiment
+     */
     'variations': any;
     /**
      * 
@@ -310,6 +316,14 @@ export interface Experiment {
      */
     'resultSummary'?: ExperimentResultSummary;
 }
+
+export const ExperimentHashVersionEnum = {
+    _1: '1',
+    _2: '2'
+} as const;
+
+export type ExperimentHashVersionEnum = typeof ExperimentHashVersionEnum[keyof typeof ExperimentHashVersionEnum];
+
 /**
  * 
  * @export
@@ -483,6 +497,12 @@ export interface ExperimentResultSummary {
      * @memberof ExperimentResultSummary
      */
     'releasedVariationId': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof ExperimentResultSummary
+     */
+    'excludeFromPayload': any;
 }
 /**
  * 
@@ -578,64 +598,64 @@ export interface ExperimentResultsDimension {
 export interface Feature {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Feature
      */
-    'id': any;
+    'id': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Feature
      */
-    'dateCreated': any;
+    'dateCreated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Feature
      */
-    'dateUpdated': any;
+    'dateUpdated': string;
     /**
      * 
-     * @type {any}
+     * @type {boolean}
      * @memberof Feature
      */
-    'archived': any;
+    'archived': boolean;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Feature
      */
-    'description': any;
+    'description': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Feature
      */
-    'owner': any;
+    'owner': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Feature
      */
-    'project': any;
+    'project': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Feature
      */
     'valueType': FeatureValueTypeEnum;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Feature
      */
-    'defaultValue': any;
+    'defaultValue': string;
     /**
      * 
-     * @type {any}
+     * @type {Array<string>}
      * @memberof Feature
      */
-    'tags': any;
+    'tags': Array<string>;
     /**
      * 
      * @type {{ [key: string]: FeatureEnvironment; }}
@@ -667,10 +687,10 @@ export type FeatureValueTypeEnum = typeof FeatureValueTypeEnum[keyof typeof Feat
 export interface FeatureDefinition {
     /**
      * 
-     * @type {any}
+     * @type {FeatureDefinitionDefaultValue}
      * @memberof FeatureDefinition
      */
-    'defaultValue': any;
+    'defaultValue': FeatureDefinitionDefaultValue | null;
     /**
      * 
      * @type {any}
@@ -681,33 +701,40 @@ export interface FeatureDefinition {
 /**
  * 
  * @export
+ * @interface FeatureDefinitionDefaultValue
+ */
+export interface FeatureDefinitionDefaultValue {
+}
+/**
+ * 
+ * @export
  * @interface FeatureEnvironment
  */
 export interface FeatureEnvironment {
     /**
      * 
-     * @type {any}
+     * @type {boolean}
      * @memberof FeatureEnvironment
      */
-    'enabled': any;
+    'enabled': boolean;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof FeatureEnvironment
      */
-    'defaultValue': any;
+    'defaultValue': string;
     /**
      * 
-     * @type {any}
+     * @type {Array<FeatureRule>}
      * @memberof FeatureEnvironment
      */
-    'rules': any;
+    'rules': Array<FeatureRule>;
     /**
      * A JSON stringified [FeatureDefinition](#tag/FeatureDefinition_model)
-     * @type {any}
+     * @type {string}
      * @memberof FeatureEnvironment
      */
-    'definition'?: any;
+    'definition'?: string;
     /**
      * 
      * @type {FeatureEnvironmentDraft}
@@ -723,16 +750,16 @@ export interface FeatureEnvironment {
 export interface FeatureEnvironmentDraft {
     /**
      * 
-     * @type {any}
+     * @type {boolean}
      * @memberof FeatureEnvironmentDraft
      */
-    'enabled': any;
+    'enabled': boolean;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof FeatureEnvironmentDraft
      */
-    'defaultValue': any;
+    'defaultValue': string;
     /**
      * 
      * @type {any}
@@ -741,10 +768,59 @@ export interface FeatureEnvironmentDraft {
     'rules': any;
     /**
      * A JSON stringified [FeatureDefinition](#tag/FeatureDefinition_model)
-     * @type {any}
+     * @type {string}
      * @memberof FeatureEnvironmentDraft
      */
-    'definition'?: any;
+    'definition'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface FeatureExperimentRefRule
+ */
+export interface FeatureExperimentRefRule {
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureExperimentRefRule
+     */
+    'description': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureExperimentRefRule
+     */
+    'id': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureExperimentRefRule
+     */
+    'enabled': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureExperimentRefRule
+     */
+    'type': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureExperimentRefRule
+     */
+    'condition'?: any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureExperimentRefRule
+     */
+    'variations': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureExperimentRefRule
+     */
+    'experimentId': any;
 }
 /**
  * 
@@ -889,28 +965,28 @@ export interface FeatureForceRule {
 export interface FeatureRevision {
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof FeatureRevision
      */
-    'version': any;
+    'version': number;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof FeatureRevision
      */
-    'comment': any;
+    'comment': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof FeatureRevision
      */
-    'date': any;
+    'date': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof FeatureRevision
      */
-    'publishedBy': any;
+    'publishedBy': string;
 }
 /**
  * 
@@ -970,6 +1046,85 @@ export interface FeatureRolloutRule {
 /**
  * 
  * @export
+ * @interface FeatureRule
+ */
+export interface FeatureRule {
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'description': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'condition': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'id': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'enabled': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'type': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'value': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'coverage': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'hashAttribute': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'trackingKey'?: any;
+    /**
+     * 
+     * @type {FeatureExperimentRuleNamespace}
+     * @memberof FeatureRule
+     */
+    'namespace'?: FeatureExperimentRuleNamespace;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'variations': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof FeatureRule
+     */
+    'experimentId': any;
+}
+/**
+ * 
+ * @export
  * @interface GetDataSource200Response
  */
 export interface GetDataSource200Response {
@@ -996,19 +1151,6 @@ export interface GetDimension200Response {
 /**
  * 
  * @export
- * @interface GetExperiment200Response
- */
-export interface GetExperiment200Response {
-    /**
-     * 
-     * @type {Experiment}
-     * @memberof GetExperiment200Response
-     */
-    'experiment': Experiment;
-}
-/**
- * 
- * @export
  * @interface GetExperimentResults200Response
  */
 export interface GetExperimentResults200Response {
@@ -1018,19 +1160,6 @@ export interface GetExperimentResults200Response {
      * @memberof GetExperimentResults200Response
      */
     'result'?: ExperimentResults;
-}
-/**
- * 
- * @export
- * @interface GetFeature200Response
- */
-export interface GetFeature200Response {
-    /**
-     * 
-     * @type {Feature}
-     * @memberof GetFeature200Response
-     */
-    'feature': Feature;
 }
 /**
  * 
@@ -1093,75 +1222,578 @@ export interface GetVisualChangeset200Response {
 /**
  * 
  * @export
+ * @interface ListDataSources200Response
+ */
+export interface ListDataSources200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDataSources200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDataSources200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDataSources200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDataSources200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListDataSources200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDataSources200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<DataSource>}
+     * @memberof ListDataSources200Response
+     */
+    'dataSources': Array<DataSource>;
+}
+/**
+ * 
+ * @export
+ * @interface ListDimensions200Response
+ */
+export interface ListDimensions200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDimensions200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDimensions200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDimensions200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDimensions200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListDimensions200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDimensions200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<Dimension>}
+     * @memberof ListDimensions200Response
+     */
+    'dimensions': Array<Dimension>;
+}
+/**
+ * 
+ * @export
+ * @interface ListExperiments200Response
+ */
+export interface ListExperiments200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListExperiments200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListExperiments200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListExperiments200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListExperiments200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListExperiments200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListExperiments200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<Experiment>}
+     * @memberof ListExperiments200Response
+     */
+    'experiments': Array<Experiment>;
+}
+/**
+ * 
+ * @export
+ * @interface ListFeatures200Response
+ */
+export interface ListFeatures200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListFeatures200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListFeatures200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListFeatures200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListFeatures200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListFeatures200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListFeatures200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<Feature>}
+     * @memberof ListFeatures200Response
+     */
+    'features': Array<Feature>;
+}
+/**
+ * 
+ * @export
+ * @interface ListMetrics200Response
+ */
+export interface ListMetrics200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListMetrics200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListMetrics200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListMetrics200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListMetrics200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListMetrics200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListMetrics200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<Metric>}
+     * @memberof ListMetrics200Response
+     */
+    'metrics': Array<Metric>;
+}
+/**
+ * 
+ * @export
+ * @interface ListOrganizations200Response
+ */
+export interface ListOrganizations200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOrganizations200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOrganizations200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOrganizations200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOrganizations200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListOrganizations200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOrganizations200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<Organization>}
+     * @memberof ListOrganizations200Response
+     */
+    'organizations': Array<Organization>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjects200Response
+ */
+export interface ListProjects200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjects200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjects200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjects200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjects200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListProjects200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjects200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<Project>}
+     * @memberof ListProjects200Response
+     */
+    'projects': Array<Project>;
+}
+/**
+ * 
+ * @export
+ * @interface ListSavedGroups200Response
+ */
+export interface ListSavedGroups200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSavedGroups200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSavedGroups200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSavedGroups200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSavedGroups200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListSavedGroups200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSavedGroups200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<SavedGroup>}
+     * @memberof ListSavedGroups200Response
+     */
+    'savedGroups': Array<SavedGroup>;
+}
+/**
+ * 
+ * @export
+ * @interface ListSdkConnections200Response
+ */
+export interface ListSdkConnections200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSdkConnections200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSdkConnections200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSdkConnections200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSdkConnections200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListSdkConnections200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSdkConnections200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<SdkConnection>}
+     * @memberof ListSdkConnections200Response
+     */
+    'connections'?: Array<SdkConnection>;
+}
+/**
+ * 
+ * @export
+ * @interface ListSegments200Response
+ */
+export interface ListSegments200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSegments200Response
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSegments200Response
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSegments200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSegments200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListSegments200Response
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListSegments200Response
+     */
+    'nextOffset': number | null;
+    /**
+     * 
+     * @type {Array<Segment>}
+     * @memberof ListSegments200Response
+     */
+    'segments': Array<Segment>;
+}
+/**
+ * 
+ * @export
+ * @interface ListVisualChangesets200Response
+ */
+export interface ListVisualChangesets200Response {
+    /**
+     * 
+     * @type {Array<VisualChangeset>}
+     * @memberof ListVisualChangesets200Response
+     */
+    'visualChangesets': Array<VisualChangeset>;
+}
+/**
+ * 
+ * @export
  * @interface Metric
  */
 export interface Metric {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Metric
      */
-    'id': any;
+    'id': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Metric
      */
-    'dateCreated': any;
+    'dateCreated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Metric
      */
-    'dateUpdated': any;
+    'dateUpdated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Metric
      */
-    'owner': any;
+    'owner': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Metric
      */
-    'datasourceId': any;
+    'datasourceId': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Metric
      */
-    'name': any;
+    'name': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Metric
      */
-    'description': any;
+    'description': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Metric
      */
     'type': MetricTypeEnum;
     /**
      * 
-     * @type {any}
+     * @type {Array<string>}
      * @memberof Metric
      */
-    'tags': any;
+    'tags': Array<string>;
     /**
      * 
-     * @type {any}
+     * @type {Array<string>}
      * @memberof Metric
      */
-    'projects': any;
+    'projects': Array<string>;
     /**
      * 
-     * @type {any}
+     * @type {boolean}
      * @memberof Metric
      */
-    'archived': any;
+    'archived': boolean;
     /**
      * 
      * @type {MetricBehavior}
@@ -1205,58 +1837,70 @@ export type MetricTypeEnum = typeof MetricTypeEnum[keyof typeof MetricTypeEnum];
 export interface MetricBehavior {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricBehavior
      */
     'goal': MetricBehaviorGoalEnum;
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof MetricBehavior
      */
-    'cap': any;
+    'cap'?: number;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricBehavior
      */
-    'conversionWindowStart': any;
+    'capping'?: MetricBehaviorCappingEnum;
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof MetricBehavior
      */
-    'conversionWindowEnd': any;
+    'capValue'?: number;
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof MetricBehavior
      */
-    'riskThresholdSuccess': any;
+    'conversionWindowStart': number;
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof MetricBehavior
      */
-    'riskThresholdDanger': any;
+    'conversionWindowEnd': number;
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof MetricBehavior
      */
-    'minPercentChange': any;
+    'riskThresholdSuccess': number;
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof MetricBehavior
      */
-    'maxPercentChange': any;
+    'riskThresholdDanger': number;
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof MetricBehavior
      */
-    'minSampleSize': any;
+    'minPercentChange': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MetricBehavior
+     */
+    'maxPercentChange': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MetricBehavior
+     */
+    'minSampleSize': number;
 }
 
 export const MetricBehaviorGoalEnum = {
@@ -1265,6 +1909,12 @@ export const MetricBehaviorGoalEnum = {
 } as const;
 
 export type MetricBehaviorGoalEnum = typeof MetricBehaviorGoalEnum[keyof typeof MetricBehaviorGoalEnum];
+export const MetricBehaviorCappingEnum = {
+    Absolute: 'absolute',
+    Percentile: 'percentile'
+} as const;
+
+export type MetricBehaviorCappingEnum = typeof MetricBehaviorCappingEnum[keyof typeof MetricBehaviorCappingEnum];
 
 /**
  * 
@@ -1274,28 +1924,28 @@ export type MetricBehaviorGoalEnum = typeof MetricBehaviorGoalEnum[keyof typeof 
 export interface MetricMixpanel {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricMixpanel
      */
-    'eventName': any;
+    'eventName': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricMixpanel
      */
-    'eventValue': any;
+    'eventValue': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricMixpanel
      */
-    'userAggregation': any;
+    'userAggregation': string;
     /**
      * 
-     * @type {any}
+     * @type {Array<PostMetricRequestMixpanelConditionsInner>}
      * @memberof MetricMixpanel
      */
-    'conditions': any;
+    'conditions': Array<PostMetricRequestMixpanelConditionsInner>;
 }
 /**
  * 
@@ -1305,28 +1955,28 @@ export interface MetricMixpanel {
 export interface MetricSql {
     /**
      * 
-     * @type {any}
+     * @type {Array<string>}
      * @memberof MetricSql
      */
-    'identifierTypes': any;
+    'identifierTypes': Array<string>;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricSql
      */
-    'conversionSQL': any;
+    'conversionSQL': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricSql
      */
-    'userAggregationSQL': any;
+    'userAggregationSQL': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricSql
      */
-    'denominatorMetricId': any;
+    'denominatorMetricId': string;
 }
 /**
  * 
@@ -1336,34 +1986,65 @@ export interface MetricSql {
 export interface MetricSqlBuilder {
     /**
      * 
-     * @type {any}
+     * @type {Array<PostMetricRequestSqlBuilderIdentifierTypeColumnsInner>}
      * @memberof MetricSqlBuilder
      */
-    'identifierTypeColumns': any;
+    'identifierTypeColumns': Array<PostMetricRequestSqlBuilderIdentifierTypeColumnsInner>;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricSqlBuilder
      */
-    'tableName': any;
+    'tableName': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricSqlBuilder
      */
-    'valueColumnName': any;
+    'valueColumnName': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof MetricSqlBuilder
      */
-    'timestampColumnName': any;
+    'timestampColumnName': string;
     /**
      * 
-     * @type {any}
+     * @type {Array<PostMetricRequestSqlBuilderConditionsInner>}
      * @memberof MetricSqlBuilder
      */
-    'conditions': any;
+    'conditions': Array<PostMetricRequestSqlBuilderConditionsInner>;
+}
+/**
+ * 
+ * @export
+ * @interface Organization
+ */
+export interface Organization {
+    /**
+     * The unique identifier for the organization
+     * @type {any}
+     * @memberof Organization
+     */
+    'id'?: any;
+    /**
+     * The date the organization was created
+     * @type {any}
+     * @memberof Organization
+     */
+    'dateCreated'?: any;
+    /**
+     * The name of the organization
+     * @type {any}
+     * @memberof Organization
+     */
+    'name'?: any;
+    /**
+     * The email address of the organization owner
+     * @type {any}
+     * @memberof Organization
+     */
+    'ownerEmail'?: any;
 }
 /**
  * 
@@ -1373,40 +2054,532 @@ export interface MetricSqlBuilder {
 export interface PaginationFields {
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof PaginationFields
      */
-    'limit': any;
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationFields
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationFields
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationFields
+     */
+    'total': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PaginationFields
+     */
+    'hasMore': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationFields
+     */
+    'nextOffset': number | null;
+}
+/**
+ * 
+ * @export
+ * @interface PostExperiment200Response
+ */
+export interface PostExperiment200Response {
+    /**
+     * 
+     * @type {Experiment}
+     * @memberof PostExperiment200Response
+     */
+    'experiment': Experiment;
+}
+/**
+ * 
+ * @export
+ * @interface PostExperimentRequest
+ */
+export interface PostExperimentRequest {
+    /**
+     * ID for the [DataSource](#tag/DataSource_model)
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'datasourceId': string;
+    /**
+     * The ID property of one of the assignment query objects associated with the datasource
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'assignmentQueryId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'trackingKey': string;
+    /**
+     * Name of the experiment
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'name': string;
+    /**
+     * Project ID which the experiment belongs to
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'project'?: string;
+    /**
+     * Hypothesis of the experiment
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'hypothesis'?: string;
+    /**
+     * Description of the experiment
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PostExperimentRequest
+     */
+    'tags'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PostExperimentRequest
+     */
+    'metrics'?: Array<string>;
     /**
      * 
      * @type {any}
-     * @memberof PaginationFields
+     * @memberof PostExperimentRequest
      */
-    'offset': any;
+    'guardrailMetrics'?: any;
+    /**
+     * Email of the person who owns this experiment
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'owner': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PostExperimentRequest
+     */
+    'archived'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'status'?: PostExperimentRequestStatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PostExperimentRequest
+     */
+    'autoRefresh'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'hashAttribute'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PostExperimentRequest
+     */
+    'hashVersion'?: PostExperimentRequestHashVersionEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequest
+     */
+    'releasedVariationId'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PostExperimentRequest
+     */
+    'excludeFromPayload'?: boolean;
+    /**
+     * 
+     * @type {Array<PostExperimentRequestVariationsInner>}
+     * @memberof PostExperimentRequest
+     */
+    'variations': Array<PostExperimentRequestVariationsInner>;
+    /**
+     * 
+     * @type {Array<PostExperimentRequestPhasesInner>}
+     * @memberof PostExperimentRequest
+     */
+    'phases'?: Array<PostExperimentRequestPhasesInner>;
+}
+
+export const PostExperimentRequestStatusEnum = {
+    Draft: 'draft',
+    Running: 'running',
+    Stopped: 'stopped'
+} as const;
+
+export type PostExperimentRequestStatusEnum = typeof PostExperimentRequestStatusEnum[keyof typeof PostExperimentRequestStatusEnum];
+export const PostExperimentRequestHashVersionEnum = {
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type PostExperimentRequestHashVersionEnum = typeof PostExperimentRequestHashVersionEnum[keyof typeof PostExperimentRequestHashVersionEnum];
+
+/**
+ * 
+ * @export
+ * @interface PostExperimentRequestPhasesInner
+ */
+export interface PostExperimentRequestPhasesInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'dateStarted': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'dateEnded'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'reasonForStopping'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'seed'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'coverage'?: number;
+    /**
+     * 
+     * @type {Array<PostExperimentRequestPhasesInnerTrafficSplitInner>}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'trafficSplit'?: Array<PostExperimentRequestPhasesInnerTrafficSplitInner>;
+    /**
+     * 
+     * @type {PostExperimentRequestPhasesInnerNamespace}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'namespace'?: PostExperimentRequestPhasesInnerNamespace;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'targetingCondition'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'reason'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'condition'?: string;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof PostExperimentRequestPhasesInner
+     */
+    'variationWeights'?: Array<number>;
+}
+/**
+ * 
+ * @export
+ * @interface PostExperimentRequestPhasesInnerNamespace
+ */
+export interface PostExperimentRequestPhasesInnerNamespace {
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInnerNamespace
+     */
+    'namespaceId': string;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof PostExperimentRequestPhasesInnerNamespace
+     */
+    'range': Array<number>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PostExperimentRequestPhasesInnerNamespace
+     */
+    'enabled'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PostExperimentRequestPhasesInnerTrafficSplitInner
+ */
+export interface PostExperimentRequestPhasesInnerTrafficSplitInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestPhasesInnerTrafficSplitInner
+     */
+    'variationId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PostExperimentRequestPhasesInnerTrafficSplitInner
+     */
+    'weight': number;
+}
+/**
+ * 
+ * @export
+ * @interface PostExperimentRequestVariationsInner
+ */
+export interface PostExperimentRequestVariationsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestVariationsInner
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestVariationsInner
+     */
+    'key': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestVariationsInner
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestVariationsInner
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {Array<PostExperimentRequestVariationsInnerScreenshotsInner>}
+     * @memberof PostExperimentRequestVariationsInner
+     */
+    'screenshots'?: Array<PostExperimentRequestVariationsInnerScreenshotsInner>;
+}
+/**
+ * 
+ * @export
+ * @interface PostExperimentRequestVariationsInnerScreenshotsInner
+ */
+export interface PostExperimentRequestVariationsInnerScreenshotsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestVariationsInnerScreenshotsInner
+     */
+    'path': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PostExperimentRequestVariationsInnerScreenshotsInner
+     */
+    'width'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PostExperimentRequestVariationsInnerScreenshotsInner
+     */
+    'height'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostExperimentRequestVariationsInnerScreenshotsInner
+     */
+    'description'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface PostFeature200Response
+ */
+export interface PostFeature200Response {
+    /**
+     * 
+     * @type {Feature}
+     * @memberof PostFeature200Response
+     */
+    'feature': Feature;
+}
+/**
+ * 
+ * @export
+ * @interface PostFeatureRequest
+ */
+export interface PostFeatureRequest {
+    /**
+     * A unique key name for the feature. Feature keys can only include letters, numbers, hyphens, and underscores.
+     * @type {string}
+     * @memberof PostFeatureRequest
+     */
+    'id': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PostFeatureRequest
+     */
+    'archived'?: boolean;
+    /**
+     * Description of the feature
+     * @type {string}
+     * @memberof PostFeatureRequest
+     */
+    'description'?: string;
+    /**
+     * Email of the person who owns this experiment
+     * @type {string}
+     * @memberof PostFeatureRequest
+     */
+    'owner': string;
+    /**
+     * An associated project ID
+     * @type {string}
+     * @memberof PostFeatureRequest
+     */
+    'project'?: string;
+    /**
+     * The data type of the feature payload. Boolean by default.
+     * @type {string}
+     * @memberof PostFeatureRequest
+     */
+    'valueType': PostFeatureRequestValueTypeEnum;
+    /**
+     * Default value when feature is enabled. Type must match `valueType`.
+     * @type {string}
+     * @memberof PostFeatureRequest
+     */
+    'defaultValue': string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PostFeatureRequest
+     */
+    'tags'?: Array<string>;
+    /**
+     * A dictionary of environments that are enabled for this feature. Keys supply the names of environments. Environments belong to organization and are not specified will be disabled by default.
+     * @type {{ [key: string]: PostFeatureRequestEnvironmentsValue; }}
+     * @memberof PostFeatureRequest
+     */
+    'environments'?: { [key: string]: PostFeatureRequestEnvironmentsValue; };
+    /**
+     * Use JSON schema to validate the payload of a JSON-type feature value (enterprise only).
+     * @type {string}
+     * @memberof PostFeatureRequest
+     */
+    'jsonSchema'?: string;
+}
+
+export const PostFeatureRequestValueTypeEnum = {
+    Boolean: 'boolean',
+    String: 'string',
+    Number: 'number',
+    Json: 'json'
+} as const;
+
+export type PostFeatureRequestValueTypeEnum = typeof PostFeatureRequestValueTypeEnum[keyof typeof PostFeatureRequestValueTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface PostFeatureRequestEnvironmentsValue
+ */
+export interface PostFeatureRequestEnvironmentsValue {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PostFeatureRequestEnvironmentsValue
+     */
+    'enabled': boolean;
     /**
      * 
      * @type {any}
-     * @memberof PaginationFields
+     * @memberof PostFeatureRequestEnvironmentsValue
      */
-    'count': any;
+    'rules'?: any;
+    /**
+     * A JSON stringified [FeatureDefinition](#tag/FeatureDefinition_model)
+     * @type {string}
+     * @memberof PostFeatureRequestEnvironmentsValue
+     */
+    'definition'?: string;
+    /**
+     * 
+     * @type {PostFeatureRequestEnvironmentsValueDraft}
+     * @memberof PostFeatureRequestEnvironmentsValue
+     */
+    'draft'?: PostFeatureRequestEnvironmentsValueDraft;
+}
+/**
+ * Use to write draft changes without publishing them.
+ * @export
+ * @interface PostFeatureRequestEnvironmentsValueDraft
+ */
+export interface PostFeatureRequestEnvironmentsValueDraft {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PostFeatureRequestEnvironmentsValueDraft
+     */
+    'enabled'?: boolean;
     /**
      * 
      * @type {any}
-     * @memberof PaginationFields
+     * @memberof PostFeatureRequestEnvironmentsValueDraft
      */
-    'total': any;
+    'rules'?: any;
     /**
-     * 
-     * @type {any}
-     * @memberof PaginationFields
+     * A JSON stringified [FeatureDefinition](#tag/FeatureDefinition_model)
+     * @type {string}
+     * @memberof PostFeatureRequestEnvironmentsValueDraft
      */
-    'hasMore': any;
-    /**
-     * 
-     * @type {any}
-     * @memberof PaginationFields
-     */
-    'nextOffset': any;
+    'definition'?: string;
 }
 /**
  * 
@@ -1429,52 +2602,52 @@ export interface PostMetric200Response {
 export interface PostMetricRequest {
     /**
      * ID for the [DataSource](#tag/DataSource_model)
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequest
      */
-    'datasourceId': any;
+    'datasourceId': string;
     /**
      * Name of the person who owns this metric
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequest
      */
-    'owner'?: any;
+    'owner'?: string;
     /**
      * Name of the metric
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequest
      */
-    'name': any;
+    'name': string;
     /**
      * Description of the metric
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequest
      */
-    'description'?: any;
+    'description'?: string;
     /**
      * Type of metric. See [Metrics documentation](/app/metrics)
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequest
      */
     'type': PostMetricRequestTypeEnum;
     /**
-     * List of tags
-     * @type {any}
+     * 
+     * @type {Array<string>}
      * @memberof PostMetricRequest
      */
-    'tags'?: any;
-    /**
-     * List of project IDs for projects that can access this metric
-     * @type {any}
-     * @memberof PostMetricRequest
-     */
-    'projects'?: any;
+    'tags'?: Array<string>;
     /**
      * 
-     * @type {any}
+     * @type {Array<string>}
      * @memberof PostMetricRequest
      */
-    'archived'?: any;
+    'projects'?: Array<string>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PostMetricRequest
+     */
+    'archived'?: boolean;
     /**
      * 
      * @type {PostMetricRequestBehavior}
@@ -1518,58 +2691,71 @@ export type PostMetricRequestTypeEnum = typeof PostMetricRequestTypeEnum[keyof t
 export interface PostMetricRequestBehavior {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestBehavior
      */
     'goal'?: PostMetricRequestBehaviorGoalEnum;
     /**
-     * This should be non-negative
-     * @type {any}
+     * (deprecated, use capping and capValue fields instead) This should be non-negative
+     * @type {number}
+     * @memberof PostMetricRequestBehavior
+     * @deprecated
+     */
+    'cap'?: number;
+    /**
+     * Used in conjunction with `capValue` to set the capping (winsorization). Do not specify or set to null for no capping. \"absolute\" will cap user values at the `capValue` if it is greater than 0. \"percentile\" will cap user values at the percentile of user values in an experiment using the `capValue` for the percentile, if greater than 0. <br/>  If `behavior.capping` is non-null, you must specify `behavior.capValue`.
+     * @type {string}
      * @memberof PostMetricRequestBehavior
      */
-    'cap'?: any;
+    'capping'?: PostMetricRequestBehaviorCappingEnum;
+    /**
+     * This should be non-negative. <br/> Must specify `behavior.capping` when setting `behavior.capValue`.
+     * @type {number}
+     * @memberof PostMetricRequestBehavior
+     */
+    'capValue'?: number;
     /**
      * The start of a Conversion Window relative to the exposure date, in hours. This is equivalent to the [Conversion Delay](/app/metrics#conversion-delay). <br/> Must specify both `behavior.conversionWindowStart` and `behavior.conversionWindowEnd` or neither.
-     * @type {any}
+     * @type {number}
      * @memberof PostMetricRequestBehavior
      */
-    'conversionWindowStart'?: any;
+    'conversionWindowStart'?: number;
     /**
      * The end of a [Conversion Window](/app/metrics#conversion-window) relative to the exposure date, in hours. This is equivalent to the [Conversion Delay](/app/metrics#conversion-delay) + Conversion Window Hours settings in the UI. In other words, if you want a 48 hour window starting after 24 hours, you would set conversionWindowStart to 24 and conversionWindowEnd to 72 (24+48). <br/> Must specify both `behavior.conversionWindowStart` and `behavior.conversionWindowEnd` or neither.
-     * @type {any}
+     * @type {number}
      * @memberof PostMetricRequestBehavior
      */
-    'conversionWindowEnd'?: any;
+    'conversionWindowEnd'?: number;
     /**
      * Threshold for Risk to be considered low enough, as a proportion (e.g. put 0.0025 for 0.25%). <br/> Must be a non-negative number and must not be higher than `riskThresholdDanger`.
-     * @type {any}
+     * @type {number}
      * @memberof PostMetricRequestBehavior
      */
-    'riskThresholdSuccess'?: any;
+    'riskThresholdSuccess'?: number;
     /**
      * Threshold for Risk to be considered too high, as a proportion (e.g. put 0.0125 for 1.25%). <br/> Must be a non-negative number.
-     * @type {any}
+     * @type {number}
      * @memberof PostMetricRequestBehavior
      */
-    'riskThresholdDanger'?: any;
+    'riskThresholdDanger'?: number;
     /**
      * Minimum percent change to consider uplift significant, as a proportion (e.g. put 0.005 for 0.5%)
-     * @type {any}
+     * @type {number}
      * @memberof PostMetricRequestBehavior
      */
-    'minPercentChange'?: any;
+    'minPercentChange'?: number;
     /**
      * Maximum percent change to consider uplift significant, as a proportion (e.g. put 0.5 for 50%)
-     * @type {any}
+     * @type {number}
      * @memberof PostMetricRequestBehavior
      */
-    'maxPercentChange'?: any;
+    'maxPercentChange'?: number;
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof PostMetricRequestBehavior
      */
-    'minSampleSize'?: any;
+    'minSampleSize'?: number;
 }
 
 export const PostMetricRequestBehaviorGoalEnum = {
@@ -1578,6 +2764,12 @@ export const PostMetricRequestBehaviorGoalEnum = {
 } as const;
 
 export type PostMetricRequestBehaviorGoalEnum = typeof PostMetricRequestBehaviorGoalEnum[keyof typeof PostMetricRequestBehaviorGoalEnum];
+export const PostMetricRequestBehaviorCappingEnum = {
+    Absolute: 'absolute',
+    Percentile: 'percentile'
+} as const;
+
+export type PostMetricRequestBehaviorCappingEnum = typeof PostMetricRequestBehaviorCappingEnum[keyof typeof PostMetricRequestBehaviorCappingEnum];
 
 /**
  * Only use for MixPanel (non-SQL) Data Sources. Only one of `sql`, `sqlBuilder` or `mixpanel` allowed, and at least one must be specified.
@@ -1587,28 +2779,53 @@ export type PostMetricRequestBehaviorGoalEnum = typeof PostMetricRequestBehavior
 export interface PostMetricRequestMixpanel {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestMixpanel
      */
-    'eventName': any;
+    'eventName': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestMixpanel
      */
-    'eventValue'?: any;
+    'eventValue'?: string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestMixpanel
      */
-    'userAggregation': any;
+    'userAggregation': string;
     /**
      * 
-     * @type {any}
+     * @type {Array<PostMetricRequestMixpanelConditionsInner>}
      * @memberof PostMetricRequestMixpanel
      */
-    'conditions'?: any;
+    'conditions'?: Array<PostMetricRequestMixpanelConditionsInner>;
+}
+/**
+ * 
+ * @export
+ * @interface PostMetricRequestMixpanelConditionsInner
+ */
+export interface PostMetricRequestMixpanelConditionsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof PostMetricRequestMixpanelConditionsInner
+     */
+    'property': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostMetricRequestMixpanelConditionsInner
+     */
+    'operator': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostMetricRequestMixpanelConditionsInner
+     */
+    'value': string;
 }
 /**
  * Preferred way to define SQL. Only one of `sql`, `sqlBuilder` or `mixpanel` allowed, and at least one must be specified.
@@ -1618,28 +2835,28 @@ export interface PostMetricRequestMixpanel {
 export interface PostMetricRequestSql {
     /**
      * 
-     * @type {any}
+     * @type {Array<string>}
      * @memberof PostMetricRequestSql
      */
-    'identifierTypes': any;
+    'identifierTypes': Array<string>;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestSql
      */
-    'conversionSQL': any;
+    'conversionSQL': string;
     /**
      * Custom user level aggregation for your metric (default: `SUM(value)`)
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestSql
      */
-    'userAggregationSQL'?: any;
+    'userAggregationSQL'?: string;
     /**
      * The metric ID for a [denominator metric for funnel and ratio metrics](/app/metrics#denominator-ratio--funnel-metrics)
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestSql
      */
-    'denominatorMetricId'?: any;
+    'denominatorMetricId'?: string;
 }
 /**
  * An alternative way to specify a SQL metric, rather than a full query. Using `sql` is preferred to `sqlBuilder`. Only one of `sql`, `sqlBuilder` or `mixpanel` allowed, and at least one must be specified.
@@ -1649,34 +2866,104 @@ export interface PostMetricRequestSql {
 export interface PostMetricRequestSqlBuilder {
     /**
      * 
-     * @type {any}
+     * @type {Array<PostMetricRequestSqlBuilderIdentifierTypeColumnsInner>}
      * @memberof PostMetricRequestSqlBuilder
      */
-    'identifierTypeColumns': any;
+    'identifierTypeColumns': Array<PostMetricRequestSqlBuilderIdentifierTypeColumnsInner>;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestSqlBuilder
      */
-    'tableName': any;
+    'tableName': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestSqlBuilder
      */
-    'valueColumnName'?: any;
+    'valueColumnName'?: string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof PostMetricRequestSqlBuilder
      */
-    'timestampColumnName': any;
+    'timestampColumnName': string;
     /**
      * 
-     * @type {any}
+     * @type {Array<PostMetricRequestSqlBuilderConditionsInner>}
      * @memberof PostMetricRequestSqlBuilder
      */
-    'conditions'?: any;
+    'conditions'?: Array<PostMetricRequestSqlBuilderConditionsInner>;
+}
+/**
+ * 
+ * @export
+ * @interface PostMetricRequestSqlBuilderConditionsInner
+ */
+export interface PostMetricRequestSqlBuilderConditionsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof PostMetricRequestSqlBuilderConditionsInner
+     */
+    'column': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostMetricRequestSqlBuilderConditionsInner
+     */
+    'operator': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostMetricRequestSqlBuilderConditionsInner
+     */
+    'value': string;
+}
+/**
+ * 
+ * @export
+ * @interface PostMetricRequestSqlBuilderIdentifierTypeColumnsInner
+ */
+export interface PostMetricRequestSqlBuilderIdentifierTypeColumnsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof PostMetricRequestSqlBuilderIdentifierTypeColumnsInner
+     */
+    'identifierType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostMetricRequestSqlBuilderIdentifierTypeColumnsInner
+     */
+    'columnName': string;
+}
+/**
+ * 
+ * @export
+ * @interface PostOrganization200Response
+ */
+export interface PostOrganization200Response {
+    /**
+     * 
+     * @type {Organization}
+     * @memberof PostOrganization200Response
+     */
+    'organization': Organization;
+}
+/**
+ * 
+ * @export
+ * @interface PostOrganizationRequest
+ */
+export interface PostOrganizationRequest {
+    /**
+     * The name of the organization
+     * @type {string}
+     * @memberof PostOrganizationRequest
+     */
+    'name': string;
 }
 /**
  * 
@@ -1699,28 +2986,41 @@ export interface PostSavedGroup200Response {
 export interface PostSavedGroupRequest {
     /**
      * The display name of the Saved Group
-     * @type {any}
+     * @type {string}
      * @memberof PostSavedGroupRequest
      */
-    'name': any;
+    'name': string;
     /**
-     * An array of values to target (Ex: a list of userIds).
-     * @type {any}
+     * 
+     * @type {Array<string>}
      * @memberof PostSavedGroupRequest
      */
-    'values': any;
+    'values': Array<string>;
     /**
      * The parameter you want to target users with. Ex: userId, orgId, ...
-     * @type {any}
+     * @type {string}
      * @memberof PostSavedGroupRequest
      */
-    'attributeKey': any;
+    'attributeKey': string;
     /**
      * The person or team that owns this Saved Group. If no owner, you can pass an empty string.
-     * @type {any}
+     * @type {string}
      * @memberof PostSavedGroupRequest
      */
-    'owner'?: any;
+    'owner'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface PostVisualChange200Response
+ */
+export interface PostVisualChange200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof PostVisualChange200Response
+     */
+    'nModified': number;
 }
 /**
  * 
@@ -1730,34 +3030,34 @@ export interface PostSavedGroupRequest {
 export interface Project {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Project
      */
-    'id': any;
+    'id': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Project
      */
-    'name': any;
+    'name': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Project
      */
-    'dateCreated': any;
+    'dateCreated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Project
      */
-    'dateUpdated': any;
+    'dateUpdated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Project
      */
-    'description'?: any;
+    'description'?: string;
     /**
      * 
      * @type {ProjectSettings}
@@ -1773,10 +3073,286 @@ export interface Project {
 export interface ProjectSettings {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof ProjectSettings
      */
-    'statsEngine'?: any;
+    'statsEngine'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface PutMetric200Response
+ */
+export interface PutMetric200Response {
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetric200Response
+     */
+    'updatedId': string;
+}
+/**
+ * 
+ * @export
+ * @interface PutMetricRequest
+ */
+export interface PutMetricRequest {
+    /**
+     * Name of the person who owns this metric
+     * @type {string}
+     * @memberof PutMetricRequest
+     */
+    'owner'?: string;
+    /**
+     * Name of the metric
+     * @type {string}
+     * @memberof PutMetricRequest
+     */
+    'name'?: string;
+    /**
+     * Description of the metric
+     * @type {string}
+     * @memberof PutMetricRequest
+     */
+    'description'?: string;
+    /**
+     * Type of metric. See [Metrics documentation](/app/metrics)
+     * @type {string}
+     * @memberof PutMetricRequest
+     */
+    'type'?: PutMetricRequestTypeEnum;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PutMetricRequest
+     */
+    'tags'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PutMetricRequest
+     */
+    'projects'?: Array<string>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PutMetricRequest
+     */
+    'archived'?: boolean;
+    /**
+     * 
+     * @type {PutMetricRequestBehavior}
+     * @memberof PutMetricRequest
+     */
+    'behavior'?: PutMetricRequestBehavior;
+    /**
+     * 
+     * @type {PutMetricRequestSql}
+     * @memberof PutMetricRequest
+     */
+    'sql'?: PutMetricRequestSql;
+    /**
+     * 
+     * @type {PutMetricRequestSqlBuilder}
+     * @memberof PutMetricRequest
+     */
+    'sqlBuilder'?: PutMetricRequestSqlBuilder;
+    /**
+     * 
+     * @type {PutMetricRequestMixpanel}
+     * @memberof PutMetricRequest
+     */
+    'mixpanel'?: PutMetricRequestMixpanel;
+}
+
+export const PutMetricRequestTypeEnum = {
+    Binomial: 'binomial',
+    Count: 'count',
+    Duration: 'duration',
+    Revenue: 'revenue'
+} as const;
+
+export type PutMetricRequestTypeEnum = typeof PutMetricRequestTypeEnum[keyof typeof PutMetricRequestTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface PutMetricRequestBehavior
+ */
+export interface PutMetricRequestBehavior {
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetricRequestBehavior
+     */
+    'goal'?: PutMetricRequestBehaviorGoalEnum;
+    /**
+     * Used in conjunction with `capValue` to set the capping (winsorization). Set to null to turn capping off. \"absolute\" will cap user values at the `capValue` if it is greater than 0. \"percentile\" will cap user values at the percentile of user values in an experiment using the `capValue` for the percentile, if greater than 0. <br/> If `behavior.capping` is non-null, you must specify `behavior.capValue`.
+     * @type {string}
+     * @memberof PutMetricRequestBehavior
+     */
+    'capping'?: PutMetricRequestBehaviorCappingEnum;
+    /**
+     * This should be non-negative. <br/> Must specify `behavior.capping` when setting `behavior.capValue`.
+     * @type {number}
+     * @memberof PutMetricRequestBehavior
+     */
+    'capValue'?: number;
+    /**
+     * The start of a Conversion Window relative to the exposure date, in hours. This is equivalent to the [Conversion Delay](/app/metrics#conversion-delay). <br/> Must specify both `behavior.conversionWindowStart` and `behavior.conversionWindowEnd` or neither.
+     * @type {number}
+     * @memberof PutMetricRequestBehavior
+     */
+    'conversionWindowStart'?: number;
+    /**
+     * The end of a [Conversion Window](/app/metrics#conversion-window) relative to the exposure date, in hours. This is equivalent to the [Conversion Delay](/app/metrics#conversion-delay) + Conversion Window Hours settings in the UI. In other words, if you want a 48 hour window starting after 24 hours, you would set conversionWindowStart to 24 and conversionWindowEnd to 72 (24+48). <br/> Must specify both `behavior.conversionWindowStart` and `behavior.conversionWindowEnd` or neither.
+     * @type {number}
+     * @memberof PutMetricRequestBehavior
+     */
+    'conversionWindowEnd'?: number;
+    /**
+     * Threshold for Risk to be considered low enough, as a proportion (e.g. put 0.0025 for 0.25%). <br/> Must be a non-negative number and must not be higher than `riskThresholdDanger`.
+     * @type {number}
+     * @memberof PutMetricRequestBehavior
+     */
+    'riskThresholdSuccess'?: number;
+    /**
+     * Threshold for Risk to be considered too high, as a proportion (e.g. put 0.0125 for 1.25%). <br/> Must be a non-negative number.
+     * @type {number}
+     * @memberof PutMetricRequestBehavior
+     */
+    'riskThresholdDanger'?: number;
+    /**
+     * Minimum percent change to consider uplift significant, as a proportion (e.g. put 0.005 for 0.5%)
+     * @type {number}
+     * @memberof PutMetricRequestBehavior
+     */
+    'minPercentChange'?: number;
+    /**
+     * Maximum percent change to consider uplift significant, as a proportion (e.g. put 0.5 for 50%)
+     * @type {number}
+     * @memberof PutMetricRequestBehavior
+     */
+    'maxPercentChange'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PutMetricRequestBehavior
+     */
+    'minSampleSize'?: number;
+}
+
+export const PutMetricRequestBehaviorGoalEnum = {
+    Increase: 'increase',
+    Decrease: 'decrease'
+} as const;
+
+export type PutMetricRequestBehaviorGoalEnum = typeof PutMetricRequestBehaviorGoalEnum[keyof typeof PutMetricRequestBehaviorGoalEnum];
+export const PutMetricRequestBehaviorCappingEnum = {
+    Absolute: 'absolute',
+    Percentile: 'percentile'
+} as const;
+
+export type PutMetricRequestBehaviorCappingEnum = typeof PutMetricRequestBehaviorCappingEnum[keyof typeof PutMetricRequestBehaviorCappingEnum];
+
+/**
+ * Only use for MixPanel (non-SQL) Data Sources. Only one of `sql`, `sqlBuilder` or `mixpanel` allowed.
+ * @export
+ * @interface PutMetricRequestMixpanel
+ */
+export interface PutMetricRequestMixpanel {
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetricRequestMixpanel
+     */
+    'eventName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetricRequestMixpanel
+     */
+    'eventValue'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetricRequestMixpanel
+     */
+    'userAggregation'?: string;
+    /**
+     * 
+     * @type {Array<PostMetricRequestMixpanelConditionsInner>}
+     * @memberof PutMetricRequestMixpanel
+     */
+    'conditions'?: Array<PostMetricRequestMixpanelConditionsInner>;
+}
+/**
+ * Preferred way to define SQL. Only one of `sql`, `sqlBuilder` or `mixpanel` allowed.
+ * @export
+ * @interface PutMetricRequestSql
+ */
+export interface PutMetricRequestSql {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PutMetricRequestSql
+     */
+    'identifierTypes'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetricRequestSql
+     */
+    'conversionSQL'?: string;
+    /**
+     * Custom user level aggregation for your metric (default: `SUM(value)`)
+     * @type {string}
+     * @memberof PutMetricRequestSql
+     */
+    'userAggregationSQL'?: string;
+    /**
+     * The metric ID for a [denominator metric for funnel and ratio metrics](/app/metrics#denominator-ratio--funnel-metrics)
+     * @type {string}
+     * @memberof PutMetricRequestSql
+     */
+    'denominatorMetricId'?: string;
+}
+/**
+ * An alternative way to specify a SQL metric, rather than a full query. Using `sql` is preferred to `sqlBuilder`. Only one of `sql`, `sqlBuilder` or `mixpanel` allowed
+ * @export
+ * @interface PutMetricRequestSqlBuilder
+ */
+export interface PutMetricRequestSqlBuilder {
+    /**
+     * 
+     * @type {Array<PostMetricRequestSqlBuilderIdentifierTypeColumnsInner>}
+     * @memberof PutMetricRequestSqlBuilder
+     */
+    'identifierTypeColumns'?: Array<PostMetricRequestSqlBuilderIdentifierTypeColumnsInner>;
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetricRequestSqlBuilder
+     */
+    'tableName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetricRequestSqlBuilder
+     */
+    'valueColumnName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PutMetricRequestSqlBuilder
+     */
+    'timestampColumnName'?: string;
+    /**
+     * 
+     * @type {Array<PostMetricRequestSqlBuilderConditionsInner>}
+     * @memberof PutMetricRequestSqlBuilder
+     */
+    'conditions'?: Array<PostMetricRequestSqlBuilderConditionsInner>;
 }
 /**
  * 
@@ -1786,10 +3362,16 @@ export interface ProjectSettings {
 export interface PutVisualChangeset200Response {
     /**
      * 
-     * @type {any}
+     * @type {number}
      * @memberof PutVisualChangeset200Response
      */
-    'nModified': any;
+    'nModified': number;
+    /**
+     * 
+     * @type {VisualChangeset}
+     * @memberof PutVisualChangeset200Response
+     */
+    'visualChangeset': VisualChangeset;
 }
 /**
  * 
@@ -1948,6 +3530,18 @@ export interface SdkConnection {
      * @memberof SdkConnection
      */
     'sseEnabled'?: any;
+    /**
+     * 
+     * @type {any}
+     * @memberof SdkConnection
+     */
+    'hashSecureAttributes'?: any;
+    /**
+     * 
+     * @type {any}
+     * @memberof SdkConnection
+     */
+    'remoteEvalEnabled'?: any;
 }
 /**
  * 
@@ -1957,52 +3551,52 @@ export interface SdkConnection {
 export interface Segment {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Segment
      */
-    'id': any;
+    'id': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Segment
      */
-    'owner': any;
+    'dateCreated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Segment
      */
-    'datasourceId': any;
+    'dateUpdated': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Segment
      */
-    'identifierType': any;
+    'owner': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Segment
      */
-    'name': any;
+    'datasourceId': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Segment
      */
-    'query': any;
+    'identifierType': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Segment
      */
-    'dateCreated': any;
+    'name': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof Segment
      */
-    'dateUpdated': any;
+    'query': string;
 }
 /**
  * 
@@ -2012,16 +3606,207 @@ export interface Segment {
 export interface ToggleFeatureRequest {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof ToggleFeatureRequest
      */
-    'reason'?: any;
+    'reason'?: string;
     /**
      * 
-     * @type {{ [key: string]: any; }}
+     * @type {{ [key: string]: boolean; }}
      * @memberof ToggleFeatureRequest
      */
-    'environments': { [key: string]: any; };
+    'environments': { [key: string]: boolean; };
+}
+/**
+ * 
+ * @export
+ * @interface UpdateExperimentRequest
+ */
+export interface UpdateExperimentRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'assignmentQueryId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'trackingKey'?: string;
+    /**
+     * Name of the experiment
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'name'?: string;
+    /**
+     * Project ID which the experiment belongs to
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'project'?: string;
+    /**
+     * Hypothesis of the experiment
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'hypothesis'?: string;
+    /**
+     * Description of the experiment
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof UpdateExperimentRequest
+     */
+    'tags'?: Array<string>;
+    /**
+     * 
+     * @type {any}
+     * @memberof UpdateExperimentRequest
+     */
+    'metrics'?: any;
+    /**
+     * 
+     * @type {any}
+     * @memberof UpdateExperimentRequest
+     */
+    'guardrailMetrics'?: any;
+    /**
+     * Email of the person who owns this experiment
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'owner'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateExperimentRequest
+     */
+    'archived'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'status'?: UpdateExperimentRequestStatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateExperimentRequest
+     */
+    'autoRefresh'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'hashAttribute'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateExperimentRequest
+     */
+    'hashVersion'?: UpdateExperimentRequestHashVersionEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateExperimentRequest
+     */
+    'releasedVariationId'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateExperimentRequest
+     */
+    'excludeFromPayload'?: boolean;
+    /**
+     * 
+     * @type {Array<PostExperimentRequestVariationsInner>}
+     * @memberof UpdateExperimentRequest
+     */
+    'variations'?: Array<PostExperimentRequestVariationsInner>;
+    /**
+     * 
+     * @type {Array<PostExperimentRequestPhasesInner>}
+     * @memberof UpdateExperimentRequest
+     */
+    'phases'?: Array<PostExperimentRequestPhasesInner>;
+}
+
+export const UpdateExperimentRequestStatusEnum = {
+    Draft: 'draft',
+    Running: 'running',
+    Stopped: 'stopped'
+} as const;
+
+export type UpdateExperimentRequestStatusEnum = typeof UpdateExperimentRequestStatusEnum[keyof typeof UpdateExperimentRequestStatusEnum];
+export const UpdateExperimentRequestHashVersionEnum = {
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type UpdateExperimentRequestHashVersionEnum = typeof UpdateExperimentRequestHashVersionEnum[keyof typeof UpdateExperimentRequestHashVersionEnum];
+
+/**
+ * 
+ * @export
+ * @interface UpdateFeatureRequest
+ */
+export interface UpdateFeatureRequest {
+    /**
+     * Description of the feature
+     * @type {string}
+     * @memberof UpdateFeatureRequest
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateFeatureRequest
+     */
+    'archived'?: boolean;
+    /**
+     * An associated project ID
+     * @type {string}
+     * @memberof UpdateFeatureRequest
+     */
+    'project'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateFeatureRequest
+     */
+    'owner'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateFeatureRequest
+     */
+    'defaultValue'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof UpdateFeatureRequest
+     */
+    'tags'?: Array<string>;
+    /**
+     * 
+     * @type {{ [key: string]: PostFeatureRequestEnvironmentsValue; }}
+     * @memberof UpdateFeatureRequest
+     */
+    'environments'?: { [key: string]: PostFeatureRequestEnvironmentsValue; };
+    /**
+     * Use JSON schema to validate the payload of a JSON-type feature value (enterprise only).
+     * @type {string}
+     * @memberof UpdateFeatureRequest
+     */
+    'jsonSchema'?: string;
 }
 /**
  * 
@@ -2031,22 +3816,22 @@ export interface ToggleFeatureRequest {
 export interface UpdateSavedGroupRequest {
     /**
      * The display name of the Saved Group
-     * @type {any}
+     * @type {string}
      * @memberof UpdateSavedGroupRequest
      */
-    'name'?: any;
+    'name'?: string;
     /**
-     * An array of values to target (Ex: a list of userIds).
-     * @type {any}
+     * 
+     * @type {Array<string>}
      * @memberof UpdateSavedGroupRequest
      */
-    'values'?: any;
+    'values'?: Array<string>;
     /**
      * The person or team that owns this Saved Group. If no owner, you can pass an empty string.
-     * @type {any}
+     * @type {string}
      * @memberof UpdateSavedGroupRequest
      */
-    'owner'?: any;
+    'owner'?: string;
 }
 /**
  * 
@@ -2056,28 +3841,28 @@ export interface UpdateSavedGroupRequest {
 export interface VisualChange {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof VisualChange
      */
-    'description'?: any;
+    'description'?: string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof VisualChange
      */
-    'css'?: any;
+    'css'?: string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof VisualChange
      */
-    'js'?: any;
+    'js'?: string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof VisualChange
      */
-    'variation': any;
+    'variation': string;
     /**
      * 
      * @type {any}
@@ -2093,10 +3878,10 @@ export interface VisualChange {
 export interface VisualChangeset {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof VisualChangeset
      */
-    'id'?: any;
+    'id'?: string;
     /**
      * 
      * @type {any}
@@ -2105,16 +3890,16 @@ export interface VisualChangeset {
     'urlPatterns': any;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof VisualChangeset
      */
-    'editorUrl': any;
+    'editorUrl': string;
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof VisualChangeset
      */
-    'experiment': any;
+    'experiment': string;
     /**
      * 
      * @type {any}
@@ -2254,7 +4039,7 @@ export const DataSourcesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listDataSources(limit?: any, offset?: any, projectId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listDataSources(limit?: any, offset?: any, projectId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDataSources200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listDataSources(limit, offset, projectId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2287,7 +4072,7 @@ export const DataSourcesApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listDataSources(limit?: any, offset?: any, projectId?: any, options?: any): AxiosPromise<any> {
+        listDataSources(limit?: any, offset?: any, projectId?: any, options?: any): AxiosPromise<ListDataSources200Response> {
             return localVarFp.listDataSources(limit, offset, projectId, options).then((request) => request(axios, basePath));
         },
     };
@@ -2326,6 +4111,7 @@ export class DataSourcesApi extends BaseAPI {
         return DataSourcesApiFp(this.configuration).listDataSources(limit, offset, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -2459,7 +4245,7 @@ export const DimensionsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listDimensions(limit?: any, offset?: any, datasourceId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listDimensions(limit?: any, offset?: any, datasourceId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDimensions200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listDimensions(limit, offset, datasourceId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2492,7 +4278,7 @@ export const DimensionsApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listDimensions(limit?: any, offset?: any, datasourceId?: any, options?: any): AxiosPromise<any> {
+        listDimensions(limit?: any, offset?: any, datasourceId?: any, options?: any): AxiosPromise<ListDimensions200Response> {
             return localVarFp.listDimensions(limit, offset, datasourceId, options).then((request) => request(axios, basePath));
         },
     };
@@ -2531,6 +4317,7 @@ export class DimensionsApi extends BaseAPI {
         return DimensionsApiFp(this.configuration).listDimensions(limit, offset, datasourceId, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -2585,12 +4372,12 @@ export const ExperimentsApiAxiosParamCreator = function (configuration?: Configu
          * 
          * @summary Get results for an experiment
          * @param {any} id The id of the requested resource
-         * @param {any} [phase] 
-         * @param {any} [dimension] 
+         * @param {string} [phase] 
+         * @param {string} [dimension] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getExperimentResults: async (id: any, phase?: any, dimension?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getExperimentResults: async (id: any, phase?: string, dimension?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getExperimentResults', 'id', id)
             const localVarPath = `/experiments/{id}/results`
@@ -2640,11 +4427,11 @@ export const ExperimentsApiAxiosParamCreator = function (configuration?: Configu
          * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
          * @param {any} [projectId] Filter by project id
          * @param {any} [datasourceId] Filter by Data Source
-         * @param {any} [experimentId] Filter the returned list by the experiment tracking key (id)
+         * @param {string} [experimentId] Filter the returned list by the experiment tracking key (id)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listExperiments: async (limit?: any, offset?: any, projectId?: any, datasourceId?: any, experimentId?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listExperiments: async (limit?: any, offset?: any, projectId?: any, datasourceId?: any, experimentId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/experiments`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2696,6 +4483,98 @@ export const ExperimentsApiAxiosParamCreator = function (configuration?: Configu
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Create a single experiment
+         * @param {PostExperimentRequest} postExperimentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postExperiment: async (postExperimentRequest: PostExperimentRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'postExperimentRequest' is not null or undefined
+            assertParamExists('postExperiment', 'postExperimentRequest', postExperimentRequest)
+            const localVarPath = `/experiments`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicAuth required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(postExperimentRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update a single experiment
+         * @param {any} id The id of the requested resource
+         * @param {UpdateExperimentRequest} updateExperimentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateExperiment: async (id: any, updateExperimentRequest: UpdateExperimentRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateExperiment', 'id', id)
+            // verify required parameter 'updateExperimentRequest' is not null or undefined
+            assertParamExists('updateExperiment', 'updateExperimentRequest', updateExperimentRequest)
+            const localVarPath = `/experiments/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicAuth required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateExperimentRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -2713,7 +4592,7 @@ export const ExperimentsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getExperiment(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetExperiment200Response>> {
+        async getExperiment(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostExperiment200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getExperiment(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2721,12 +4600,12 @@ export const ExperimentsApiFp = function(configuration?: Configuration) {
          * 
          * @summary Get results for an experiment
          * @param {any} id The id of the requested resource
-         * @param {any} [phase] 
-         * @param {any} [dimension] 
+         * @param {string} [phase] 
+         * @param {string} [dimension] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getExperimentResults(id: any, phase?: any, dimension?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetExperimentResults200Response>> {
+        async getExperimentResults(id: any, phase?: string, dimension?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetExperimentResults200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getExperimentResults(id, phase, dimension, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2737,12 +4616,35 @@ export const ExperimentsApiFp = function(configuration?: Configuration) {
          * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
          * @param {any} [projectId] Filter by project id
          * @param {any} [datasourceId] Filter by Data Source
-         * @param {any} [experimentId] Filter the returned list by the experiment tracking key (id)
+         * @param {string} [experimentId] Filter the returned list by the experiment tracking key (id)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listExperiments(limit?: any, offset?: any, projectId?: any, datasourceId?: any, experimentId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listExperiments(limit?: any, offset?: any, projectId?: any, datasourceId?: any, experimentId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListExperiments200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listExperiments(limit, offset, projectId, datasourceId, experimentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Create a single experiment
+         * @param {PostExperimentRequest} postExperimentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postExperiment(postExperimentRequest: PostExperimentRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostExperiment200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postExperiment(postExperimentRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Update a single experiment
+         * @param {any} id The id of the requested resource
+         * @param {UpdateExperimentRequest} updateExperimentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateExperiment(id: any, updateExperimentRequest: UpdateExperimentRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostExperiment200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateExperiment(id, updateExperimentRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2762,19 +4664,19 @@ export const ExperimentsApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getExperiment(id: any, options?: any): AxiosPromise<GetExperiment200Response> {
+        getExperiment(id: any, options?: any): AxiosPromise<PostExperiment200Response> {
             return localVarFp.getExperiment(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get results for an experiment
          * @param {any} id The id of the requested resource
-         * @param {any} [phase] 
-         * @param {any} [dimension] 
+         * @param {string} [phase] 
+         * @param {string} [dimension] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getExperimentResults(id: any, phase?: any, dimension?: any, options?: any): AxiosPromise<GetExperimentResults200Response> {
+        getExperimentResults(id: any, phase?: string, dimension?: string, options?: any): AxiosPromise<GetExperimentResults200Response> {
             return localVarFp.getExperimentResults(id, phase, dimension, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2784,12 +4686,33 @@ export const ExperimentsApiFactory = function (configuration?: Configuration, ba
          * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
          * @param {any} [projectId] Filter by project id
          * @param {any} [datasourceId] Filter by Data Source
-         * @param {any} [experimentId] Filter the returned list by the experiment tracking key (id)
+         * @param {string} [experimentId] Filter the returned list by the experiment tracking key (id)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listExperiments(limit?: any, offset?: any, projectId?: any, datasourceId?: any, experimentId?: any, options?: any): AxiosPromise<any> {
+        listExperiments(limit?: any, offset?: any, projectId?: any, datasourceId?: any, experimentId?: string, options?: any): AxiosPromise<ListExperiments200Response> {
             return localVarFp.listExperiments(limit, offset, projectId, datasourceId, experimentId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create a single experiment
+         * @param {PostExperimentRequest} postExperimentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postExperiment(postExperimentRequest: PostExperimentRequest, options?: any): AxiosPromise<PostExperiment200Response> {
+            return localVarFp.postExperiment(postExperimentRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update a single experiment
+         * @param {any} id The id of the requested resource
+         * @param {UpdateExperimentRequest} updateExperimentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateExperiment(id: any, updateExperimentRequest: UpdateExperimentRequest, options?: any): AxiosPromise<PostExperiment200Response> {
+            return localVarFp.updateExperiment(id, updateExperimentRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2817,13 +4740,13 @@ export class ExperimentsApi extends BaseAPI {
      * 
      * @summary Get results for an experiment
      * @param {any} id The id of the requested resource
-     * @param {any} [phase] 
-     * @param {any} [dimension] 
+     * @param {string} [phase] 
+     * @param {string} [dimension] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ExperimentsApi
      */
-    public getExperimentResults(id: any, phase?: any, dimension?: any, options?: AxiosRequestConfig) {
+    public getExperimentResults(id: any, phase?: string, dimension?: string, options?: AxiosRequestConfig) {
         return ExperimentsApiFp(this.configuration).getExperimentResults(id, phase, dimension, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2834,15 +4757,41 @@ export class ExperimentsApi extends BaseAPI {
      * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
      * @param {any} [projectId] Filter by project id
      * @param {any} [datasourceId] Filter by Data Source
-     * @param {any} [experimentId] Filter the returned list by the experiment tracking key (id)
+     * @param {string} [experimentId] Filter the returned list by the experiment tracking key (id)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ExperimentsApi
      */
-    public listExperiments(limit?: any, offset?: any, projectId?: any, datasourceId?: any, experimentId?: any, options?: AxiosRequestConfig) {
+    public listExperiments(limit?: any, offset?: any, projectId?: any, datasourceId?: any, experimentId?: string, options?: AxiosRequestConfig) {
         return ExperimentsApiFp(this.configuration).listExperiments(limit, offset, projectId, datasourceId, experimentId, options).then((request) => request(this.axios, this.basePath));
     }
+
+    /**
+     * 
+     * @summary Create a single experiment
+     * @param {PostExperimentRequest} postExperimentRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExperimentsApi
+     */
+    public postExperiment(postExperimentRequest: PostExperimentRequest, options?: AxiosRequestConfig) {
+        return ExperimentsApiFp(this.configuration).postExperiment(postExperimentRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update a single experiment
+     * @param {any} id The id of the requested resource
+     * @param {UpdateExperimentRequest} updateExperimentRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExperimentsApi
+     */
+    public updateExperiment(id: any, updateExperimentRequest: UpdateExperimentRequest, options?: AxiosRequestConfig) {
+        return ExperimentsApiFp(this.configuration).updateExperiment(id, updateExperimentRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
 
 
 /**
@@ -2948,6 +4897,50 @@ export const FeaturesApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary Create a single feature
+         * @param {PostFeatureRequest} postFeatureRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postFeature: async (postFeatureRequest: PostFeatureRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'postFeatureRequest' is not null or undefined
+            assertParamExists('postFeature', 'postFeatureRequest', postFeatureRequest)
+            const localVarPath = `/features`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicAuth required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(postFeatureRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Toggle a feature in one or more environments
          * @param {any} id The id of the requested resource
          * @param {ToggleFeatureRequest} toggleFeatureRequest 
@@ -2994,6 +4987,54 @@ export const FeaturesApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Partially update a feature
+         * @param {any} id The id of the requested resource
+         * @param {UpdateFeatureRequest} updateFeatureRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFeature: async (id: any, updateFeatureRequest: UpdateFeatureRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateFeature', 'id', id)
+            // verify required parameter 'updateFeatureRequest' is not null or undefined
+            assertParamExists('updateFeature', 'updateFeatureRequest', updateFeatureRequest)
+            const localVarPath = `/features/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicAuth required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateFeatureRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -3011,7 +5052,7 @@ export const FeaturesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFeature(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeature200Response>> {
+        async getFeature(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostFeature200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getFeature(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3024,8 +5065,19 @@ export const FeaturesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listFeatures(limit?: any, offset?: any, projectId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listFeatures(limit?: any, offset?: any, projectId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFeatures200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listFeatures(limit, offset, projectId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Create a single feature
+         * @param {PostFeatureRequest} postFeatureRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postFeature(postFeatureRequest: PostFeatureRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostFeature200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postFeature(postFeatureRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3036,8 +5088,20 @@ export const FeaturesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async toggleFeature(id: any, toggleFeatureRequest: ToggleFeatureRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeature200Response>> {
+        async toggleFeature(id: any, toggleFeatureRequest: ToggleFeatureRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostFeature200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.toggleFeature(id, toggleFeatureRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Partially update a feature
+         * @param {any} id The id of the requested resource
+         * @param {UpdateFeatureRequest} updateFeatureRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateFeature(id: any, updateFeatureRequest: UpdateFeatureRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostFeature200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFeature(id, updateFeatureRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -3057,7 +5121,7 @@ export const FeaturesApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeature(id: any, options?: any): AxiosPromise<GetFeature200Response> {
+        getFeature(id: any, options?: any): AxiosPromise<PostFeature200Response> {
             return localVarFp.getFeature(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3069,8 +5133,18 @@ export const FeaturesApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFeatures(limit?: any, offset?: any, projectId?: any, options?: any): AxiosPromise<any> {
+        listFeatures(limit?: any, offset?: any, projectId?: any, options?: any): AxiosPromise<ListFeatures200Response> {
             return localVarFp.listFeatures(limit, offset, projectId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create a single feature
+         * @param {PostFeatureRequest} postFeatureRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postFeature(postFeatureRequest: PostFeatureRequest, options?: any): AxiosPromise<PostFeature200Response> {
+            return localVarFp.postFeature(postFeatureRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3080,8 +5154,19 @@ export const FeaturesApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        toggleFeature(id: any, toggleFeatureRequest: ToggleFeatureRequest, options?: any): AxiosPromise<GetFeature200Response> {
+        toggleFeature(id: any, toggleFeatureRequest: ToggleFeatureRequest, options?: any): AxiosPromise<PostFeature200Response> {
             return localVarFp.toggleFeature(id, toggleFeatureRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Partially update a feature
+         * @param {any} id The id of the requested resource
+         * @param {UpdateFeatureRequest} updateFeatureRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFeature(id: any, updateFeatureRequest: UpdateFeatureRequest, options?: any): AxiosPromise<PostFeature200Response> {
+            return localVarFp.updateFeature(id, updateFeatureRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3121,6 +5206,18 @@ export class FeaturesApi extends BaseAPI {
 
     /**
      * 
+     * @summary Create a single feature
+     * @param {PostFeatureRequest} postFeatureRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FeaturesApi
+     */
+    public postFeature(postFeatureRequest: PostFeatureRequest, options?: AxiosRequestConfig) {
+        return FeaturesApiFp(this.configuration).postFeature(postFeatureRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Toggle a feature in one or more environments
      * @param {any} id The id of the requested resource
      * @param {ToggleFeatureRequest} toggleFeatureRequest 
@@ -3131,7 +5228,21 @@ export class FeaturesApi extends BaseAPI {
     public toggleFeature(id: any, toggleFeatureRequest: ToggleFeatureRequest, options?: AxiosRequestConfig) {
         return FeaturesApiFp(this.configuration).toggleFeature(id, toggleFeatureRequest, options).then((request) => request(this.axios, this.basePath));
     }
+
+    /**
+     * 
+     * @summary Partially update a feature
+     * @param {any} id The id of the requested resource
+     * @param {UpdateFeatureRequest} updateFeatureRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FeaturesApi
+     */
+    public updateFeature(id: any, updateFeatureRequest: UpdateFeatureRequest, options?: AxiosRequestConfig) {
+        return FeaturesApiFp(this.configuration).updateFeature(id, updateFeatureRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
 
 
 /**
@@ -3140,6 +5251,48 @@ export class FeaturesApi extends BaseAPI {
  */
 export const MetricsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @summary Deletes a metric
+         * @param {any} id The id of the requested resource
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteMetric: async (id: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteMetric', 'id', id)
+            const localVarPath = `/metrics/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicAuth required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @summary Get a single metric
@@ -3284,6 +5437,54 @@ export const MetricsApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Update a metric
+         * @param {any} id The id of the requested resource
+         * @param {PutMetricRequest} putMetricRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putMetric: async (id: any, putMetricRequest: PutMetricRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('putMetric', 'id', id)
+            // verify required parameter 'putMetricRequest' is not null or undefined
+            assertParamExists('putMetric', 'putMetricRequest', putMetricRequest)
+            const localVarPath = `/metrics/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicAuth required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(putMetricRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -3294,6 +5495,17 @@ export const MetricsApiAxiosParamCreator = function (configuration?: Configurati
 export const MetricsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = MetricsApiAxiosParamCreator(configuration)
     return {
+        /**
+         * 
+         * @summary Deletes a metric
+         * @param {any} id The id of the requested resource
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteMetric(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteMetric200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteMetric(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         /**
          * 
          * @summary Get a single metric
@@ -3315,7 +5527,7 @@ export const MetricsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listMetrics(limit?: any, offset?: any, projectId?: any, datasourceId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listMetrics(limit?: any, offset?: any, projectId?: any, datasourceId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMetrics200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listMetrics(limit, offset, projectId, datasourceId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3330,6 +5542,18 @@ export const MetricsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.postMetric(postMetricRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @summary Update a metric
+         * @param {any} id The id of the requested resource
+         * @param {PutMetricRequest} putMetricRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async putMetric(id: any, putMetricRequest: PutMetricRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PutMetric200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putMetric(id, putMetricRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -3340,6 +5564,16 @@ export const MetricsApiFp = function(configuration?: Configuration) {
 export const MetricsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = MetricsApiFp(configuration)
     return {
+        /**
+         * 
+         * @summary Deletes a metric
+         * @param {any} id The id of the requested resource
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteMetric(id: any, options?: any): AxiosPromise<DeleteMetric200Response> {
+            return localVarFp.deleteMetric(id, options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @summary Get a single metric
@@ -3360,7 +5594,7 @@ export const MetricsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listMetrics(limit?: any, offset?: any, projectId?: any, datasourceId?: any, options?: any): AxiosPromise<any> {
+        listMetrics(limit?: any, offset?: any, projectId?: any, datasourceId?: any, options?: any): AxiosPromise<ListMetrics200Response> {
             return localVarFp.listMetrics(limit, offset, projectId, datasourceId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3373,6 +5607,17 @@ export const MetricsApiFactory = function (configuration?: Configuration, basePa
         postMetric(postMetricRequest: PostMetricRequest, options?: any): AxiosPromise<PostMetric200Response> {
             return localVarFp.postMetric(postMetricRequest, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @summary Update a metric
+         * @param {any} id The id of the requested resource
+         * @param {PutMetricRequest} putMetricRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putMetric(id: any, putMetricRequest: PutMetricRequest, options?: any): AxiosPromise<PutMetric200Response> {
+            return localVarFp.putMetric(id, putMetricRequest, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -3383,6 +5628,18 @@ export const MetricsApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class MetricsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Deletes a metric
+     * @param {any} id The id of the requested resource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MetricsApi
+     */
+    public deleteMetric(id: any, options?: AxiosRequestConfig) {
+        return MetricsApiFp(this.configuration).deleteMetric(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Get a single metric
@@ -3421,7 +5678,229 @@ export class MetricsApi extends BaseAPI {
     public postMetric(postMetricRequest: PostMetricRequest, options?: AxiosRequestConfig) {
         return MetricsApiFp(this.configuration).postMetric(postMetricRequest, options).then((request) => request(this.axios, this.basePath));
     }
+
+    /**
+     * 
+     * @summary Update a metric
+     * @param {any} id The id of the requested resource
+     * @param {PutMetricRequest} putMetricRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MetricsApi
+     */
+    public putMetric(id: any, putMetricRequest: PutMetricRequest, options?: AxiosRequestConfig) {
+        return MetricsApiFp(this.configuration).putMetric(id, putMetricRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
+
+
+/**
+ * OrganizationsApi - axios parameter creator
+ * @export
+ */
+export const OrganizationsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get all organizations
+         * @param {string} [search] Search string to search organization names and owner emails by
+         * @param {any} [limit] The number of items to return
+         * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOrganizations: async (search?: string, limit?: any, offset?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/organizations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicAuth required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Create a single organization
+         * @param {PostOrganizationRequest} postOrganizationRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postOrganization: async (postOrganizationRequest: PostOrganizationRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'postOrganizationRequest' is not null or undefined
+            assertParamExists('postOrganization', 'postOrganizationRequest', postOrganizationRequest)
+            const localVarPath = `/organizations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicAuth required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(postOrganizationRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * OrganizationsApi - functional programming interface
+ * @export
+ */
+export const OrganizationsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OrganizationsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get all organizations
+         * @param {string} [search] Search string to search organization names and owner emails by
+         * @param {any} [limit] The number of items to return
+         * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listOrganizations(search?: string, limit?: any, offset?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListOrganizations200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listOrganizations(search, limit, offset, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Create a single organization
+         * @param {PostOrganizationRequest} postOrganizationRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postOrganization(postOrganizationRequest: PostOrganizationRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostOrganization200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postOrganization(postOrganizationRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * OrganizationsApi - factory interface
+ * @export
+ */
+export const OrganizationsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OrganizationsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get all organizations
+         * @param {string} [search] Search string to search organization names and owner emails by
+         * @param {any} [limit] The number of items to return
+         * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOrganizations(search?: string, limit?: any, offset?: any, options?: any): AxiosPromise<ListOrganizations200Response> {
+            return localVarFp.listOrganizations(search, limit, offset, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create a single organization
+         * @param {PostOrganizationRequest} postOrganizationRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postOrganization(postOrganizationRequest: PostOrganizationRequest, options?: any): AxiosPromise<PostOrganization200Response> {
+            return localVarFp.postOrganization(postOrganizationRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * OrganizationsApi - object-oriented interface
+ * @export
+ * @class OrganizationsApi
+ * @extends {BaseAPI}
+ */
+export class OrganizationsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get all organizations
+     * @param {string} [search] Search string to search organization names and owner emails by
+     * @param {any} [limit] The number of items to return
+     * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrganizationsApi
+     */
+    public listOrganizations(search?: string, limit?: any, offset?: any, options?: AxiosRequestConfig) {
+        return OrganizationsApiFp(this.configuration).listOrganizations(search, limit, offset, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Create a single organization
+     * @param {PostOrganizationRequest} postOrganizationRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrganizationsApi
+     */
+    public postOrganization(postOrganizationRequest: PostOrganizationRequest, options?: AxiosRequestConfig) {
+        return OrganizationsApiFp(this.configuration).postOrganization(postOrganizationRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 
 /**
@@ -3549,7 +6028,7 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listProjects(limit?: any, offset?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listProjects(limit?: any, offset?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjects200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listProjects(limit, offset, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3581,7 +6060,7 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listProjects(limit?: any, offset?: any, options?: any): AxiosPromise<any> {
+        listProjects(limit?: any, offset?: any, options?: any): AxiosPromise<ListProjects200Response> {
             return localVarFp.listProjects(limit, offset, options).then((request) => request(axios, basePath));
         },
     };
@@ -3619,6 +6098,7 @@ export class ProjectsApi extends BaseAPI {
         return ProjectsApiFp(this.configuration).listProjects(limit, offset, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -3868,7 +6348,7 @@ export const SavedGroupsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteSavedGroup(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteSavedGroup200Response>> {
+        async deleteSavedGroup(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteMetric200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSavedGroup(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3891,7 +6371,7 @@ export const SavedGroupsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listSavedGroups(limit?: any, offset?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listSavedGroups(limit?: any, offset?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListSavedGroups200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listSavedGroups(limit, offset, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3935,7 +6415,7 @@ export const SavedGroupsApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSavedGroup(id: any, options?: any): AxiosPromise<DeleteSavedGroup200Response> {
+        deleteSavedGroup(id: any, options?: any): AxiosPromise<DeleteMetric200Response> {
             return localVarFp.deleteSavedGroup(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3956,7 +6436,7 @@ export const SavedGroupsApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listSavedGroups(limit?: any, offset?: any, options?: any): AxiosPromise<any> {
+        listSavedGroups(limit?: any, offset?: any, options?: any): AxiosPromise<ListSavedGroups200Response> {
             return localVarFp.listSavedGroups(limit, offset, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4054,6 +6534,7 @@ export class SavedGroupsApi extends BaseAPI {
 }
 
 
+
 /**
  * SdkConnectionsApi - axios parameter creator
  * @export
@@ -4108,11 +6589,11 @@ export const SdkConnectionsApiAxiosParamCreator = function (configuration?: Conf
          * @param {any} [limit] The number of items to return
          * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
          * @param {any} [projectId] Filter by project id
-         * @param {any} [withProxy] 
+         * @param {string} [withProxy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listSdkConnections: async (limit?: any, offset?: any, projectId?: any, withProxy?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listSdkConnections: async (limit?: any, offset?: any, projectId?: any, withProxy?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sdk-connections`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4187,11 +6668,11 @@ export const SdkConnectionsApiFp = function(configuration?: Configuration) {
          * @param {any} [limit] The number of items to return
          * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
          * @param {any} [projectId] Filter by project id
-         * @param {any} [withProxy] 
+         * @param {string} [withProxy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listSdkConnections(limit?: any, offset?: any, projectId?: any, withProxy?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listSdkConnections(limit?: any, offset?: any, projectId?: any, withProxy?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListSdkConnections200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listSdkConnections(limit, offset, projectId, withProxy, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4221,11 +6702,11 @@ export const SdkConnectionsApiFactory = function (configuration?: Configuration,
          * @param {any} [limit] The number of items to return
          * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
          * @param {any} [projectId] Filter by project id
-         * @param {any} [withProxy] 
+         * @param {string} [withProxy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listSdkConnections(limit?: any, offset?: any, projectId?: any, withProxy?: any, options?: any): AxiosPromise<any> {
+        listSdkConnections(limit?: any, offset?: any, projectId?: any, withProxy?: string, options?: any): AxiosPromise<ListSdkConnections200Response> {
             return localVarFp.listSdkConnections(limit, offset, projectId, withProxy, options).then((request) => request(axios, basePath));
         },
     };
@@ -4256,15 +6737,16 @@ export class SdkConnectionsApi extends BaseAPI {
      * @param {any} [limit] The number of items to return
      * @param {any} [offset] How many items to skip (use in conjunction with limit for pagination)
      * @param {any} [projectId] Filter by project id
-     * @param {any} [withProxy] 
+     * @param {string} [withProxy] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SdkConnectionsApi
      */
-    public listSdkConnections(limit?: any, offset?: any, projectId?: any, withProxy?: any, options?: AxiosRequestConfig) {
+    public listSdkConnections(limit?: any, offset?: any, projectId?: any, withProxy?: string, options?: AxiosRequestConfig) {
         return SdkConnectionsApiFp(this.configuration).listSdkConnections(limit, offset, projectId, withProxy, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -4398,7 +6880,7 @@ export const SegmentsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listSegments(limit?: any, offset?: any, datasourceId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async listSegments(limit?: any, offset?: any, datasourceId?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListSegments200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listSegments(limit, offset, datasourceId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4431,7 +6913,7 @@ export const SegmentsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listSegments(limit?: any, offset?: any, datasourceId?: any, options?: any): AxiosPromise<any> {
+        listSegments(limit?: any, offset?: any, datasourceId?: any, options?: any): AxiosPromise<ListSegments200Response> {
             return localVarFp.listSegments(limit, offset, datasourceId, options).then((request) => request(axios, basePath));
         },
     };
@@ -4472,6 +6954,7 @@ export class SegmentsApi extends BaseAPI {
 }
 
 
+
 /**
  * VisualChangesetsApi - axios parameter creator
  * @export
@@ -4482,11 +6965,11 @@ export const VisualChangesetsApiAxiosParamCreator = function (configuration?: Co
          * 
          * @summary Get a single visual changeset
          * @param {any} id The id of the requested resource
-         * @param {any} [includeExperiment] Include the associated experiment in payload
+         * @param {number} [includeExperiment] Include the associated experiment in payload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getVisualChangeset: async (id: any, includeExperiment?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getVisualChangeset: async (id: any, includeExperiment?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getVisualChangeset', 'id', id)
             const localVarPath = `/visual-changesets/{id}`
@@ -4528,11 +7011,11 @@ export const VisualChangesetsApiAxiosParamCreator = function (configuration?: Co
         /**
          * 
          * @summary Get all visual changesets
-         * @param {any} id The experiment id the visual changesets belong to
+         * @param {string} id The experiment id the visual changesets belong to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listVisualChangesets: async (id: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listVisualChangesets: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('listVisualChangesets', 'id', id)
             const localVarPath = `/experiments/{id}/visual-changesets`
@@ -4711,22 +7194,22 @@ export const VisualChangesetsApiFp = function(configuration?: Configuration) {
          * 
          * @summary Get a single visual changeset
          * @param {any} id The id of the requested resource
-         * @param {any} [includeExperiment] Include the associated experiment in payload
+         * @param {number} [includeExperiment] Include the associated experiment in payload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getVisualChangeset(id: any, includeExperiment?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetVisualChangeset200Response>> {
+        async getVisualChangeset(id: any, includeExperiment?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetVisualChangeset200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getVisualChangeset(id, includeExperiment, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @summary Get all visual changesets
-         * @param {any} id The experiment id the visual changesets belong to
+         * @param {string} id The experiment id the visual changesets belong to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listVisualChangesets(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async listVisualChangesets(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListVisualChangesets200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listVisualChangesets(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4737,7 +7220,7 @@ export const VisualChangesetsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async postVisualChange(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PutVisualChangeset200Response>> {
+        async postVisualChange(id: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostVisualChange200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.postVisualChange(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4749,7 +7232,7 @@ export const VisualChangesetsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putVisualChange(id: any, visualChangeId: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PutVisualChangeset200Response>> {
+        async putVisualChange(id: any, visualChangeId: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostVisualChange200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.putVisualChange(id, visualChangeId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4778,21 +7261,21 @@ export const VisualChangesetsApiFactory = function (configuration?: Configuratio
          * 
          * @summary Get a single visual changeset
          * @param {any} id The id of the requested resource
-         * @param {any} [includeExperiment] Include the associated experiment in payload
+         * @param {number} [includeExperiment] Include the associated experiment in payload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getVisualChangeset(id: any, includeExperiment?: any, options?: any): AxiosPromise<GetVisualChangeset200Response> {
+        getVisualChangeset(id: any, includeExperiment?: number, options?: any): AxiosPromise<GetVisualChangeset200Response> {
             return localVarFp.getVisualChangeset(id, includeExperiment, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get all visual changesets
-         * @param {any} id The experiment id the visual changesets belong to
+         * @param {string} id The experiment id the visual changesets belong to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listVisualChangesets(id: any, options?: any): AxiosPromise<object> {
+        listVisualChangesets(id: string, options?: any): AxiosPromise<ListVisualChangesets200Response> {
             return localVarFp.listVisualChangesets(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4802,7 +7285,7 @@ export const VisualChangesetsApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postVisualChange(id: any, options?: any): AxiosPromise<PutVisualChangeset200Response> {
+        postVisualChange(id: any, options?: any): AxiosPromise<PostVisualChange200Response> {
             return localVarFp.postVisualChange(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4813,7 +7296,7 @@ export const VisualChangesetsApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putVisualChange(id: any, visualChangeId: any, options?: any): AxiosPromise<PutVisualChangeset200Response> {
+        putVisualChange(id: any, visualChangeId: any, options?: any): AxiosPromise<PostVisualChange200Response> {
             return localVarFp.putVisualChange(id, visualChangeId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4840,24 +7323,24 @@ export class VisualChangesetsApi extends BaseAPI {
      * 
      * @summary Get a single visual changeset
      * @param {any} id The id of the requested resource
-     * @param {any} [includeExperiment] Include the associated experiment in payload
+     * @param {number} [includeExperiment] Include the associated experiment in payload
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof VisualChangesetsApi
      */
-    public getVisualChangeset(id: any, includeExperiment?: any, options?: AxiosRequestConfig) {
+    public getVisualChangeset(id: any, includeExperiment?: number, options?: AxiosRequestConfig) {
         return VisualChangesetsApiFp(this.configuration).getVisualChangeset(id, includeExperiment, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get all visual changesets
-     * @param {any} id The experiment id the visual changesets belong to
+     * @param {string} id The experiment id the visual changesets belong to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof VisualChangesetsApi
      */
-    public listVisualChangesets(id: any, options?: AxiosRequestConfig) {
+    public listVisualChangesets(id: string, options?: AxiosRequestConfig) {
         return VisualChangesetsApiFp(this.configuration).listVisualChangesets(id, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4898,5 +7381,6 @@ export class VisualChangesetsApi extends BaseAPI {
         return VisualChangesetsApiFp(this.configuration).putVisualChangeset(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 

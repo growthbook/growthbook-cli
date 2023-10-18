@@ -44,7 +44,7 @@ export class ExperimentsRepository extends BaseRepository implements BaseApiRepo
     const api = this.api()
     const result = await api.updateExperiment(id, payload)
 
-    return result.data.Experiment
+    return result.data.experiment
   }
 
   api(): ExperimentsApi  {
