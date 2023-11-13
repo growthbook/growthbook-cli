@@ -73,7 +73,7 @@ export function getGrowthBookProfileConfig(
  * Will return do standard configuration missing messaging if there's an error calling {@link getGrowthBookProfileConfig}
  * @param profileKey {string}
  * @param command {Command}
- * @return {GrowthBookCLIConfig | null} Valid GrowthBook config. If no valid config found, this will be null but the application would
+ * @return {GrowthBookCLIConfig | null} Valid GrowthBook config. If no valid config found, this will be null but the application would display an error and exit.
  */
 export function getGrowthBookProfileConfigAndThrowForCommand(
   profileKey: string,
