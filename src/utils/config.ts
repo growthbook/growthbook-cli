@@ -8,14 +8,14 @@ import {
 } from './constants'
 
 export type GrowthBookCLIConfig = {
-  apiKey: string;
-  apiBaseUrl: string;
-};
+  apiKey: string
+  apiBaseUrl: string
+}
 
 export type GrowthBookTomlProfile = {
-  growthbook_secret: string;
-  api_base_url: string;
-};
+  growthbook_secret: string
+  api_base_url: string
+}
 
 /**
  * Get the text content of the config file.
@@ -36,9 +36,7 @@ export function getGrowthBookConfigToml(): string {
  * @param {string} profileKey The desired profile in the GrowthBook config
  * @return {GrowthBookCLIConfig | null} Valid GrowthBook config. If no valid config found, this will be null.
  */
-export function getGrowthBookProfileConfig(
-  profileKey: string,
-): GrowthBookCLIConfig | null {
+export function getGrowthBookProfileConfig(profileKey: string): GrowthBookCLIConfig | null {
   try {
     const filePath = getGrowthBookConfigFilePath()
 
@@ -75,22 +73,15 @@ export function getGrowthBookProfileConfig(
  * @param command {Command}
  * @return {GrowthBookCLIConfig | null} Valid GrowthBook config. If no valid config found, this will be null but the application would display an error and exit.
  */
-export function getGrowthBookProfileConfigAndThrowForCommand(
-  profileKey: string,
-  command: Command,
-): GrowthBookCLIConfig | never {
+export function getGrowthBookProfileConfigAndThrowForCommand(profileKey: string, command: Command): GrowthBookCLIConfig | never {
   const config = getGrowthBookProfileConfig(profileKey)
   if (!config) {
     if (profileKey === DEFAULT_GROWTHBOOK_PROFILE) {
       // Default profile
-      command.error(
-        '💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login',
-      )
+      command.error('💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login')
     } else {
       // User is trying to use a custom profile
-      command.error(
-        `💥 Cannot find config for profile '${profileKey}'. Configure the CLI with the following command:\n\n $ growthbook auth login`,
-      )
+      command.error(`💥 Cannot find config for profile '${profileKey}'. Configure the CLI with the following command:\n\n $ growthbook auth login`)
     }
   }
 
