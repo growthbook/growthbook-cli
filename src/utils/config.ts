@@ -1,11 +1,11 @@
-import * as Fs from "node:fs";
-import * as toml from "@iarna/toml";
-import { Command } from "@oclif/core";
-import { getGrowthBookConfigFilePath } from "./file";
+import * as Fs from 'node:fs'
+import * as toml from '@iarna/toml'
+import {Command} from '@oclif/core'
+import {getGrowthBookConfigFilePath} from './file'
 import {
   DEFAULT_GROWTHBOOK_BASE_URL,
   DEFAULT_GROWTHBOOK_PROFILE,
-} from "./constants";
+} from './constants'
 
 export type GrowthBookCLIConfig = {
   apiKey: string;
@@ -23,11 +23,11 @@ export type GrowthBookTomlProfile = {
  */
 export function getGrowthBookConfigToml(): string {
   try {
-    const filePath = getGrowthBookConfigFilePath();
+    const filePath = getGrowthBookConfigFilePath()
 
-    return Fs.readFileSync(filePath, "utf-8");
+    return Fs.readFileSync(filePath, 'utf-8')
   } catch {
-    return "";
+    return ''
   }
 }
 
@@ -37,35 +37,35 @@ export function getGrowthBookConfigToml(): string {
  * @return {GrowthBookCLIConfig | null} Valid GrowthBook config. If no valid config found, this will be null.
  */
 export function getGrowthBookProfileConfig(
-  profileKey: string
+  profileKey: string,
 ): GrowthBookCLIConfig | null {
   try {
-    const filePath = getGrowthBookConfigFilePath();
+    const filePath = getGrowthBookConfigFilePath()
 
-    const configText = Fs.readFileSync(filePath, "utf-8");
-    const config = toml.parse(configText);
+    const configText = Fs.readFileSync(filePath, 'utf-8')
+    const config = toml.parse(configText)
 
-    const profile = config[profileKey] as GrowthBookTomlProfile | undefined;
+    const profile = config[profileKey] as GrowthBookTomlProfile | undefined
     if (!profile) {
-      return null;
+      return null
     }
 
-    const apiKey = profile.growthbook_secret;
+    const apiKey = profile.growthbook_secret
     if (!apiKey) {
-      return null;
+      return null
     }
 
-    let apiBaseUrl = profile.api_base_url;
+    let apiBaseUrl = profile.api_base_url
     if (!apiBaseUrl) {
-      apiBaseUrl = DEFAULT_GROWTHBOOK_BASE_URL;
+      apiBaseUrl = DEFAULT_GROWTHBOOK_BASE_URL
     }
 
     return {
       apiKey,
       apiBaseUrl,
-    };
+    }
   } catch {
-    return null;
+    return null
   }
 }
 
@@ -77,22 +77,22 @@ export function getGrowthBookProfileConfig(
  */
 export function getGrowthBookProfileConfigAndThrowForCommand(
   profileKey: string,
-  command: Command
+  command: Command,
 ): GrowthBookCLIConfig | never {
-  const config = getGrowthBookProfileConfig(profileKey);
+  const config = getGrowthBookProfileConfig(profileKey)
   if (!config) {
     if (profileKey === DEFAULT_GROWTHBOOK_PROFILE) {
       // Default profile
       command.error(
-        "💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login"
-      );
+        '💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login',
+      )
     } else {
       // User is trying to use a custom profile
       command.error(
-        `💥 Cannot find config for profile '${profileKey}'. Configure the CLI with the following command:\n\n $ growthbook auth login`
-      );
+        `💥 Cannot find config for profile '${profileKey}'. Configure the CLI with the following command:\n\n $ growthbook auth login`,
+      )
     }
   }
 
-  return config;
+  return config
 }
