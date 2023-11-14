@@ -2,10 +2,7 @@ import * as Fs from 'node:fs'
 import * as toml from '@iarna/toml'
 import {Command} from '@oclif/core'
 import {getGrowthBookConfigFilePath} from './file'
-import {
-  DEFAULT_GROWTHBOOK_BASE_URL,
-  DEFAULT_GROWTHBOOK_PROFILE,
-} from './constants'
+import {DEFAULT_GROWTHBOOK_BASE_URL, DEFAULT_GROWTHBOOK_PROFILE} from './constants'
 
 export type GrowthBookCLIConfig = {
   apiKey: string
