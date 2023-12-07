@@ -29,9 +29,10 @@ export const getFeatureValueTypeToTypeScriptMapping = (valueType: string): strin
  * Fetches all the features from the GrowthBook REST API for the provided API base URL.
  * @param apiBaseUrl  The API base URL for the target GrowthBook instance
  * @param token  Secret token
+ * @param projectId  Optional project ID filter
  * @return {Promise<SimplifiedFeature[]>} A list of features
  */
-export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: string): Promise<SimplifiedFeature[]> => {
+export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: string, projectId?: string): Promise<SimplifiedFeature[]> => {
   const limit = 100
   let offset = 0
 
@@ -44,7 +45,7 @@ export const fetchAllPaginatedFeatures = async (apiBaseUrl: string, token: strin
   })
 
   while (shouldFetch) {
-    const response = await featuresRepo.listFeatures(limit, offset)
+    const response = await featuresRepo.listFeatures(limit, offset, projectId)
     const {nextOffset, hasMore, features} = response
 
     allFeatures = [...allFeatures, ...features]

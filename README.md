@@ -258,6 +258,7 @@ FLAGS
   -p, --profile=<value>     Optional profile (for projects that use multiple GrowthBook instances) default: default)
   -u, --apiBaseUrl=<value>  Your GrowthBook instance base URL (e.g. http://localhost:3100, default:
                             https://api.growthbook.io)
+  --project=<value>         Project ID filter
 
 DESCRIPTION
   Generate TypeScript types for all your features

@@ -29,6 +29,10 @@ export default class GenerateTypes extends Command {
       description: `Output filename for the generated types. If not provided, the filename ${GROWTHBOOK_APP_FEATURES_FILENAME} will be used.`,
       required: false,
     }),
+    project: Flags.string({
+      description: 'Project ID filter',
+      required: false,
+    }),
   }
 
   static args = {}
@@ -39,6 +43,7 @@ export default class GenerateTypes extends Command {
       filename,
       apiBaseUrl,
       profile,
+      project,
     }} = await this.parse(GenerateTypes)
 
     ux.action.start('Getting GrowthBook config')
@@ -54,7 +59,7 @@ export default class GenerateTypes extends Command {
     try {
       ux.action.start('Fetching features')
 
-      const features = await fetchAllPaginatedFeatures(baseUrlUsed, apiKey)
+      const features = await fetchAllPaginatedFeatures(baseUrlUsed, apiKey, project)
       const typeScriptOutput = getCompiledTypeScriptTemplateForFeatures(features)
 
       ux.action.stop(Icons.checkmark)
