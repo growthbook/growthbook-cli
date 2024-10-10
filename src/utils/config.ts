@@ -68,7 +68,7 @@ export function getGrowthBookProfileConfig(profileKey: string): GrowthBookCLICon
  * Will return do standard configuration missing messaging if there's an error calling {@link getGrowthBookProfileConfig}
  * @param profileKey {string}
  * @param command {Command}
- * @return {GrowthBookCLIConfig | null} Valid GrowthBook config. If no valid config found, this will be null but the application would
+ * @return {GrowthBookCLIConfig | null} Valid GrowthBook config. If no valid config found, this will be null but the application would display an error and exit.
  */
 export function getGrowthBookProfileConfigAndThrowForCommand(profileKey: string, command: Command): GrowthBookCLIConfig | never {
   const config = getGrowthBookProfileConfig(profileKey)
@@ -78,7 +78,7 @@ export function getGrowthBookProfileConfigAndThrowForCommand(profileKey: string,
       command.error('💥 Invalid GrowthBook config. Configure the CLI with the following command:\n\n $ growthbook auth login')
     } else {
       // User is trying to use a custom profile
-      command.error(`💥 Cannot find config for profile '${DEFAULT_GROWTHBOOK_PROFILE}'. Configure the CLI with the following command:\n\n $ growthbook auth login`)
+      command.error(`💥 Cannot find config for profile '${profileKey}'. Configure the CLI with the following command:\n\n $ growthbook auth login`)
     }
   }
 
