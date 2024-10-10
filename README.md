@@ -248,7 +248,7 @@ Generate TypeScript types for all your features
 
 ```
 USAGE
-  $ growthbook features generate-types [-u <value>] [-p <value>] [-o <value>] [-f <value>]
+  $ growthbook features generate-types [-u <value>] [-p <value>] [-o <value>] [-f <value>] [--project <value>]
 
 FLAGS
   -f, --filename=<value>    Output filename for the generated types. If not provided, the filename app-features.ts will
