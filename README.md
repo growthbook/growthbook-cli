@@ -1,5 +1,8 @@
 # GrowthBook CLI
 
+> [!IMPORTANT]
+> The GrowthBook CLI has moved to https://github.com/growthbook/cli. This repo is no longer maintained.
+
 A CLI tool for helping developers work with the GrowthBook open-source platform for feature flags and A/B tests. 
 
 See the [official GrowthBook CLI](https://docs.growthbook.io/tools/cli) documentation for more information.
