@@ -21,7 +21,7 @@ export default class GenerateTypes extends Command {
     ...baseGrowthBookCliFlags,
     output: Flags.string({
       char: 'o',
-      description: `Output path for the ${GROWTHBOOK_APP_FEATURES_FILENAME} file. All directories in this path should exist. If not provided, the directory ${DEFAULT_GROWTHBOOK_TYPES_DESTINATION} will be created in the current working directory.`,
+      description: `Output path for the ${GROWTHBOOK_APP_FEATURES_FILENAME} file. Parent directories will be created if they don't exist. If not provided, the directory ${DEFAULT_GROWTHBOOK_TYPES_DESTINATION} will be created in the current working directory.`,
       required: false,
     }),
     filename: Flags.string({
@@ -67,15 +67,18 @@ export default class GenerateTypes extends Command {
       let outputPath = output
       if (!outputPath) {
         outputPath = Path.resolve(process.cwd(), DEFAULT_GROWTHBOOK_TYPES_DESTINATION)
+      }
 
-        if (!Fs.existsSync(outputPath)) {
-          ux.action.start('Creating output directory')
+      const fullyQualifiedOutputPath = Path.resolve(process.cwd(), outputPath)
+      if (!Fs.existsSync(fullyQualifiedOutputPath)) {
+        ux.action.start('Creating output directory')
 
-          Fs.mkdirSync(outputPath)
-          Fs.writeFileSync(outputPath + '/.gitkeep', '')
-
-          ux.action.stop(`${Icons.checkmark} Created directory ${outputPath}`)
+        Fs.mkdirSync(fullyQualifiedOutputPath, {recursive: true})
+        if (!output) {
+          Fs.writeFileSync(fullyQualifiedOutputPath + '/.gitkeep', '')
         }
+
+        ux.action.stop(`${Icons.checkmark} Created directory ${fullyQualifiedOutputPath}`)
       }
 
       let outputFilename = GROWTHBOOK_APP_FEATURES_FILENAME
