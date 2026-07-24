@@ -18,7 +18,7 @@ export const getFeatureValueTypeToTypeScriptMapping = (valueType: string): strin
     return valueType
 
   case 'json':
-    return 'Record<string, unknown>'
+    return 'Record<string, unknown> | unknown[]'
 
   default:
     return 'unknown'
